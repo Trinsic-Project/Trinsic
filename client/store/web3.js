@@ -2,14 +2,15 @@ import Web3 from 'web3'
 
 //Metamask sets older version of Web3. Code below grabs provider from metamask and utilizes our version of Web3
 const establishWeb3 = async () => {
+  let web3 = window.web3;
   await window.addEventListener('load', () => {
     //If browser has Web3 provider, extract the provider and make a new instance or create a new instance with the localhost
-    let web3 =
-      typeof window.web3 !== 'undefined'
-        ? new Web3(window.web3.currentProvider)
+    web3 = typeof web3 !== 'undefined'
+        ? new Web3(web3.currentProvider)
         : new Web3.providers.HttpProvider('localhost:8080')
-    return {web3} //Determine if wrapping is neccessary
   })
+  //Determine if wrapping is neccessary
+  return web3
 }
 
 //Action Types
@@ -20,9 +21,9 @@ const getWeb3 = web3 => ({type: GET_WEB3, payload: web3})
 
 //Thunk Creators
 export const fetchWeb3 = () => dispatch => {
-  establishWeb3
-    .then(results => {
-      dispatch(getWeb3(results.web3))
+  establishWeb3()
+    .then(web3 => {
+      dispatch(getWeb3(web3))
     })
     .catch(err => console.log(err))
 }
