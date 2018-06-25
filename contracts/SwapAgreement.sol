@@ -10,7 +10,7 @@ contract SwapAgreement {
     string respondentSkill;
 
 // Set the address and skill for the person who initiates the swap, this function is invoked as soon as the contract is compiled
-    function SwapAgreement() public {
+    constructor() public {
         initiator = msg.sender;
         initiatorSkill = "Skateboarding";
     }
@@ -22,6 +22,7 @@ contract SwapAgreement {
 
 // Set contract respondent address and skill    
     function FinalizeAgreement() public {
+        require(msg.sender != initiator);
         respondent = msg.sender;
         respondentSkill = "JavaScript";
     }

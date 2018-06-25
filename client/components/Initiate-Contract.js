@@ -3,6 +3,9 @@ import {connect} from 'react-redux'
 import {fetchWeb3} from '../store';
 
 export const InitiateContract = props => {
+  props.web3.eth ? 
+  props.web3.eth.getAccounts().then(address => console.log(address)) : console.log("not rendered")
+
   return (
     <div>
       <h3>Initiate Contract</h3>
