@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {fetchWeb3} from '../store';
-s
+
 export const InitiateContract = props => {
   return (
     <div>

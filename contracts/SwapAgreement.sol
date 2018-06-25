@@ -3,39 +3,46 @@ pragma solidity ^0.4.17;
 
 contract SwapAgreement {
 
-  // Declares variables that will be used to store addresses for each party involved in swap
-    event SwapLog(
-        address initiator,
-        address respondent,
-        uint256 id,
-        bytes32 initiatorSkill,
-        bytes32 respondentSkill
-    );
+// Declares variables that will be used to store addresses and skilss for each party involved in swap
+    address initiator;
+    address respondent;
+    string initiatorSkill;
+    string respondentSkill;
 
-    Swap[] swaps;
-
-    struct Swap {
-        address initiator;
-        address respondent;
-        bytes32 initiatorSkill;
-        bytes32 respondentSkill;
+// Set the address and skill for the person who initiates the swap, this function is invoked as soon as the contract is compiled
+    function SwapAgreement() public {
+        initiator = msg.sender;
+        initiatorSkill = "Skateboarding";
     }
 
-// Set the address for the person who initiates the swap
-    function initiatedSwap() public returns (uint256) {
-        bytes32 initiatorSkill = "Skateboarding";
-        uint256 id = swaps.push(Swap(msg.sender, 0x0000, initiatorSkill, 0x0000)) - 1; 
-        emit SwapLog(msg.sender, 0x0000, id, initiatorSkill, 0x0000);
-        return id;
+// Get all current information regarding entire contract     
+    function GetAgreement() public view returns (address, address, string, string) {
+        return (initiator, respondent, initiatorSkill, respondentSkill); 
     }
 
-// Set the address for the person who accepts the swap.
-    function finalizeSwap(uint256 id) public returns (bytes32){
-        bytes32 respondentSkill = "JavaScript";
-        Swap storage swap = swaps[id];
-        require(msg.sender != swap.initiator); // Prevent setting same address to initiator AND respondent
-        swap.respondent = msg.sender; 
-        emit SwapLog(swap.initiator, swap.respondent, id, swap.initiatorSkill, respondentSkill);
-        return swap.initiatorSkill;
+// Set contract respondent address and skill    
+    function FinalizeAgreement() public {
+        respondent = msg.sender;
+        respondentSkill = "JavaScript";
+    }
+    
+//Get initiator address
+    function GetInitiator() public view returns (address) {
+        return initiator;            
+    }
+
+//Get respondent address    
+    function GetRespondent() public view returns (address) {
+        return respondent;            
+    }
+    
+//Get Initiator Skill information 
+    function GetInitiatorSkill() public view returns (string) {
+        return initiatorSkill;            
+    }
+    
+//Get Respondent Skill information 
+    function GetRespondentSkill() public view returns (string) {
+        return respondentSkill;            
     }
 }
