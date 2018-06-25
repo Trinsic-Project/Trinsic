@@ -1,17 +1,21 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchWeb3} from '../store';
+import {fetchWeb3, fetchContract} from '../store';
 
-export const InitiateContract = props => {
-  props.web3.eth ? 
-  props.web3.eth.getAccounts().then(address => console.log(address)) : console.log("not rendered")
+class InitiateContract extends Component{
+  
+  componentDidMount(){
+    this.props.initiate();
+  }
 
-  return (
-    <div>
-      <h3>Initiate Contract</h3>
-      <button name='initiate-contract' onClick={props.initiate}>Click Here to Initiate</button>
-    </div>
-  )
+  render(){
+    return (
+        <div>
+          <h3>Initiate Contract</h3>
+          <button name='initiate-contract' onClick={() => this.props.fetch(this.props.web3)}>Click Here to Initiate</button>
+        </div>
+    )
+  }
 }
 
 const mapState = state => {
@@ -22,7 +26,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
 	return {
-		initiate: () => dispatch(fetchWeb3())
+		initiate: () => dispatch(fetchWeb3()), 
+    fetch: (web3) => dispatch(fetchContract(web3))
 	}
 }
 
