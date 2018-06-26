@@ -23,6 +23,7 @@ contract SwapAgreement {
 
 // Set contract respondent address and skill    
     function FinalizeAgreement() public {
+        require(msg.sender != initiator);
         respondent = msg.sender;
         respondentSkill = "JavaScript";
     }
