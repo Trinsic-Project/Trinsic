@@ -12,7 +12,7 @@ class InitiateContract extends Component{
     return (
         <div>
           <h3>Initiate Contract</h3>
-          <button name='initiate-contract' onClick={() => this.props.fetch(this.props.web3)}>Click Here to Initiate</button>
+          <button name='initiate-contract' onClick={() => this.props.fetch(window.web3)}>Click Here to Initiate</button>
           <button name='finalize-contract' onClick={() => this.props.finalize(this.props.contract)}>Click Here to Finalize</button>
         </div>
     )

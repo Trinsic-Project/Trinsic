@@ -19,26 +19,23 @@ export const fetchContract = web3 => {
     contractInstance
       .deployed()
       .then(instance => {
-        console.log(instance.initiatorSkill.call());
-        console.log(instance.initiator.call());
         dispatch(getContract(instance))
       })
   }
 }
 
-export const finalizeContractThunk = contract => {
+export const finalizeContractThunk =  contract => {
   return dispatch => {
-    console.log(contract)
-    contract.FinalizeAgreement()
-      .then(instance => {
-        console.log(instance.respondentSkill.call());
-        console.log(instance.respondent.call());
-        dispatch(finalizeContract(instance))
-      })
+    contractInstance.deployed()
+    .then(async function(instance) {
+      await instance.FinalizeAgreement({from : "0xaf78e0aca50724cee845ba5e5ac256a20ae57ed8"});//hard-coded address
+      return instance;
+    }).then(function(result) {
+      dispatch(finalizeContract(result))
+      alert("Transaction successful!")
+    })
   }
 }
-
-
 
 //Reducer
 export default function(state = {}, action) {
