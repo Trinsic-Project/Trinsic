@@ -14,7 +14,7 @@ router.get('/:negotiationId', (req, res, next) => {
   
 
 router.post('/', (req, res, next) => {
-  Message.create()
+  Message.create(req.body)
   .then(message => res.json(message))
   .catch(next)
 })
