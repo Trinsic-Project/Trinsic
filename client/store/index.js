@@ -5,8 +5,9 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
 import web3 from './web3'
 import contract from './contract'
+import currentDirectMessageChat from './currentDirectMessageChat'
 
-const reducer = combineReducers({user, web3, contract})
+const reducer = combineReducers({user, web3, contract, currentDirectMessageChat})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
@@ -16,3 +17,4 @@ export default store
 export * from './user'
 export * from './web3'
 export * from './contract'
+export * from './currentDirectMessageChat'
