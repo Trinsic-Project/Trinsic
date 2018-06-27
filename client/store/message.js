@@ -4,6 +4,7 @@ import socket from '../socket.js';
 // ACTION TYPES;
 const WRITE_MESSAGE = "WRITE_MESSAGE";
 
+
 // ACTION CREATORS;
 export const writeMessage = msg => ({type: WRITE_MESSAGE, payload: msg});
 
