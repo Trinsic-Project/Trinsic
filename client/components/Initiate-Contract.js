@@ -12,8 +12,8 @@ class InitiateContract extends Component{
     return (
         <div>
           <h3>Initiate Contract</h3>
-          <button name='initiate-contract' onClick={() => this.props.fetch(window.web3)}>Click Here to Initiate</button>
-          <button name='finalize-contract' onClick={() => this.props.finalize(this.props.contract)}>Click Here to Finalize</button>
+          <button name='initiate-contract' onClick={() => this.props.fetch(this.props.web3)}>Click Here to Initiate</button>
+          <button name='finalize-contract' onClick={() => this.props.finalize("0xcA15f54531D5D68d66e9AeCdCCe9EC2d86aA8f2E")}>Click Here to Finalize</button>
         </div>
     )
   }
@@ -30,7 +30,7 @@ const mapDispatch = dispatch => {
 	return {
 		initiate: () => dispatch(fetchWeb3()), 
     fetch: (web3) => dispatch(fetchContract(web3)),
-    finalize: (contract) => dispatch(finalizeContractThunk(contract))
+    finalize: (address) => dispatch(finalizeContractThunk(address))
 	}
 }
 

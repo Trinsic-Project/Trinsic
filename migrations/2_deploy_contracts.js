@@ -1,5 +1,5 @@
-const SwapAgreement = artifacts.require("./SwapAgreement.sol");
+const SwapAgreementFactory = artifacts.require("./SwapAgreementFactory.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(SwapAgreement);
+  deployer.deploy(SwapAgreementFactory);
 };
