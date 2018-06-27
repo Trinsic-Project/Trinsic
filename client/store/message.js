@@ -2,25 +2,25 @@ import axios from 'axios';
 import socket from '../socket.js';
 
 // ACTION TYPES;
-const ENTER_DM = "ENTER_DM";
+const WRITE_MESSAGE = "WRITE_MESSAGE";
 
 // ACTION CREATORS;
-export const enterCurrentDM = negotiation => ({type: ENTER_DM, payload: negotiation});
+export const writeMessage = msg => ({type: WRITE_MESSAGE, payload: msg});
 
 // THUNKS;
-export const enterCurrentDMThunk = () => dispatch => {
-  return axios.post('/api/negotiations')
+export const writeMessageThunk = content => dispatch => {
+  return axios.post('/api/messages', content)
     .then(res => res.data)
-    .then(newNegotiation => dispatch(enterCurrentDM(newNegotiation)))
+    .then(newMessage => dispatch(writeMessage(newMessage)))
     .catch(err => console.log(err));
 }
 
 //REDUCERS;
 export default function(state = "", action) {
   switch (action.type) {
-    case ENTER_DM:
+    case WRITE_MESSAGE:
       return action.payload;
     default:
       return state;
   }
-}
+};
