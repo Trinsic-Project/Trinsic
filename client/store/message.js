@@ -4,6 +4,7 @@ import socket from '../socket.js';
 // ACTION TYPES;
 const WRITE_MESSAGE = "WRITE_MESSAGE";
 
+
 // ACTION CREATORS;
 export const writeMessage = msg => ({type: WRITE_MESSAGE, payload: msg});
 
@@ -11,7 +12,10 @@ export const writeMessage = msg => ({type: WRITE_MESSAGE, payload: msg});
 export const writeMessageThunk = content => dispatch => {
   return axios.post('/api/messages', content)
     .then(res => res.data)
-    .then(newMessage => dispatch(writeMessage(newMessage)))
+    .then(newMessage => {
+      dispatch(writeMessage(newMessage))
+      socket.emit('new-message', newMessage);
+    })
     .catch(err => console.log(err));
 }
 
