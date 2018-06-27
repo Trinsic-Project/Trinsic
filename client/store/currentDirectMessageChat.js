@@ -7,13 +7,16 @@ const GET_NEGOTIATIONS = "GET_NEGOTIATIONS"
 
 // ACTION CREATORS;
 export const enterCurrentDM = negotiation => ({type: ENTER_DM, payload: negotiation});
-export const getNegotiations = () => ({type: GET_NEGOTIATIONS, payload: negotiations})
+export const getNegotiations = negotiations => ({type: GET_NEGOTIATIONS, payload: negotiations})
 
 // THUNKS;
 export const enterCurrentDMThunk = () => dispatch => {
   return axios.post('/api/negotiations')
     .then(res => res.data)
-    .then(newNegotiation => dispatch(enterCurrentDM(newNegotiation)))
+    .then(newNegotiation => {
+      dispatch(enterCurrentDM(newNegotiation));
+      socket.emit('new-direct-message-chat', newNegotiation);
+    })
     .catch(err => console.log(err));
 }
 
