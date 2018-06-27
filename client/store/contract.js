@@ -1,4 +1,5 @@
 const SwapAgreementFactory = require('../../build/contracts/SwapAgreementFactory.json')
+const SwapAgreement = require('../../build/contracts/SwapAgreement.json')
 const contract = require('truffle-contract')
 import Web3 from 'web3'
 const web3 = new Web3(window.web3.currentProvider)
@@ -30,8 +31,9 @@ export const fetchContract = web3 => {
 
 export const finalizeContractThunk = contractInstanceAddress => {//take in contract instance address
   return dispatch => {
-    SwapAgreement.at("0x09bcd84e91790bfc82cbf9bd16983386807ea3d9")
-    .then(instance => console.log(instance))
+
+    console.log(SwapAgreement.at(contractInstanceAddress))
+    // .then(instance => console.log(instance))
     // .deployed()
     // .then(async function(instance) {
     //   console.log(instance.GetAgreement())
