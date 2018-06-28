@@ -20,19 +20,40 @@ export const fetchContract = web3 => {
     factoryContractInstance// This is grabbing THE ONLY ONE factory contract instance from line 5.
       .deployed()//truffle-contract method to make instance calls
       .then(async instance => {
-        await instance.createSwapAgreement({from : '0x3c5b478DE8302218a6fc0d186f53a025fA932Cd0'})//creating SwapAgreement(child) contract instances
+        await instance.createSwapAgreement({from : '0xEB723e6723606382F35E21497716419eC2F0d7d4'})//creating SwapAgreement(child) contract instances
         instance = await instance 
         dispatch(getContract(instance))//Factory Contract is being saved to the state(NEED TO BE FIXED TO SINGLE SWAPAGREEMENT CONTRACT)
         return instance
       })
-      .then(instance => console.log('deployed agreements: ', instance.getDeployedSwapAgreements.call()))//console logging all deployed swapagreements
+      .then(instance => {
+        let currentAgreement;
+        instance.getDeployedSwapAgreements.call()
+        .then(agreements => {
+          currentAgreement = agreements[agreements.length-1]
+          console.log(agreements)
+          console.log(currentAgreement)
+          return currentAgreement
+        })
+        .then(async instanceAddress => {
+          console.log("@@@@@@ß")
+          let instance = contract({abi: SwapAgreement.abi, address: instanceAddress})
+          instance.setProvider(web3.currentProvider)
+          instance.deployed().then(a=>console.log("@@@@@@", a))
+        })
+        // console.log('deployed agreements: ', deployedAgreements)//console logging all deployed swapagreements
+      })
   }
 }
 
 export const finalizeContractThunk = contractInstanceAddress => {//take in contract instance address
+  let currentInstance = contract({abi: SwapAgreement.abi, address: contractInstanceAddress})
+  web3.currentProvider && currentInstance.setProvider(web3.currentProvider)
   return dispatch => {
-
-    console.log(SwapAgreement.at(contractInstanceAddress))
+    currentInstance.deployed()
+    .then(instance => {
+      console.log(instance)
+    })
+    // console.log(SwapAgreement.at(contractInstanceAddress))
     // .then(instance => console.log(instance))
     // .deployed()
     // .then(async function(instance) {
