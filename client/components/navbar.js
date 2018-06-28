@@ -3,11 +3,15 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
+import {InitiateContract, MessageEntry } from './'
+
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
-    <h1>BOILERMAKER</h1>
+    <h1>TRINSIC</h1>
     <nav>
+      <InitiateContract/>
+      <MessageEntry />
       {isLoggedIn ? (
         <div>
           {/* The navbar will show these links after you log in */}

@@ -1,14 +1,25 @@
 const router = require('express').Router()
-const {User} = require('../db/models')
+const { User, DirectMessageChat } = require('../db/models')
 module.exports = router
 
 router.get('/', (req, res, next) => {
   User.findAll({
-    // explicitly select only the id and email fields - even though
-    // users' passwords are encrypted, it won't help if we just
-    // send everything to anyone who asks!
     attributes: ['id', 'email']
   })
     .then(users => res.json(users))
     .catch(next)
+})
+
+router.get('/negotiations', (req, res, next) => {
+  //Add security so that only the two parties involved can access this endpoint
+  User.findOne({
+      where: {
+          id: req.user.id
+      },
+      include: [{
+        model: DirectMessageChat
+      }]
+    })
+  .then(channels => res.json(channels))
+  .next(next)
 })
