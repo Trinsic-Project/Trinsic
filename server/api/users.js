@@ -23,3 +23,9 @@ router.get('/negotiations', (req, res, next) => {
   .then(channels => res.json(channels))
   .next(next)
 })
+
+router.get('/:userId', (req, res, next) => {
+  User.findById(req.params.userId)
+    .then(user => res.json(user))
+    .catch(next)
+})
