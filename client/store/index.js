@@ -9,6 +9,8 @@ import currentDirectMessageChat from './currentDirectMessageChat'
 import allDirectMessageChats from './allDirectMessageChats'
 import message from './message'
 import submitMessage from './submitMessage'
+import messages from './messages'
+
 
 const reducer = combineReducers({
   user,
@@ -17,7 +19,8 @@ const reducer = combineReducers({
   currentDirectMessageChat,
   allDirectMessageChats,
   message,
-  submitMessage
+  submitMessage,
+  messages
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
@@ -32,3 +35,4 @@ export * from './currentDirectMessageChat'
 export * from './allDirectMessageChats'
 export * from './message'
 export * from './submitMessage'
+export * from './messages'
