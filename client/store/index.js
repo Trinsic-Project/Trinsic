@@ -6,9 +6,20 @@ import user from './user'
 import web3 from './web3'
 import contract from './contract'
 import currentDirectMessageChat from './currentDirectMessageChat'
+import allDirectMessageChats from './allDirectMessageChats'
 import message from './message'
+import messages from './messages'
 
-const reducer = combineReducers({user, web3, contract, currentDirectMessageChat, message})
+
+const reducer = combineReducers({
+  user,
+  web3,
+  contract,
+  currentDirectMessageChat,
+  allDirectMessageChats,
+  message,
+  messages
+})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
@@ -19,4 +30,6 @@ export * from './user'
 export * from './web3'
 export * from './contract'
 export * from './currentDirectMessageChat'
+export * from './allDirectMessageChats'
 export * from './message'
+export * from './messages'

@@ -3,11 +3,12 @@ import socket from '../socket.js';
 
 // ACTION TYPES;
 const ENTER_DM = "ENTER_DM";
-const GET_NEGOTIATIONS = "GET_NEGOTIATIONS"
+const GET_DM = "GET_DM"
 
 // ACTION CREATORS;
 export const enterCurrentDM = negotiation => ({type: ENTER_DM, payload: negotiation});
-export const getNegotiations = negotiations => ({type: GET_NEGOTIATIONS, payload: negotiations})
+export const getCurrentDM = negotiation => ({type: GET_DM, payload: negotiation});
+
 
 // THUNKS;
 export const enterCurrentDMThunk = () => dispatch => {
@@ -20,19 +21,22 @@ export const enterCurrentDMThunk = () => dispatch => {
     .catch(err => console.log(err));
 }
 
-export const fetchNegotiationsThunk = () => dispatch => {
-  return axios.get('/api/users/negotiations')
+export const fetchCurrentDMThunk = () => dispatch => {
+  return axios.get('/api/negotiations/:id')
     .then(res => res.data)
-    .then(negotiations => dispatch(getNegotiations(negotiations)))
+    .then(currNegotiation => {
+      dispatch(getCurrentDM(currNegotiation));
+    })
     .catch(err => console.log(err));
 }
 
+
 //REDUCERS;
-export default function(state = "", action) {
+export default function(state = {}, action) {
   switch (action.type) {
     case ENTER_DM:
       return action.payload;
-    case GET_NEGOTIATIONS:
+    case GET_DM:
       return action.payload;
     default:
       return state;
