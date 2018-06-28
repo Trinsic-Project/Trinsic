@@ -11,6 +11,12 @@ Message.belongsTo(DirectMessageChat);
 DirectMessageChat.belongsToMany(User, {through: 'negotiation'});
 User.belongsToMany(DirectMessageChat, {through: 'negotiation'});
 
+//establish user matches
+User.hasMany(User, {as: 'Match', foreignKey: "MatchId"})
+User.belongsTo(User, {foreignKey: "MatchId"})
+
+
+
 module.exports = {
   User,
   Message,
