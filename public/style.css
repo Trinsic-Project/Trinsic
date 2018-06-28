@@ -1,5 +1,6 @@
 body {
   font-family: 'Roboto', sans-serif;
+  text-align: center;
 }
 
 a {
@@ -20,7 +21,3 @@ form div {
   display: inline-block;
 }
 
-.tutor-card {
-	width: 375px;
-	height: 667px;
-}
