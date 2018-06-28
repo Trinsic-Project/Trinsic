@@ -10,7 +10,6 @@ const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
     <h1>TRINSIC</h1>
     <nav>
-      <InitiateContract/>
       <MessageEntry />
       {isLoggedIn ? (
         <div>
