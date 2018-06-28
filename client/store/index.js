@@ -9,6 +9,7 @@ import currentDirectMessageChat from './currentDirectMessageChat'
 import allDirectMessageChats from './allDirectMessageChats'
 import message from './message'
 import messages from './messages'
+import tutor from './tutor.js'
 import allTutors from './allTutors'
 
 const reducer = combineReducers({
@@ -19,6 +20,7 @@ const reducer = combineReducers({
   allDirectMessageChats,
   message,
   messages,
+  tutor,
   allTutors
 })
 const middleware = composeWithDevTools(
@@ -34,4 +36,5 @@ export * from './currentDirectMessageChat'
 export * from './allDirectMessageChats'
 export * from './message'
 export * from './messages'
+export * from './tutor'
 export * from './allTutors'

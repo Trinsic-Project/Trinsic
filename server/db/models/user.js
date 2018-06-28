@@ -43,7 +43,8 @@ const User = db.define('user', {
 
   imageUrl: {
     type: Sequelize.STRING,
-    allowNull: false,
+    // allowNull: false,
+    defaultValue: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvKwzW79MfeLRUf6nDYgj_baXP4Rj-Xj7BsbhEztJrqVPudrzZbQ",
     validate: {
       isUrl: true
     }
