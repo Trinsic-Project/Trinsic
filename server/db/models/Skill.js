@@ -8,7 +8,11 @@ const Skill = db.define('skill', {
   },
 
   rating: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    validate: {
+      min: 1,
+      max: 10
+    }
   }
 
 });
