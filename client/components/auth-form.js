@@ -125,7 +125,7 @@ export const Signup = compose(
 AuthForm.propTypes = {
   name: PropTypes.string.isRequired,
   displayName: PropTypes.string.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.object,
+  
+  
   classes: PropTypes.object.isRequired
 }

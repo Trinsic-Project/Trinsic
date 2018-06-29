@@ -1,26 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-<<<<<<< Updated upstream
+import React, {Component} from 'react'
+import compose from 'recompose/compose'
 import {connect} from 'react-redux'
-
-/**
- * COMPONENT
- */
-export const UserHome = props => {
-  const {email} = props
-
-  return (
-    <div>
-      <h3>Welcome, {email}</h3>
-    </div>
-  )
-}
-
-/**
- * CONTAINER
- */
-const mapState = state => {
-=======
+import PropTypes from 'prop-types'
 import {putUser} from '../store'
 import { withStyles } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
@@ -84,14 +65,14 @@ class UserHome extends Component {
       <Card className={classes.card}>
       <CardMedia
             className={classes.media}
-            image={user.imageUrl}
+            image={imageUrl}
             title="User"
           />
       <CardContent>
-      <form onSubmit={handleSubmit} name={name}>
+      <form onSubmit={(evt) => handleSubmit(evt, this.state)} name={name}>
         <div>
           <FormControl className={classes.textField}>
-          <InputLabel className="inputLabel" htmlFor="adornment-email">{user.fullName}</InputLabel> 
+          <InputLabel className="inputLabel" htmlFor="adornment-email">{firstName}</InputLabel> 
           <Input name="email" type="text" />
           </FormControl>
         </div>
@@ -117,32 +98,34 @@ class UserHome extends Component {
 
 //access store's state with this.props.state, access local state with just this.state
 const mapStateToProps = state => {
->>>>>>> Stashed changes
   return {
-    email: state.user.email
+    user: state.user,
+    displayName: '',
+    error: state.user.error
   }
 }
 
-<<<<<<< Updated upstream
-export default connect(mapState)(UserHome)
-=======
 const mapDispatchToProps = dispatch => {
   return {
-  handleSubmit(evt) {
+  handleSubmit: (evt, user) => {
     evt.preventDefault();
-    dispatch(putUser(this.state, this.state.id))
+    console.log(user)
+    dispatch(putUser(user, user.id))
   }}
 }
->>>>>>> Stashed changes
 
 /**
  * PROP TYPES
  */
 UserHome.propTypes = {
-<<<<<<< Updated upstream
-  email: PropTypes.string
-=======
   handleSubmit: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired
->>>>>>> Stashed changes
 }
+
+export default compose(
+      withStyles(styles, {
+        name: 'UserHome',
+      }),
+      connect(mapStateToProps, mapDispatchToProps),
+    )(UserHome);
+
