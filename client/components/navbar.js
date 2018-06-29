@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {logout} from '../store'
-import {InitiateContract, MessageEntry} from './'
+import {logout, toggleSidebar} from '../store'
 import compose from 'recompose/compose'
 import {withStyles} from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
@@ -12,6 +11,7 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
+import SideBar from './SideBar';
 
 const styles = {
   root: {
@@ -26,7 +26,7 @@ const styles = {
   }
 }
 
-const Navbar = ({handleClick, isLoggedIn, classes}) => (
+const Navbar = ({handleClick, isLoggedIn, classes, isSideBarOpen, toggle}) => (
   <div className={classes.root}>
     <AppBar position="static">
       <Toolbar>
@@ -34,6 +34,7 @@ const Navbar = ({handleClick, isLoggedIn, classes}) => (
           className={classes.menuButton}
           color="inherit"
           aria-label="Menu"
+          onClick={() => toggle(!isSideBarOpen)}
         >
           <MenuIcon />
         </IconButton>
@@ -69,6 +70,7 @@ const Navbar = ({handleClick, isLoggedIn, classes}) => (
         )}
       </Toolbar>
     </AppBar>
+    <SideBar />
   </div>
 )
 
@@ -77,15 +79,15 @@ const Navbar = ({handleClick, isLoggedIn, classes}) => (
  */
 const mapStateToProps = state => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    isSideBarOpen: state.sideBar
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    handleClick() {
-      dispatch(logout())
-    }
+    handleClick: () => dispatch(logout()),
+    toggle: (bool) => dispatch(toggleSidebar(bool))
   }
 }
 

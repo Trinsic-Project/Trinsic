@@ -1,11 +1,14 @@
-import React, {Component} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
+import {connect} from 'react-redux'
+import { toggleSidebar } from '../store'
 import Drawer from '@material-ui/core/Drawer'
 import Button from '@material-ui/core/Button'
 import List from '@material-ui/core/List'
 import Divider from '@material-ui/core/Divider'
-import { Link } from "react-router-dom";
+import {Link} from 'react-router-dom'
+import compose from 'recompose/compose'
 
 const styles = {
   list: {
@@ -16,20 +19,7 @@ const styles = {
   }
 }
 
-class SideBar extends Component {
-  state = {
-    left: false
-  }
-
-  toggleDrawer = (side, open) => () => {
-    this.setState({
-      [side]: open
-    })
-  }
-
-  render() {
-    const {classes} = this.props
-
+const SideBar = ({classes, toggle, isSideBarOpen}) => {
     const sideList = (
       <div className={classes.list}>
         <List>
@@ -52,16 +42,15 @@ class SideBar extends Component {
 
     return (
       <div>
-        <Button onClick={this.toggleDrawer('left', true)}>Open Left</Button>
         <Drawer
-          open={this.state.left}
-          onClose={this.toggleDrawer('left', false)}
+          open={isSideBarOpen}
+          onClose={() => toggle(!isSideBarOpen)}
         >
           <div
             tabIndex={0}
             role="button"
-            onClick={this.toggleDrawer('left', false)}
-            onKeyDown={this.toggleDrawer('left', false)}
+            onClick={() => toggle(!isSideBarOpen)}
+            onKeyDown={() => toggle(!isSideBarOpen)}
           >
             {sideList}
           </div>
@@ -69,10 +58,29 @@ class SideBar extends Component {
       </div>
     )
   }
+
+/**
+ * CONTAINER
+ */
+const mapStateToProps = state => {
+  return {
+    isSideBarOpen: state.sideBar
+  }
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    toggle: bool => dispatch(toggleSidebar(bool))
+  }
+}
+
+export default compose(
+  withStyles(styles, {
+    name: 'SideBar'
+  }),
+  connect(mapStateToProps, mapDispatchToProps)
+)(SideBar)
 
 SideBar.propTypes = {
   classes: PropTypes.object.isRequired
 }
-
-export default withStyles(styles)(SideBar)
