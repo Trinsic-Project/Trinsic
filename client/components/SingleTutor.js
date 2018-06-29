@@ -28,23 +28,23 @@ class SingleTutor extends Component {
   }
 
   render() {
-    const {classes} = this.props
+    const {classes, tutor} = this.props
     return (
       <div>
         <Card className={classes.card}>
           <CardMedia
             className={classes.media}
-            image={this.props.tutor.imageUrl}
+            image={tutor.imageUrl}
             title="Tutor"
           />
           <CardContent>
             <Typography gutterBottom variant="headline" component="h2">
-              {this.props.tutor.fullName}
+              {tutor.fullName}
             </Typography>
             <Typography className={classes.pos} color="textSecondary">
-            {this.props.tutor.city + ', ' + this.props.tutor.state}
+            {tutor.city + ', ' + tutor.state}
           </Typography>
-            <Typography component="p">{this.props.tutor.biography}</Typography>
+            <Typography component="p">{tutor.biography}</Typography>
           </CardContent>
           <CardActions>
           <div className='enter-chat'>
