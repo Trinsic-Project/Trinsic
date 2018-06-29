@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Login, Signup, UserHome, ChatRoom, SingleTutor, AllTutors, About } from './components'
+import { Login, Signup, UserHome, ChatRoom, SingleTutor, AllTutors, About, ViewContract } from './components'
 import { me } from './store'
+
 
 class Routes extends Component {
   componentDidMount() {
@@ -21,6 +22,7 @@ class Routes extends Component {
         <Route path="/chatroom/:id" component={ChatRoom} />
         <Route exact path="/tutors/:id" component={SingleTutor} />
         <Route exact path="/tutors" component={AllTutors} />
+        <Route exact path="/contract" component={ViewContract} />
         <Route exact path="/about" component={About} />
         {isLoggedIn && (
           <Switch>
