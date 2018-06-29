@@ -6,6 +6,14 @@ body {
 a {
   text-decoration: none;
 }
+.link {
+  text-decoration: none;
+  color: white;
+}
+.cards {
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
 
 .inputLabel {
   margin-left: 10%;
