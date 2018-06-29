@@ -1,7 +1,7 @@
 import React from 'react'
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-import {Navbar} from './components'
+import {Navbar, SideBar} from './components'
 import Routes from './routes'
 
 const App = () => {
@@ -10,6 +10,7 @@ const App = () => {
     <CssBaseline />
     <div>
       <Navbar />
+      <SideBar />
       <Routes />
     </div>
   </React.Fragment>

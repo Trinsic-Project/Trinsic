@@ -42,7 +42,7 @@ class AllTutors extends Component {
            <Grid container spacing={40}>
          {this.props.tutors.map(tutor=> {
             return (
-               <Card key={tutor.id} className={classes.card} style={{ backgroundImage : `url(${tutor.imageUrl})`, opacity: '50%'}}>
+               <Card key={tutor.id} className={classes.card} style={{ backgroundImage : `url(${tutor.imageUrl})`, opacity: '50%', marginBottom: '.5%', marginTop: '.5%'}}>
                 <CardContent style={{ textAlign : 'center', marginTop: '88%'}}>
                   <Typography variant="headline" component="h1">
                     {`${tutor.fullName}`}

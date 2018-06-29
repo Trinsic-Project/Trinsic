@@ -38,7 +38,7 @@ const AuthForm = props => {
   const {name, displayName, handleSubmit, error, classes} = props
 
   return (
-    <div>
+    <div className='cards'>
       <Card className={classes.card}>
       <CardContent>
       <form onSubmit={handleSubmit} name={name}>
