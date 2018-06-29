@@ -11,12 +11,12 @@ import Typography from '@material-ui/core/Typography'
 import {connect} from 'react-redux'
 import {fetchSingleTutor} from '../store'
 import {InitiateContract} from './'
+import { Link } from "react-router-dom";
 
 const styles = {
   card: {
     maxWidth: 375,
     margin: 'auto',
-    minHeight: 560,
   },
   media: {
     paddingTop: '70%' // 16:9
@@ -48,10 +48,12 @@ class SingleTutor extends Component {
             <Typography component="p">{this.props.tutor.biography}</Typography>
           </CardContent>
           <CardActions>
+          <div className='enter-chat'>
             <InitiateContract/>
-            <Button size="small" color="primary">
-              Chat with {this.props.tutor.firstName}
-            </Button>
+            <Link to="/chatroom/1">
+              <img id='enter-chat'src='/chat.png'/>
+            </Link>
+          </div>
           </CardActions>
         </Card>
       </div>
