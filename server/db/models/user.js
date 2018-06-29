@@ -14,27 +14,22 @@ const User = db.define('user', {
 
   firstName: {
     type: Sequelize.STRING,
-    allowNull: false
   },
 
   lastName: {
     type: Sequelize.STRING,
-    allowNull: false
   },
 
   streetAddress: {
     type: Sequelize.STRING,
-    allowNull: false
   },
 
   city: {
     type: Sequelize.STRING,
-    allowNull: false
   },
 
   state: {
     type: Sequelize.STRING,
-    allowNull: false
   },
 
   biography: {
@@ -43,7 +38,6 @@ const User = db.define('user', {
 
   imageUrl: {
     type: Sequelize.STRING,
-    // allowNull: false,
     defaultValue: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvKwzW79MfeLRUf6nDYgj_baXP4Rj-Xj7BsbhEztJrqVPudrzZbQ",
     validate: {
       isUrl: true
@@ -52,6 +46,7 @@ const User = db.define('user', {
 
   password: {
     type: Sequelize.STRING,
+    allowNull: false,
     get() {
       return () => this.getDataValue('password')
     }

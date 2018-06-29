@@ -1,57 +1,38 @@
 'use strict'
 
 const db = require('../server/db')
-const {User} = require('../server/db/models')
-
-/**
- * Welcome to the seed file! This seed file uses a newer language feature called...
- *
- *                  -=-= ASYNC...AWAIT -=-=
- *
- * Async-await is a joy to use! Read more about it in the MDN docs:
- *
- * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
- *
- * Now that you've got the main idea, check it out in practice below!
- */
+const { User } = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
-  // Whoa! Because we `await` the promise that db.sync returns, the next line will not be
-  // executed until that promise resolves!
+
   const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
+    User.create({email: 'anna@email.com', password: 'a', firstName: 'Anna', lastName: 'Arden', streetAddress: '1234 West 99th Street', city: 'Brooklyn', state: 'New York', biography: 'this is a biography'}),
+    User.create({email: 'brent@email.com', password: 'b', firstName: 'Brent', lastName: 'Bell', streetAddress: '5678 West 97th Street', city: 'Brooklyn', state: 'New York', biography: 'this is a biography'}),
+    User.create({email: 'chris@email.com', password: 'c', firstName: 'Chris', lastName: 'Cordir', streetAddress: '1234 West 87th Street', city: 'Brooklyn', state: 'New York', biography: 'this is a biography'}),
+    User.create({email: 'derek@email.com', password: 'd', firstName: 'Derek', lastName: 'Dask', streetAddress: '5678 West 32nd Street', city: 'Brooklyn', state: 'New York', biography: 'this is a biography'}),
+    User.create({email: 'edison@email.com', password: 'e', firstName: 'Edison', lastName: 'Earvin', streetAddress: '1234 West 44th Street', city: 'Brooklyn', state: 'New York', biography: 'this is a biography'}),
+    User.create({email: 'frank@email.com', password: 'f', firstName: 'Frank', lastName: 'Fila', streetAddress: '5678 West 55th Street', city: 'Brooklyn', state: 'New York', biography: 'this is a biography'}),
+    User.create({email: 'gabby@email.com', password: 'g', firstName: 'Gabby', lastName: 'Gadrizo', streetAddress: '1234 West 11th Street', city: 'Brooklyn', state: 'New York', biography: 'this is a biography'}),
+    User.create({email: 'heather@email.com', password: 'h', firstName: 'Heather', lastName: 'Hope', streetAddress: '5678 West 32nd Street', city: 'Brooklyn', state: 'New York', biography: 'this is a biography'}),
+    User.create({email: 'idris@email.com', password: 'i', firstName: 'Idris', lastName: 'Isle', streetAddress: '1234 West 43rd Street', city: 'Brooklyn', state: 'New York', biography: 'this is a biography'}),
+    User.create({email: 'jane@email.com', password: 'j', firstName: 'Jane', lastName: 'Jazz', streetAddress: '5678 West 58th Street', city: 'Brooklyn', state: 'New York', biography: 'this is a biography'})
   ])
-  // Wowzers! We can even `await` on the right-hand side of the assignment operator
-  // and store the result that the promise resolves to in a variable! This is nice!
+
+  console.log('seeding...')
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
 }
 
-// Execute the `seed` function, IF we ran this module directly (`node seed`).
-// `Async` functions always return a promise, so we can use `catch` to handle
-// any errors that might occur inside of `seed`.
-if (module === require.main) {
-  seed()
-    .catch(err => {
-      console.error(err)
-      process.exitCode = 1
-    })
-    .finally(() => {
-      // `finally` is like then + catch. It runs no matter what.
-      console.log('closing db connection')
-      db.close()
-      console.log('db connection closed')
-    })
-  /*
-   * note: everything outside of the async function is totally synchronous
-   * The console.log below will occur before any of the logs that occur inside
-   * of the async function
-   */
-  console.log('seeding...')
+const exit = () => process.exit(0)
+const die = err => {
+  console.log(err)
+  process.exit(1)
 }
 
-// we export the seed function for testing purposes (see `./seed.spec.js`)
+if (module === require.main) {
+  seed().then(exit, die)
+}
+
 module.exports = seed
