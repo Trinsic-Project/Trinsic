@@ -10,7 +10,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
     <h1>TRINSIC</h1>
     <nav>
-      <InitiateContract/>
+      <Link to={`/tutors`}>Browse Skill Sharers</Link>
       <MessageEntry />
       {isLoggedIn ? (
         <div>
