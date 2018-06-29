@@ -23,15 +23,15 @@ const SideBar = ({classes, toggle, isSideBarOpen}) => {
     const sideList = (
       <div className={classes.list}>
         <List>
-          <Button color="inherit">
-            <Link className="link" to={`/tutors`}>
+          <Button variant="outlined" color="default" onClick={() => toggle(false)}>
+            <Link  style={{color: 'gray'}} to={`/tutors`}>
               Browse Skill Sharers
             </Link>
           </Button>
         </List>
         <Divider />
         <List>
-          <Button color="inherit">
+          <Button color="inherit" onClick={() => toggle(false)}>
             <Link className="link" to="/chatroom/1">
               <img id="enter-chat" src="/chat.png" />
             </Link>
@@ -49,8 +49,8 @@ const SideBar = ({classes, toggle, isSideBarOpen}) => {
           <div
             tabIndex={0}
             role="button"
-            onClick={() => toggle(!isSideBarOpen)}
-            onKeyDown={() => toggle(!isSideBarOpen)}
+            onClick={() => toggle(false)}
+            onKeyDown={() => toggle(false)}
           >
             {sideList}
           </div>

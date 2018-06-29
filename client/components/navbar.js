@@ -30,6 +30,7 @@ const Navbar = ({handleClick, isLoggedIn, classes, isSideBarOpen, toggle}) => (
   <div className={classes.root}>
     <AppBar position="static">
       <Toolbar>
+      {isLoggedIn ? (
         <IconButton
           className={classes.menuButton}
           color="inherit"
@@ -37,7 +38,8 @@ const Navbar = ({handleClick, isLoggedIn, classes, isSideBarOpen, toggle}) => (
           onClick={() => toggle(!isSideBarOpen)}
         >
           <MenuIcon />
-        </IconButton>
+        </IconButton>)
+        :(null)}
         <Typography variant="title" color="inherit" className={classes.flex}>
           TRINSIC
         </Typography>
