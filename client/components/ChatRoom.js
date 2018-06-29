@@ -57,7 +57,9 @@ class ChatRoom extends Component {
             </Link>
           </div>
           <div  style={{margin: 'auto',  display:'inline-block', width: "33%", height: '100%', verticalAlign: 'middle'}}>
-            <span className="Mstart(10px) Va(m)">Jacob</span>
+            <Link to='/contract'>
+            <span className="Mstart(10px) Va(m)">View Contract</span>
+            </Link>
           </div>
         </div>
       </nav>
@@ -67,7 +69,6 @@ class ChatRoom extends Component {
       <div>
         {this.props.messages.map(message => (
           <div className='message' key={message.id} style={{width: '100%'}}>
-
               <SnackbarContent className={classes.snackbar} message={message.content} style={{backgroundColor:'rgba(0,0,0,.09)', color:'black', boxShadow:'none'}}/>
           </div>
         ))}
