@@ -9,7 +9,6 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Typography from '@material-ui/core/Typography'
 import {connect} from 'react-redux'
 import {fetchSingleTutor} from '../store'
-import {InitiateContract} from './'
 import { Link } from "react-router-dom";
 
 const styles = {
@@ -28,27 +27,26 @@ class SingleTutor extends Component {
   }
 
   render() {
-    const {classes} = this.props
+    const {classes, tutor} = this.props
     return (
-      <div>
-        <Card className={classes.card}>
+      <div className="cards">
+        <Card className={`${classes.card} cards`}>
           <CardMedia
             className={classes.media}
-            image={this.props.tutor.imageUrl}
+            image={tutor.imageUrl}
             title="Tutor"
           />
           <CardContent>
             <Typography gutterBottom variant="headline" component="h2">
-              {this.props.tutor.fullName}
+              {tutor.fullName}
             </Typography>
             <Typography className={classes.pos} color="textSecondary">
-            {this.props.tutor.city + ', ' + this.props.tutor.state}
+            {tutor.city + ', ' + tutor.state}
           </Typography>
-            <Typography component="p">{this.props.tutor.biography}</Typography>
+            <Typography component="p">{tutor.biography}</Typography>
           </CardContent>
           <CardActions>
           <div className='enter-chat'>
-            <InitiateContract/>
             <Link to="/chatroom/1">
               <img id='enter-chat'src='/chat.png'/>
             </Link>

@@ -1,13 +1,11 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {withRouter, Route, Switch} from 'react-router-dom'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { withRouter, Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Login, Signup, UserHome, ChatRoom, SingleTutor, AllTutors } from './components'
-import {me} from './store'
+import { Login, Signup, UserHome, ChatRoom, SingleTutor, AllTutors, About, ViewContract } from './components'
+import { me } from './store'
 
-/**
- * COMPONENT
- */
+
 class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
@@ -24,6 +22,8 @@ class Routes extends Component {
         <Route path="/chatroom/:id" component={ChatRoom} />
         <Route exact path="/tutors/:id" component={SingleTutor} />
         <Route exact path="/tutors" component={AllTutors} />
+        <Route exact path="/contract" component={ViewContract} />
+        <Route exact path="/about" component={About} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
@@ -37,13 +37,8 @@ class Routes extends Component {
   }
 }
 
-/**
- * CONTAINER
- */
 const mapState = state => {
   return {
-    // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
-    // Otherwise, state.user will be an empty object, and state.user.id will be falsey
     isLoggedIn: !!state.user.id
   }
 }
@@ -60,9 +55,6 @@ const mapDispatch = dispatch => {
 // when the url changes
 export default withRouter(connect(mapState, mapDispatch)(Routes))
 
-/**
- * PROP TYPES
- */
 Routes.propTypes = {
   loadInitialData: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired

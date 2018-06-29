@@ -38,7 +38,7 @@ const AuthForm = props => {
   const {name, displayName, handleSubmit, error, classes} = props
 
   return (
-    <div>
+    <div className='cards'>
       <Card className={classes.card}>
       <CardContent>
       <form onSubmit={handleSubmit} name={name}>
@@ -125,7 +125,7 @@ export const Signup = compose(
 AuthForm.propTypes = {
   name: PropTypes.string.isRequired,
   displayName: PropTypes.string.isRequired,
-  
-  
+  handleSubmit: PropTypes.func.isRequired,
+  error: PropTypes.object,
   classes: PropTypes.object.isRequired
 }
