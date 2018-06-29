@@ -10,6 +10,7 @@ import compose from 'recompose/compose'
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import Card from '@material-ui/core/Card'
 import {Link} from 'react-router-dom'
+import {InitiateContract} from './'
 
 const styles = theme => ({
   row: {
@@ -63,6 +64,7 @@ class ChatRoom extends Component {
           </div>
         </div>
       </nav>
+      <InitiateContract/>
       <div>
         <span style={{fontSize:'12px', color:"#9b9b9b"}}>You matched with Jacob on 6/28/2018</span>
       </div>

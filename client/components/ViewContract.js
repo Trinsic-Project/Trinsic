@@ -37,6 +37,11 @@ class ViewContract extends Component{
     return (
         <div className='view-contract'>
         <Card className={classes.card}>
+        <div style={{margin: 'auto', display:'inline-block', width: "33%", verticalAlign: 'middle'}}>
+          <Link to='../chatroom/1'>
+            <img src='/left-arrow.svg' style={{width: "30%", height:'30%'}}/>
+          </Link>
+          </div>
           <div className={classes.row}>
             <Avatar
               alt="Remy Sharp"
