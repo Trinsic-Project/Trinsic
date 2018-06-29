@@ -30,8 +30,8 @@ class SingleTutor extends Component {
   render() {
     const {classes, tutor} = this.props
     return (
-      <div>
-        <Card className={classes.card}>
+      <div className="cards">
+        <Card className={`${classes.card} cards`}>
           <CardMedia
             className={classes.media}
             image={tutor.imageUrl}

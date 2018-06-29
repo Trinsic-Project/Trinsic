@@ -11,6 +11,7 @@ import message from './message'
 import messages from './messages'
 import tutor from './tutor.js'
 import allTutors from './allTutors'
+import sideBar from './sideBar'
 
 const reducer = combineReducers({
   user,
@@ -21,7 +22,8 @@ const reducer = combineReducers({
   message,
   messages,
   tutor,
-  allTutors
+  allTutors,
+  sideBar
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
@@ -38,3 +40,4 @@ export * from './message'
 export * from './messages'
 export * from './tutor'
 export * from './allTutors'
+export * from './sideBar'
