@@ -1,35 +1,71 @@
 import React from 'react'
+import compose from 'recompose/compose'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
+import { withStyles } from '@material-ui/core/styles';
+import Input from '@material-ui/core/Input';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent'
+import CardActions from '@material-ui/core/CardActions'
+import Button from '@material-ui/core/Button'
+
+const styles = theme => ({
+  card: {
+    maxWidth: 375,
+    margin: 'auto',
+  },
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  margin: {
+    margin: theme.spacing.unit,
+  },
+  textField: {
+    flexBasis: 200,
+    margin: theme.spacing.unit,
+  },
+});
+
 
 /**
  * COMPONENT
  */
 const AuthForm = props => {
-  const {name, displayName, handleSubmit, error} = props
+  const {name, displayName, handleSubmit, error, classes} = props
 
   return (
     <div>
+      <Card className={classes.card}>
+      <CardContent>
       <form onSubmit={handleSubmit} name={name}>
         <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input name="email" type="text" />
+          <FormControl className={classes.textField}>
+          <InputLabel className="inputLabel" htmlFor="adornment-email">Email</InputLabel> 
+          <Input name="email" type="text" />
+          </FormControl>
         </div>
         <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
+          <FormControl>
+          <InputLabel className="inputLabel" htmlFor="adornment-password">Password</InputLabel> 
+          <Input name="password" type="password" />
+          </FormControl>
         </div>
         <div>
-          <button type="submit">{displayName}</button>
+        <CardActions>
+          <Button type="submit">{displayName}</Button>
+          </CardActions>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
+      <Button>
       <a href="/auth/google">{displayName} with Google</a>
+      </Button>
+      </CardContent>
+      </Card>
     </div>
   )
 }
@@ -69,8 +105,19 @@ const mapDispatch = dispatch => {
   }
 }
 
-export const Login = connect(mapLogin, mapDispatch)(AuthForm)
-export const Signup = connect(mapSignup, mapDispatch)(AuthForm)
+export const Login = compose(
+      withStyles(styles, {
+        name: 'AuthForm',
+      }),
+      connect(mapLogin, mapDispatch),
+    )(AuthForm);
+
+export const Signup = compose(
+      withStyles(styles, {
+        name: 'AuthForm',
+      }),
+      connect(mapSignup, mapDispatch),
+    )(AuthForm);
 
 /**
  * PROP TYPES
@@ -79,5 +126,6 @@ AuthForm.propTypes = {
   name: PropTypes.string.isRequired,
   displayName: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.object
+  error: PropTypes.object,
+  classes: PropTypes.object.isRequired
 }
