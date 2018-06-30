@@ -121,9 +121,16 @@ const mapDispatch = dispatch => {
       const formName = evt.target.name
       const email = evt.target.email.value
       const password = evt.target.password.value
-      const firstName = evt.target.firstName.value
-      const lastName = evt.target.lastName.value
-      dispatch(auth(email, password, formName, firstName, lastName))
+      let firstName;
+      let lastName;
+      console.log(evt.target.name);
+      if (evt.target.name === "login") {
+        dispatch(auth(email, password, formName))
+      } else {
+        firstName = evt.target.firstName.value
+        lastName = evt.target.lastName.value
+        dispatch(auth(email, password, formName, firstName, lastName))
+      }
     }
   }
 }
