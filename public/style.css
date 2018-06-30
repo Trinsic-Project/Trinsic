@@ -19,6 +19,10 @@ a {
   margin-left: 10%;
 }
 
+.inputLabel {
+  margin-left: 10%;
+}
+
 label {
   display: block;
 }
