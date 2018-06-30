@@ -23,8 +23,8 @@ const SideBar = ({classes, toggle, isSideBarOpen}) => {
     const sideList = (
       <div className={classes.list}>
         <List>
-          <Button variant="outlined" color="default" onClick={() => toggle(false)}>
-            <Link  style={{color: 'gray'}} to={`/tutors`}>
+          <Button variant="outlined" style={{backgroundColor:"blue"}} onClick={() => toggle(false)}>
+            <Link  style={{color: 'white'}} to={`/tutors`}>
               Browse Skill Sharers
             </Link>
           </Button>

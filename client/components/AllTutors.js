@@ -56,7 +56,7 @@ class AllTutors extends Component {
                 </CardContent>
                 <br/>
                 <CardActions>
-                <Link to={`/tutors/1`} style={{ margin : 'auto'}}>
+                <Link to={`/tutors/${tutor.id}`} style={{ margin : 'auto'}}>
                   <Button variant="contained" color="primary" className={classes.button}>
                   Learn More
                   </Button>

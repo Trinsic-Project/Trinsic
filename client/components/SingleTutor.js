@@ -8,8 +8,9 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Typography from '@material-ui/core/Typography'
 import {connect} from 'react-redux'
-import {fetchSingleTutor} from '../store'
+import {fetchSingleTutor, fetchMatch} from '../store'
 import { Link } from "react-router-dom";
+import Button from '@material-ui/core/Button';
 
 const styles = {
   card: {
@@ -22,12 +23,15 @@ const styles = {
 }
 
 class SingleTutor extends Component {
+
   componentDidMount() {
     this.props.fetchTutor(1) //update to get the proper tutor
+    this.props.fetchStatus(1)
   }
 
   render() {
-    const {classes, tutor} = this.props
+    const {classes, tutor, status} = this.props
+    console.log(status)
     return (
       <div className="cards">
         <Card className={`${classes.card} cards`}>
@@ -46,11 +50,18 @@ class SingleTutor extends Component {
             <Typography component="p">{tutor.biography}</Typography>
           </CardContent>
           <CardActions>
-          <div className='enter-chat'>
+          {status 
+          ? 
+          (<div className='enter-chat'>
             <Link to="/chatroom/1">
               <img id='enter-chat'src='/chat.png'/>
             </Link>
-          </div>
+          </div>)
+          : 
+           (<Button onClick={() => this.props.handleClick(1, 1)}variant="contained" color="secondary" className={classes.button}>
+              Exchange!
+            </Button>)
+          }
           </CardActions>
         </Card>
       </div>
@@ -60,13 +71,17 @@ class SingleTutor extends Component {
 
 const mapStateToProps = state => {
     return {
-      tutor: state.tutor
+      user: state.user,
+      tutor: state.tutor,
+      status: state.status
     }
   }
 
   const mapDispatchToProps = dispatch => {
     return {
-      fetchTutor: tutor => dispatch(fetchSingleTutor(tutor))
+      fetchTutor: tutor => dispatch(fetchSingleTutor(tutor)),
+      fetchStatus: (userId, tutorId) => dispatch(fetchMatch(userId, tutorId))
+      handleClick: (userId, tutorId) => dispatch(fetchMatch(userId, tutorId))
     }
   }
 
