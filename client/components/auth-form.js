@@ -123,7 +123,7 @@ const mapDispatch = dispatch => {
       const password = evt.target.password.value
       let firstName;
       let lastName;
-      console.log(evt.target.name);
+
       if (evt.target.name === "login") {
         dispatch(auth(email, password, formName))
       } else {
