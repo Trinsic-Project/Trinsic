@@ -20,7 +20,7 @@ export const fetchContract = web3 => {
   web3.currentProvider && contractInstance.setProvider(web3.currentProvider)
   return dispatch => {
     contractInstance
-      .new({from: '0xe35EFBce04CFfB2645CAa873117657297bFc1114'}) //This creates an instance of our contract. the from address should grab from the initiator's metamask
+      .new({from: web3.eth.accounts[0]}) //The from address should grab from the initiator's metamask
       .then(instance => {
         console.log(
           'This is intitialized contract instance address: ',
@@ -49,7 +49,7 @@ export const finalizeContractThunk = contractInstanceAddress => {
       .at(contractInstanceAddress)
       .then(async instance => {
         await instance.FinalizeAgreement({
-          from: '0xFB3fD33A9C24c27bD38FB31Df431A104DD455ACa'
+          from: web3.eth.accounts[0] //grabs metamask account
         })
         return instance
       })
