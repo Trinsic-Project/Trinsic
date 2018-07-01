@@ -4,7 +4,7 @@ import axios from 'axios';
 const GET_SKILLS = 'GET_SKILLS';
 
 // ACTION CREATORS
-export const getSkills = () => ({ type: GET_SKILLS, payload: skills });
+export const getSkills = skills => ({ type: GET_SKILLS, payload: skills });
 
 // THUNK CREATORS
 export const fetchSkills = () => dispatch => {
@@ -12,7 +12,7 @@ export const fetchSkills = () => dispatch => {
   .get(`/api/users/skills`)
     .then(res => res.data)
     .then(skills => {
-      dispatch(getSingleskills(skills));
+      dispatch(getSkills(skills));
     });
 };
 
