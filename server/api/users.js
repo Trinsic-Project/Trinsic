@@ -4,8 +4,10 @@ module.exports = router
 
 router.get('/', (req, res, next) => {
   User.findAll({
-    include: [{model: User, as: 'match'}]
-  })
+    include: [
+      {model: User, as: 'match', 
+      include:[{
+        model: User, as: 'match'}]}]})
     .then(users => res.json(users))
     .catch(next)
 })
@@ -25,7 +27,11 @@ router.get('/negotiations', (req, res, next) => {
 })
 
 router.get('/:userId', (req, res, next) => {
-  User.findById(req.params.userId, {include: [{model: User, as: 'match'}]})
+  User.findById(req.params.userId, {
+    include: [
+        {model: User, as: 'match', 
+        include:[{
+          model: User, as: 'match'}]}]})
     .then(user => res.json(user))
     .catch(next)
 })

@@ -7,7 +7,8 @@ const MATCH_TUTOR = 'MATCH_TUTOR';
 export const matchTutor = tutor => ({ type: MATCH_TUTOR, payload: status});
 
 // THUNK CREATORS
-export const fetchMatch = (userId, tutorId) => dispatch => {
+
+export const fetchLike = (userId, tutorId) => dispatch => {
   return axios
   .put(`/api/match/${userId}`, {tutorId})
     .then(res => res.data)
@@ -17,7 +18,7 @@ export const fetchMatch = (userId, tutorId) => dispatch => {
 };
 
 // REDUCER
-export default function (state = {status: false}, action) {
+export default function (state = [], action) {
   switch (action.type) {
     case MATCH_TUTOR:
       return action.payload;

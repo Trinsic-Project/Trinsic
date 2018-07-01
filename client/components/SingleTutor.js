@@ -8,7 +8,7 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Typography from '@material-ui/core/Typography'
 import {connect} from 'react-redux'
-import {fetchSingleTutor, fetchMatch} from '../store'
+import {fetchSingleTutor, fetchLike} from '../store'
 import { Link } from "react-router-dom";
 import Button from '@material-ui/core/Button';
 
@@ -23,16 +23,15 @@ const styles = {
 }
 
 class SingleTutor extends Component {
-
   componentDidMount() {
-    this.props.fetchTutor(1) //update to get the proper tutor
-    this.props.fetchStatus(1)
+    const tutorId = this.props.match.params.id
+    this.props.fetchTutor(tutorId) //update to get the proper tutor
   }
 
   render() {
-    const {classes, tutor, status} = this.props
-    console.log(status)
+    const {classes, tutor, user} = this.props
     return (
+
       <div className="cards">
         <Card className={`${classes.card} cards`}>
           <CardMedia
@@ -50,17 +49,20 @@ class SingleTutor extends Component {
             <Typography component="p">{tutor.biography}</Typography>
           </CardContent>
           <CardActions>
-          {status 
-          ? 
-          (<div className='enter-chat'>
+          <p>{`Match Status: ${this.props.fetchLike(user, tutor)}`}</p>
+          {this.props.fetchLike(user, tutor) ==='match'
+          ?
+          <div className='enter-chat'>
             <Link to="/chatroom/1">
               <img id='enter-chat'src='/chat.png'/>
             </Link>
-          </div>)
-          : 
-           (<Button onClick={() => this.props.handleClick(1, 1)}variant="contained" color="secondary" className={classes.button}>
+          </div>
+          :
+          this.props.fetchLike(user, tutor) ==='like' 
+          ? <p>Waiting for response...</p> 
+          :<Button onClick={() => this.props.handleClick(user.id, tutor.id)} variant="contained" color="secondary" className={classes.button}>
               Exchange!
-            </Button>)
+            </Button>
           }
           </CardActions>
         </Card>
@@ -73,15 +75,23 @@ const mapStateToProps = state => {
     return {
       user: state.user,
       tutor: state.tutor,
-      status: state.status
     }
   }
 
   const mapDispatchToProps = dispatch => {
     return {
-      fetchTutor: tutor => dispatch(fetchSingleTutor(tutor)),
-      fetchStatus: (userId, tutorId) => dispatch(fetchMatch(userId, tutorId))
-      handleClick: (userId, tutorId) => dispatch(fetchMatch(userId, tutorId))
+      fetchTutor: tutorId => dispatch(fetchSingleTutor(tutorId)),
+      fetchLike: (user, tutor) => {
+        if (!user.match|| !tutor.match) return false
+        else {
+          if (user.match.filter(like => like.id === tutor.id).length>0) {//user likes tutor
+            if (tutor.match.filter(userlike => userlike.id === user.id).length>0) return 'match'
+            else return 'like'
+          }
+          else return false
+        }
+    },
+      handleClick: (userId, tutorId) => dispatch(fetchLike(userId, tutorId))
     }
   }
 

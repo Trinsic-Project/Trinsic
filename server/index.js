@@ -27,7 +27,11 @@ if (process.env.NODE_ENV !== 'production') require('../secrets')
 passport.serializeUser((user, done) => done(null, user.id))
 passport.deserializeUser((id, done) =>
   db.models.user
-    .findById(id)
+    .findById(id, 
+      {include: [
+        {model: db.models.user, as: 'match', 
+        include:[{
+          model: db.models.user, as: 'match'}]}]})
     .then(user => done(null, user))
     .catch(done)
 )
@@ -97,7 +101,7 @@ const startListening = () => {
   require('./socket')(io)
 }
 
-const syncDb = () => db.sync({force: true})
+const syncDb = () => db.sync()
 
 // This evaluates as true when this file is run directly from the command line,
 // i.e. when we say 'node server/index.js' (or 'nodemon server/index.js', or 'nodemon server', etc)
