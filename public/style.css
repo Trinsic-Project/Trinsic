@@ -33,7 +33,7 @@ form div {
   display: inline-block;
 }
 
-button[name=initiate-contract] {    
+button[name=initiate-contract] {
     padding: 8px 16px;
     font-size: 0.875rem;
     width: 110px;
@@ -47,9 +47,9 @@ button[name=initiate-contract] {
     text-transform: uppercase;
     background-color: black;
     color: white;
-} 
+}
 
-button[name=finalize-contract] {    
+button[name=finalize-contract] {
     padding: 8px 16px;
     font-size: 0.875rem;
     width: 110px;
@@ -63,10 +63,19 @@ button[name=finalize-contract] {
     text-transform: uppercase;
     background-color: #000080;
     color: white;
-} 
+}
 
 .contract-buttons{
 	margin: auto;
 	display: flex;
 	justify-content: space-between;
+}
+
+.center-nav-content {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
 }
