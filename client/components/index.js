@@ -10,3 +10,5 @@ export {default as ViewContract} from './ViewContract'
 export {default as SideBar} from './SideBar'
 export {default as About} from './About'
 export {default as FAQ} from './FAQ'
+export {default as SkillsSelection} from './SkillsSelection'
+

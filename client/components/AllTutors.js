@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchAllTutorThunk, fetchLike} from '../store'
+import {fetchAllTutorThunk, fetchSingleTutor, fetchLike} from '../store'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -34,7 +34,7 @@ class AllTutors extends Component {
   }
 
   render() {
-    const { classes, tutors, user } = this.props;
+    const { classes, fetchTutor, tutors, user } = this.props;
     return (
       <div>
         <h1>Skill Sharers</h1>
@@ -57,7 +57,7 @@ class AllTutors extends Component {
                 <br/>
                 <CardActions>
                 <Link to={`/tutors/${tutor.id}`} style={{ margin : 'auto'}}>
-                  <Button variant="contained" color="primary" className={classes.button}>
+                  <Button variant="contained" color="primary" className={classes.button} onClick={() => fetchTutor(tutor.id)}>
                   Learn More
                   </Button>
                 </Link>
@@ -94,7 +94,8 @@ class AllTutors extends Component {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    tutors: state.allTutors
+    tutors: state.allTutors,
+    tutor: state.tutor
   }
 }
 
@@ -111,7 +112,8 @@ const mapDispatchToProps = dispatch => {
             else return false
           }
       },
-     handleClick: (userId, tutorId) => dispatch(fetchLike(userId, tutorId))
+     handleClick: (userId, tutorId) => dispatch(fetchLike(userId, tutorId)),
+     fetchTutor: tutorId => dispatch(fetchSingleTutor(tutorId))
   }
 }
 export default compose(

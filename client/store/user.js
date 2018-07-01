@@ -39,7 +39,11 @@ export const auth = (email, password, method, firstName, lastName) => dispatch =
     .then(
       res => {
         dispatch(getUser(res.data))
-        history.push('/home')
+        if(method === 'signup'){
+          history.push('/home/skillsSelection')
+        } else {
+          history.push('/home')
+        }
       },
       authError => {
         // rare example: a good use case for parallel (non-catch) error handler

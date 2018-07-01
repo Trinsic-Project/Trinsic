@@ -2,18 +2,16 @@ import React, {Component} from 'react'
 import compose from 'recompose/compose'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import {putUser} from '../store'
+import {putUser, fetchNegotiationsThunk} from '../store'
 import {withStyles} from '@material-ui/core/styles'
 import Input from '@material-ui/core/Input'
 import FormControl from '@material-ui/core/FormControl'
 import InputLabel from '@material-ui/core/InputLabel'
-import {auth} from '../store'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
 import Button from '@material-ui/core/Button'
 import CardMedia from '@material-ui/core/CardMedia'
-import TextField from '@material-ui/core/'
 
 const styles = theme => ({
   card: {
@@ -55,6 +53,10 @@ class UserHome extends Component {
     }
     this.handleChange = this.handleChange.bind(this)
   }
+  componentDidMount(){
+    this.props.fetchAllChatRooms()
+  }
+
   handleChange(evt) {
     this.setState({[evt.target.name]: evt.target.value, triggered: true})
     console.log(this.state.firstName)
@@ -162,7 +164,8 @@ const mapDispatchToProps = dispatch => {
       evt.preventDefault()
       console.log(user)
       dispatch(putUser(user, user.id))
-    }
+    },
+    fetchAllChatRooms: () => dispatch(fetchNegotiationsThunk())
   }
 }
 
