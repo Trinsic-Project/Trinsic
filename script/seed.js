@@ -21,7 +21,8 @@ async function seed() {
   ])
 
   const skills = await Promise.all([
-    Skill.create({name: 'JavaScript'}),
+    Skill.create({name: 'Computer Programming'}),
+    Skill.create({name: 'Cooking'}),
     Skill.create({name: 'Language'}),
     Skill.create({name: 'Wind Instrument'}),
     Skill.create({name: 'Skate Boarding'}),
