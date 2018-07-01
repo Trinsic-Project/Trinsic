@@ -14,6 +14,7 @@ import allTutors from './allTutors'
 import sideBar from './sideBar'
 import fetchMatch from './match'
 import skills from './skills'
+import userSkill from './userSkill'
 
 const reducer = combineReducers({
   user,
@@ -27,7 +28,8 @@ const reducer = combineReducers({
   allTutors,
   sideBar,
   fetchMatch,
-  skills
+  skills,
+  userSkill
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
@@ -47,3 +49,4 @@ export * from './allTutors'
 export * from './sideBar'
 export * from './match'
 export * from './skills'
+export * from './userSkill'

@@ -7,7 +7,7 @@ const GET_SKILLS = 'GET_SKILLS';
 export const getSkills = skills => ({ type: GET_SKILLS, payload: skills });
 
 // THUNK CREATORS
-export const fetchSkills = () => dispatch => {
+export const fetchSkillsThunk = () => dispatch => {
   return axios
   .get(`/api/users/skills`)
     .then(res => res.data)
@@ -16,8 +16,9 @@ export const fetchSkills = () => dispatch => {
     });
 };
 
+
 // REDUCER
-export default function (state = {}, action) {
+export default function (state = [], action) {
   switch (action.type) {
     case GET_SKILLS:
       return action.payload;

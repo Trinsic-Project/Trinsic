@@ -22,6 +22,15 @@ router.get('/skills', (req, res, next) => {
   .catch(next)
 })
 
+router.post('/skills/:skillId', (req, res, next) => {
+  Skill.findById(req.params.skillId)
+  .then(skill => {
+    skill.setUsers(req.user.id);
+    res.json(skill);
+  })
+  .catch(next)
+})
+
 router.get('/negotiations', (req, res, next) => {
   DirectMessageChat.findAll({
     include: [{
@@ -34,10 +43,14 @@ router.get('/negotiations', (req, res, next) => {
 
 router.get('/:userId', (req, res, next) => {
   User.findById(req.params.userId, {
-    include: [
-        {model: User, as: 'match', 
+    include: [{
+      model: User, as: 'match', 
         include:[{
-          model: User, as: 'match'}]}]})
+          model: User, as: 'match'}]},
+    {
+      model: Skill
+    }
+        ]})
     .then(user => res.json(user))
     .catch(next)
 })

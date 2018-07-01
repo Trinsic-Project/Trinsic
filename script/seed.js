@@ -21,18 +21,16 @@ async function seed() {
   ])
 
   const skills = await Promise.all([
-    Skill.create({name: 'Computer Programming'}),
-    Skill.create({name: 'Cooking'}),
-    Skill.create({name: 'Language'}),
-    Skill.create({name: 'Wind Instrument'}),
-    Skill.create({name: 'Skate Boarding'}),
-    Skill.create({name: 'Art'}),
-    Skill.create({name: 'Math'}),
-    Skill.create({name: 'Science'}),
-    Skill.create({name: 'History'}),
-    Skill.create({name: 'Athletics'}),
-    Skill.create({name: 'Piano'}),
-    Skill.create({name: 'String Instrument'})
+    Skill.create({name: 'Computer Programming', imagePath: '/skills_photos/computerProgramming.jpeg'}),
+    Skill.create({name: 'Cooking', imagePath: '/skills_photos/cooking.jpeg'}),
+    Skill.create({name: 'Second Language', imagePath: '/skills_photos/language.jpeg'}),
+    Skill.create({name: 'Music', imagePath: '/skills_photos/music.jpg'}),
+    Skill.create({name: 'Skate Boarding', imagePath: '/skills_photos/skateBoarding.jpeg'}),
+    Skill.create({name: 'Art', imagePath: '/skills_photos/art.jpeg'}),
+    Skill.create({name: 'Math', imagePath: '/skills_photos/math.jpeg'}),
+    Skill.create({name: 'Science', imagePath: '/skills_photos/science.jpeg'}),
+    Skill.create({name: 'Driving', imagePath: '/skills_photos/driving.jpg'}),
+    Skill.create({name: 'Athletics', imagePath: '/skills_photos/athletics.jpeg'}),
   ])
 
   console.log('seeding...')
