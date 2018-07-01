@@ -63,6 +63,10 @@ const User = db.define('user', {
     type: Sequelize.STRING
   },
 
+  facebookId: {
+    type: Sequelize.STRING
+  },
+
   fullName: {
     type: Sequelize.VIRTUAL,
     get: function() {
