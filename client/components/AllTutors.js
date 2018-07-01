@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchAllTutorThunk} from '../store'
+import {fetchAllTutorThunk, fetchSingleTutor} from '../store'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -34,7 +34,7 @@ class AllTutors extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, fetchTutor } = this.props;
     return (
       <div>
         <h1>Skill Sharers</h1>
@@ -56,8 +56,8 @@ class AllTutors extends Component {
                 </CardContent>
                 <br/>
                 <CardActions>
-                <Link to={`/tutors/1`} style={{ margin : 'auto'}}>
-                  <Button variant="contained" color="primary" className={classes.button}>
+                <Link to={`/tutors/${tutor.id}`} style={{ margin : 'auto'}}>
+                  <Button variant="contained" color="primary" className={classes.button} onClick={() => fetchTutor(tutor.id)}>
                   Learn More
                   </Button>
                 </Link>
@@ -78,13 +78,15 @@ class AllTutors extends Component {
 
 const mapStateToProps = state => {
   return {
-    tutors: state.allTutors
+    tutors: state.allTutors,
+    tutor: state.tutor
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchTutors: () => dispatch(fetchAllTutorThunk())
+    fetchTutors: () => dispatch(fetchAllTutorThunk()),
+    fetchTutor: tutorId => dispatch(fetchSingleTutor(tutorId))
   }
 }
 export default compose(

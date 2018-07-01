@@ -23,11 +23,11 @@ const styles = {
 
 class SingleTutor extends Component {
   componentDidMount() {
-    this.props.fetchTutor(1) //update to get the proper tutor
+    //this.props.fetchTutor(+this.props.match.params) //update to get the proper tutor
   }
 
   render() {
-    const {classes, tutor} = this.props
+    const {classes, tutor, chatRooms} = this.props
     return (
       <div className="cards">
         <Card className={`${classes.card} cards`}>
@@ -47,7 +47,7 @@ class SingleTutor extends Component {
           </CardContent>
           <CardActions>
           <div className='enter-chat'>
-            <Link to="/chatroom/1">
+            <Link to={`/chatroom/${chatRoom.id}`}>
               <img id='enter-chat'src='/chat.png'/>
             </Link>
           </div>
@@ -60,7 +60,10 @@ class SingleTutor extends Component {
 
 const mapStateToProps = state => {
     return {
-      tutor: state.tutor
+      user: state.user,
+      tutor: state.tutor,
+      chatRooms: state.allDirectMessageChats,
+      chatRoom: state.currentDirectMessageChat
     }
   }
 
