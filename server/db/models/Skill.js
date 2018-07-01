@@ -9,9 +9,6 @@ const Skill = db.define('skill', {
   imagePath: {
     type: Sequelize.STRING
   },
-  title: {
-    type: Sequelize.STRING
-  },
   description: {
     type: Sequelize.STRING
   },
