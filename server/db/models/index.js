@@ -34,5 +34,6 @@ module.exports = {
   Message,
   DirectMessageChat,
   Skill,
-  Contract
+  Contract,
+  UserContracts
 }

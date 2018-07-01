@@ -40,6 +40,8 @@ export const fetchContract = web3 => {
   }
 }
 
+//get all contracts from backend that belong to the user, filter by contracts with other user, grab address. could create thunk that fetches all contracts when user logs in. when on a single users page, filter the contracts so it's only the contract with that particular tutor 
+
 //INCONSISTENTLY ABLE TO LOG FINALIZED CONTRACT DETAILS, SHOULD INVESTIGATE FURTHER LATER ON
 export const finalizeContractThunk = contractInstanceAddress => {
   //take in contract instance address
