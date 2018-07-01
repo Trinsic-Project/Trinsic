@@ -2,121 +2,152 @@ import React, {Component} from 'react'
 import compose from 'recompose/compose'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
+import {putUser} from '../store'
+import {withStyles} from '@material-ui/core/styles'
+import Input from '@material-ui/core/Input'
+import FormControl from '@material-ui/core/FormControl'
+import InputLabel from '@material-ui/core/InputLabel'
 import {auth} from '../store'
-import { withStyles } from '@material-ui/core/styles';
-import Input from '@material-ui/core/Input';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
 import Button from '@material-ui/core/Button'
 import CardMedia from '@material-ui/core/CardMedia'
+import TextField from '@material-ui/core/'
 
 const styles = theme => ({
   card: {
     maxWidth: 375,
-    margin: 'auto',
+    margin: 'auto'
   },
   root: {
     display: 'flex',
-    flexWrap: 'wrap',
+    flexWrap: 'wrap'
   },
   margin: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing.unit
   },
   textField: {
     flexBasis: 200,
-    margin: theme.spacing.unit,
+    margin: theme.spacing.unit
   },
   media: {
     paddingTop: '70%' // 16:9
-  },
-});
+  }
+})
 
 class UserHome extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props)
+    let user = this.props.user
     this.state = {
-      firstName: '',
-      lastName: '',
-      email: '',
-      streetAddress: '',
-      city: '',
-      state: '',
-      biography: '',
-      imageUrl: '',
-      fullName: '',
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      streetAddress: user.streetAddress,
+      city: user.city,
+      state: user.state,
+      biography: user.biography,
+      imageUrl: user.imageUrl,
       triggered: false,
-      redirect: false,
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+      redirect: false
+    }
+    this.handleChange = this.handleChange.bind(this)
   }
   handleChange(evt) {
-    this.setState({ [evt.target.name]: evt.target.value, triggered: true });
+    this.setState({[evt.target.name]: evt.target.value, triggered: true})
+    console.log(this.state.firstName)
   }
 
-  handleSubmit(evt) {
-    evt.preventDefault();
-    store
-      .dispatch(putStudent(this.state, Number(this.props.match.params.studentId)))
-      .then(() => {
-        this.setState({ redirect: true });
-      })
-      .then(() => {
-          this.firstName = '';
-          this.lastName = '';
-          this.email = '';
-          this.gpa = 0;
-          this.campusId = null;
-          this.triggered = false;
-          this.redirect = false;
-      })
+  render() {
+    const {handleSubmit, error, classes} = this.props
+    let {
+      firstName,
+      lastName,
+      email,
+      streetAddress,
+      city,
+      state,
+      biography,
+      imageUrl
+    } = this.state
+
+    return (
+      <div>
+        <Card className={classes.card}>
+          <CardMedia className={classes.media} image={imageUrl} title="User" />
+          <CardContent>
+            <form onSubmit={evt => handleSubmit(evt, this.state)} name={name}>
+              <div>
+                <FormControl className={classes.textField}>
+                  <InputLabel
+                    className="inputLabel"
+                    htmlFor="adornment-firstName"
+                  >
+                    First Name
+                  </InputLabel>
+                  <Input
+                    value={firstName}
+                    name="firstName"
+                    type="text"
+                    onChange={this.handleChange}
+                  />
+                </FormControl>
+                <FormControl className={classes.textField}>
+                  <InputLabel
+                    className="inputLabel"
+                    htmlFor="adornment-lastName"
+                  >
+                    Last Name
+                  </InputLabel>
+                  <Input
+                    value={lastName}
+                    name="lastName"
+                    type="text"
+                    onChange={this.handleChange}
+                  />
+                </FormControl>
+                <FormControl>
+                  <InputLabel className="inputLabel" htmlFor="adornment-email">
+                    Email
+                  </InputLabel>
+                  <Input
+                    value={email}
+                    name="email"
+                    type="text"
+                    onChange={this.handleChange}
+                  />
+                </FormControl>
+                {/* <FormControl> */}
+                  {/* <InputLabel className="inputLabel" htmlFor="adornment-biography">
+                    Bio
+                  </InputLabel> */}
+                  {/* <TextField
+                    id="multiline-flexible"
+                    label="Bio"
+                    value={biography}
+                    name="biography"
+                    type="text"
+                    onChange={this.handleChange}
+                  /> */}
+                {/* </FormControl> */}
+              </div>
+              <div>
+                <CardActions>
+                  <Button type="submit">Update</Button>
+                </CardActions>
+              </div>
+              {error && error.response && <div> {error.response.data} </div>}
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    )
   }
-
-  render(){
-    const {name, displayName, handleSubmit, error, classes, user} = this.props
-  return (
-    <div>
-      <Card className={classes.card}>
-      <CardMedia
-            className={classes.media}
-            image={user.imageUrl}
-            title="User"
-          />
-      <CardContent>
-      <form onSubmit={handleSubmit} name={name}>
-        <div>
-          <FormControl className={classes.textField}>
-          <InputLabel className="inputLabel" htmlFor="adornment-email">{user.fullName}</InputLabel> 
-          <Input name="email" type="text" />
-          </FormControl>
-        </div>
-        <div>
-          <FormControl>
-          <InputLabel className="inputLabel" htmlFor="adornment-password">Password</InputLabel> 
-          <Input name="password" type="password" />
-          </FormControl>
-        </div>
-        <div>
-        <CardActions>
-          <Button type="submit">Update</Button>
-          </CardActions>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-      <Button>
-      <a href="/auth/google">{displayName} with Google</a>
-      </Button>
-      </CardContent>
-      </Card>
-    </div>
-  )
-}
 }
 
-
+//access store's state with this.props.state, access local state with just this.state
 const mapStateToProps = state => {
   return {
     user: state.user,
@@ -127,12 +158,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    handleSubmit(evt) {
+    handleSubmit: (evt, user) => {
       evt.preventDefault()
-      const formName = evt.target.name
-      const email = evt.target.email.value
-      const password = evt.target.password.value
-      dispatch(auth(email, password, formName))
+      console.log(user)
+      dispatch(putUser(user, user.id))
     }
   }
 }
@@ -141,13 +170,13 @@ const mapDispatchToProps = dispatch => {
  * PROP TYPES
  */
 UserHome.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired
 }
 
 export default compose(
-      withStyles(styles, {
-        name: 'UserHome',
-      }),
-      connect(mapStateToProps, mapDispatchToProps),
-    )(UserHome);
-
+  withStyles(styles, {
+    name: 'UserHome'
+  }),
+  connect(mapStateToProps, mapDispatchToProps)
+)(UserHome)

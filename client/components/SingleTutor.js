@@ -9,7 +9,6 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Typography from '@material-ui/core/Typography'
 import {connect} from 'react-redux'
 import {fetchSingleTutor} from '../store'
-import {InitiateContract} from './'
 import { Link } from "react-router-dom";
 
 const styles = {
@@ -48,7 +47,6 @@ class SingleTutor extends Component {
           </CardContent>
           <CardActions>
           <div className='enter-chat'>
-            <InitiateContract/>
             <Link to="/chatroom/1">
               <img id='enter-chat'src='/chat.png'/>
             </Link>

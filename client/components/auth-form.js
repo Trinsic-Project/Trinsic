@@ -36,7 +36,6 @@ const styles = theme => ({
  */
 const AuthForm = props => {
   const {name, displayName, handleSubmit, error, classes} = props
-
   return (
     <div className="center-nav-content">
       <div className='cards'>
@@ -102,7 +101,16 @@ const mapDispatch = dispatch => {
       const formName = evt.target.name
       const email = evt.target.email.value
       const password = evt.target.password.value
-      dispatch(auth(email, password, formName))
+      let firstName;
+      let lastName;
+
+      if (evt.target.name === "login") {
+        dispatch(auth(email, password, formName))
+      } else {
+        firstName = evt.target.firstName.value
+        lastName = evt.target.lastName.value
+        dispatch(auth(email, password, formName, firstName, lastName))
+      }
     }
   }
 }

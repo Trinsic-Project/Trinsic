@@ -10,6 +10,7 @@ import compose from 'recompose/compose'
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import Card from '@material-ui/core/Card'
 import {Link} from 'react-router-dom'
+import {InitiateContract} from './'
 
 const styles = theme => ({
   row: {
@@ -57,17 +58,19 @@ class ChatRoom extends Component {
             </Link>
           </div>
           <div  style={{margin: 'auto',  display:'inline-block', width: "33%", height: '100%', verticalAlign: 'middle'}}>
-            <span className="Mstart(10px) Va(m)">Jacob</span>
+            <Link to='/contract'>
+            <span className="Mstart(10px) Va(m)">View Contract</span>
+            </Link>
           </div>
         </div>
       </nav>
+      <InitiateContract/>
       <div>
         <span style={{fontSize:'12px', color:"#9b9b9b"}}>You matched with Jacob on 6/28/2018</span>
       </div>
       <div>
         {this.props.messages.map(message => (
           <div className='message' key={message.id} style={{width: '100%'}}>
-
               <SnackbarContent className={classes.snackbar} message={message.content} style={{backgroundColor:'rgba(0,0,0,.09)', color:'black', boxShadow:'none'}}/>
           </div>
         ))}

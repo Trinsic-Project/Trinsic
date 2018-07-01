@@ -12,7 +12,6 @@ class InitiateContract extends Component{
     return (
         <div className='contract-buttons'>
           <button name='initiate-contract' onClick={() => this.props.fetch(this.props.web3)}>Initiate Contract</button>
-          <button name='finalize-contract' onClick={() => this.props.finalize(this.props.contract.address)}>Finalize Contract</button>
         </div>
     )
   }
