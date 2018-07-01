@@ -8,8 +8,9 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Typography from '@material-ui/core/Typography'
 import {connect} from 'react-redux'
-import {fetchSingleTutor} from '../store'
+import {fetchSingleTutor, fetchLike} from '../store'
 import { Link } from "react-router-dom";
+import Button from '@material-ui/core/Button';
 
 const styles = {
   card: {
@@ -23,12 +24,14 @@ const styles = {
 
 class SingleTutor extends Component {
   componentDidMount() {
-    //this.props.fetchTutor(+this.props.match.params) //update to get the proper tutor
+    const tutorId = this.props.match.params.id
+    this.props.fetchTutor(tutorId) //update to get the proper tutor
   }
 
   render() {
-    const {classes, tutor, chatRooms} = this.props
+    const {classes, tutor, user, chatRooms} = this.props
     return (
+
       <div className="cards">
         <Card className={`${classes.card} cards`}>
           <CardMedia
@@ -46,11 +49,21 @@ class SingleTutor extends Component {
             <Typography component="p">{tutor.biography}</Typography>
           </CardContent>
           <CardActions>
+          <p>{`Match Status: ${this.props.fetchLike(user, tutor)}`}</p>
+          {this.props.fetchLike(user, tutor) ==='match'
+          ?
           <div className='enter-chat'>
             <Link to={`/chatroom/${chatRoom.id}`}>
               <img id='enter-chat'src='/chat.png'/>
             </Link>
           </div>
+          :
+          this.props.fetchLike(user, tutor) ==='like' 
+          ? <p>Waiting for response...</p> 
+          :<Button onClick={() => this.props.handleClick(user.id, tutor.id)} variant="contained" color="secondary" className={classes.button}>
+              Exchange!
+            </Button>
+          }
           </CardActions>
         </Card>
       </div>
@@ -69,7 +82,18 @@ const mapStateToProps = state => {
 
   const mapDispatchToProps = dispatch => {
     return {
-      fetchTutor: tutor => dispatch(fetchSingleTutor(tutor))
+      fetchTutor: tutorId => dispatch(fetchSingleTutor(tutorId)),
+      fetchLike: (user, tutor) => {
+        if (!user.match|| !tutor.match) return false
+        else {
+          if (user.match.filter(like => like.id === tutor.id).length>0) {//user likes tutor
+            if (tutor.match.filter(userlike => userlike.id === user.id).length>0) return 'match'
+            else return 'like'
+          }
+          else return false
+        }
+    },
+      handleClick: (userId, tutorId) => dispatch(fetchLike(userId, tutorId))
     }
   }
 

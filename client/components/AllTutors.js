@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchAllTutorThunk, fetchSingleTutor} from '../store'
+import {fetchAllTutorThunk, fetchSingleTutor, fetchLike} from '../store'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -34,13 +34,13 @@ class AllTutors extends Component {
   }
 
   render() {
-    const { classes, fetchTutor } = this.props;
+    const { classes, fetchTutor, tutors, user } = this.props;
     return (
       <div>
         <h1>Skill Sharers</h1>
         <div style={{ padding: 20 }}>
            <Grid container spacing={40}>
-         {this.props.tutors.map(tutor=> {
+         {tutors.filter(tutor => tutor.id!==user.id).map(tutor=> {
             return (
                <Card key={tutor.id} className={classes.card} style={{ backgroundImage : `url(${tutor.imageUrl})`, opacity: '50%', marginBottom: '.5%', marginTop: '.5%'}}>
                 <CardContent style={{ textAlign : 'center', marginTop: '88%'}}>
@@ -61,7 +61,22 @@ class AllTutors extends Component {
                   Learn More
                   </Button>
                 </Link>
-                </CardActions>
+              <p>{`Match Status: ${this.props.fetchLike(user, tutor)}`}</p>
+              {this.props.fetchLike(user, tutor) ==='match'
+              ?
+              <div className='enter-chat'>
+                <Link to="/chatroom/1">
+                  <img id='enter-chat'src='/chat.png'/>
+                </Link>
+              </div>
+              :
+              this.props.fetchLike(user, tutor) ==='like' 
+              ? <p>Waiting for response...</p> 
+              :<Button onClick={() => this.props.handleClick(user.id, tutor.id)} variant="contained" color="secondary" className={classes.button}>
+                  Exchange!
+                </Button>
+              }
+             </CardActions>
               </Card>
             )})}
            </Grid>
@@ -78,6 +93,7 @@ class AllTutors extends Component {
 
 const mapStateToProps = state => {
   return {
+    user: state.user,
     tutors: state.allTutors,
     tutor: state.tutor
   }
@@ -86,7 +102,18 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchTutors: () => dispatch(fetchAllTutorThunk()),
-    fetchTutor: tutorId => dispatch(fetchSingleTutor(tutorId))
+    fetchLike: (user, tutor) => {
+          if (!user.match|| !tutor.match) return false
+          else {
+            if (user.match.filter(like => like.id === tutor.id).length>0) {//user likes tutor
+              if (tutor.match.filter(userlike => userlike.id === user.id).length>0) return 'match'
+              else return 'like'
+            }
+            else return false
+          }
+      },
+     handleClick: (userId, tutorId) => dispatch(fetchLike(userId, tutorId)),
+     fetchTutor: tutorId => dispatch(fetchSingleTutor(tutorId))
   }
 }
 export default compose(

@@ -14,8 +14,7 @@ DirectMessageChat.belongsToMany(User, {through: Negotiations});
 User.belongsToMany(DirectMessageChat, {through: Negotiations});
 
 //establish user matches
-User.hasMany(User, {as: 'Match', foreignKey: "MatchId"});
-User.belongsTo(User, {foreignKey: "MatchId"});
+User.hasMany(User, {as: 'match', foreignKey: "MatchId"});
 
 // A user can possess many skills;
 // In addition, a skill can be possessed by many users;

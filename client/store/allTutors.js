@@ -11,7 +11,6 @@ export const fetchAllTutorThunk = () => dispatch => {
   return axios.get('/api/users/')
     .then(res => res.data)
     .then(tutors => {
-      console.log(tutors)
       dispatch(getAllTutors(tutors))})
     .catch(err => console.log(err));
 }
