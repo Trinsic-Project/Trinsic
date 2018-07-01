@@ -36,29 +36,50 @@ const styles = theme => ({
  */
 const AuthForm = props => {
   const {name, displayName, handleSubmit, error, classes} = props
-
   return (
     <div className='cards'>
       <Card className={classes.card}>
       <CardContent>
       <form onSubmit={handleSubmit} name={name}>
-        <div>
+  {(props.name === "signup") ?   
+   (<div>
           <FormControl className={classes.textField}>
-          <InputLabel className="inputLabel" htmlFor="adornment-email">Email</InputLabel> 
-          <Input name="email" type="text" />
+          <InputLabel className="inputLabel" htmlFor="adornment-first-name">First Name</InputLabel> 
+          <Input name="firstName" type="text" required/>
           </FormControl>
-        </div>
-        <div>
-          <FormControl>
-          <InputLabel className="inputLabel" htmlFor="adornment-password">Password</InputLabel> 
-          <Input name="password" type="password" />
+
+          <FormControl className={classes.textField}>
+          <InputLabel className="inputLabel" htmlFor="adornment-last-name">Last Name</InputLabel> 
+          <Input name="lastName" type="text" required/>
           </FormControl>
+
+        <FormControl className={classes.textField}>
+        <InputLabel className="inputLabel" htmlFor="adornment-email">Email</InputLabel> 
+        <Input name="email" type="email" required/>
+        </FormControl>
+
+        <FormControl>
+        <InputLabel className="inputLabel" htmlFor="adornment-password">Password</InputLabel> 
+        <Input name="password" type="password" required/>
+        </FormControl>
         </div>
-        <div>
-        <CardActions>
-          <Button type="submit">{displayName}</Button>
-          </CardActions>
-        </div>
+      ) : 
+      <div>
+        <FormControl className={classes.textField}>
+        <InputLabel className="inputLabel" htmlFor="adornment-email">Email</InputLabel> 
+        <Input name="email" type="email" required/>
+        </FormControl>
+        <FormControl>
+        <InputLabel className="inputLabel" htmlFor="adornment-password">Password</InputLabel> 
+        <Input name="password" type="password" required/>
+        </FormControl>
+      </div>}
+      <div>
+      <CardActions>
+        <Button type="submit">{displayName}</Button>
+        </CardActions>
+      </div>
+
         {error && error.response && <div> {error.response.data} </div>}
       </form>
       <Button>
@@ -100,7 +121,16 @@ const mapDispatch = dispatch => {
       const formName = evt.target.name
       const email = evt.target.email.value
       const password = evt.target.password.value
-      dispatch(auth(email, password, formName))
+      let firstName;
+      let lastName;
+
+      if (evt.target.name === "login") {
+        dispatch(auth(email, password, formName))
+      } else {
+        firstName = evt.target.firstName.value
+        lastName = evt.target.lastName.value
+        dispatch(auth(email, password, formName, firstName, lastName))
+      }
     }
   }
 }
