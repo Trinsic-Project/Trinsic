@@ -2,9 +2,14 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
+<<<<<<< HEAD
+import { Login, Signup, UserHome, ChatRoom, SingleTutor, AllTutors, About } from './components'
+import { me } from './store'
+=======
 import { Login, Signup, UserHome, ChatRoom, SingleTutor, AllTutors, About, ViewContract } from './components'
 import { me } from './store'
 
+>>>>>>> master
 
 class Routes extends Component {
   componentDidMount() {
@@ -22,7 +27,10 @@ class Routes extends Component {
         <Route path="/chatroom/:id" component={ChatRoom} />
         <Route exact path="/tutors/:id" component={SingleTutor} />
         <Route exact path="/tutors" component={AllTutors} />
+<<<<<<< HEAD
+=======
         <Route exact path="/contract" component={ViewContract} />
+>>>>>>> master
         <Route exact path="/about" component={About} />
         {isLoggedIn && (
           <Switch>
