@@ -40,7 +40,7 @@ const Navbar = ({handleClick, isLoggedIn, classes, isSideBarOpen, toggle}) => (
           <MenuIcon />
         </IconButton>)
         :(null)}
-        <Typography variant="title" color="inherit" className={classes.flex}>
+        <Typography variant="title" color="inherit" className={classes.flex} style={{textAlign: 'left'}}>
           TRINSIC
         </Typography>
         {isLoggedIn ? (
@@ -66,6 +66,21 @@ const Navbar = ({handleClick, isLoggedIn, classes, isSideBarOpen, toggle}) => (
             <Button color="inherit">
               <Link className="link" to="/signup">
                 Sign Up
+              </Link>
+            </Button>
+            <Button color="inherit">
+              <Link className="link" to="/team">
+                Team
+              </Link>
+            </Button>
+            <Button color="inherit">
+              <Link className="link" to="/faqs">
+                FAQs
+              </Link>
+            </Button>
+            <Button color="inherit">
+              <Link className="link" to="/about">
+                About
               </Link>
             </Button>
           </div>

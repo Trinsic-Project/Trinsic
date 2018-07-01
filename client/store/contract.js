@@ -3,6 +3,7 @@ const contract = require('truffle-contract')
 import Web3 from 'web3'
 const web3 = new Web3(window.web3.currentProvider)
 const contractInstance = contract(SwapAgreement)
+import axios from 'axios';
 
 //Action Types
 const GET_CONTRACT = 'GET_CONTRACT'
@@ -16,18 +17,22 @@ const finalizeContract = contract => ({
 })
 
 //Thunk Creators
-export const fetchContract = web3 => {
+export const fetchContract = (web3, user, tutor)  => {
   web3.currentProvider && contractInstance.setProvider(web3.currentProvider)
   return dispatch => {
     contractInstance
       .new({from: web3.eth.accounts[0]}) //The from address should grab from the initiator's metamask
-      .then(instance => {
+      .then(async instance => {
         console.log(
           'This is intitialized contract instance address: ',
           instance.address
         )
-        dispatch(getContract(instance))
+        await dispatch(getContract(instance))
         return instance
+      })
+      .then(instance => {
+        axios.post(`/users/contracts`, {contractAddress: instance.address, user1Id: user.id, user2Id: tutor.id}) //, user1Id: , user2Id: 
+        return instance  
       })
       .then(async instance => {
         await instance.GetAgreement().then(agreement => {

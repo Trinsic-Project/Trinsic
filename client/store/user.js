@@ -11,6 +11,7 @@ const UPDATE_USER = 'UPDATE_USER'
 /**
  * INITIAL STATE
  */
+
 const defaultUser = {}
 
 /**
@@ -26,7 +27,10 @@ const updateUser = user => ({type: UPDATE_USER, payload: user})
 export const me = () => dispatch =>
   axios
     .get('/auth/me')
-    .then(res => dispatch(getUser(res.data || defaultUser)))
+    .then(res => {
+      dispatch(getUser(res.data || defaultUser))
+      return res.data
+    })
     .catch(err => console.error(err))
 
 export const auth = (email, password, method, firstName, lastName) => dispatch =>

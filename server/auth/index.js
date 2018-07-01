@@ -42,12 +42,17 @@ router.post('/logout', (req, res) => {
 })
 
 router.get('/me', (req, res) => {
-  User.findOne({
+  if (req.user) {
+    User.findOne({
     where: {email: req.user.email},
     include: [{model: Contract}]})
     .then(user => {
       res.json(user)
     })
+  } else {
+    res.json(req.user)
+  }
 })
 
 router.use('/google', require('./google'))
+router.use('/facebook', require('./facebook'))

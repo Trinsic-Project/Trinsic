@@ -4,8 +4,10 @@ module.exports = router
 
 router.get('/', (req, res, next) => {
   User.findAll({
-    include: [{model: User, as: 'Match'}]
-  })
+    include: [
+      {model: User, as: 'match', 
+      include:[{
+        model: User, as: 'match'}]}]})
     .then(users => res.json(users))
     .catch(next)
 })
@@ -25,10 +27,11 @@ router.get('/negotiations', (req, res, next) => {
 })
 
 router.get('/:userId', (req, res, next) => {
-  User.findOne({
-    where: {
-      id: req.params.userId},
-    include: [{model: Contract}]})
+  User.findById(req.params.userId, {
+    include: [
+        {model: User, as: 'match', 
+        include:[{
+          model: User, as: 'match'}]}, {model: Contract}]})
     .then(user => res.json(user))
     .catch(next)
 })
@@ -41,16 +44,17 @@ router.put('/:userId', (req, res, next) => {
 })
 
 router.post('/contracts', (req, res, next) => {
-  Contract.create(req.body)
+  console.log("YOOOHOOOOO", req.body.contractAddress)
+  Contract.create(req.body.contractAddress)
     .then(contract => {
-        contract.setUsers([req.body.user1Id, req.body.user2Id]) //figure out how to pass in both users from front end
+      console.log("this is the contract",contract)
+        contract.setUsers([1,2]) //[req.body.user1Id, req.body.user2Id] //figure out how to pass in both users from front end
         res.json(contract)
     })
     .catch(next)
 })
 
 router.post('/contracts/finalize', (req, res, next) => {
-  console.log(req)
   UserContracts.findOne({
     where: {
         userId: req.user.id
