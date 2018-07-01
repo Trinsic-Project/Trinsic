@@ -1,8 +1,8 @@
 import React from 'react'
 import compose from 'recompose/compose'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import {auth} from '../store'
+import { auth } from '../store'
 import { withStyles } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
@@ -37,6 +37,8 @@ const styles = theme => ({
 const AuthForm = props => {
   const {name, displayName, handleSubmit, error, classes} = props
   return (
+    <div className="center-nav-content">
+    
     <div className='cards'>
       <Card className={classes.card}>
       <CardContent>
@@ -91,6 +93,8 @@ const AuthForm = props => {
       </CardContent>
       </Card>
     </div>
+         
+   </div>
   )
 }
 

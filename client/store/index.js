@@ -12,6 +12,7 @@ import messages from './messages'
 import tutor from './tutor.js'
 import allTutors from './allTutors'
 import sideBar from './sideBar'
+import fetchMatch from './match'
 
 const reducer = combineReducers({
   user,
@@ -23,7 +24,8 @@ const reducer = combineReducers({
   messages,
   tutor,
   allTutors,
-  sideBar
+  sideBar,
+  fetchMatch
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
@@ -41,3 +43,4 @@ export * from './messages'
 export * from './tutor'
 export * from './allTutors'
 export * from './sideBar'
+export * from './match'
