@@ -68,6 +68,21 @@ const Navbar = ({handleClick, isLoggedIn, classes, isSideBarOpen, toggle}) => (
                 Sign Up
               </Link>
             </Button>
+            <Button color="inherit">
+              <Link className="link" to="/team">
+                Team
+              </Link>
+            </Button>
+            <Button color="inherit">
+              <Link className="link" to="/faqs">
+                FAQs
+              </Link>
+            </Button>
+            <Button color="inherit">
+              <Link className="link" to="/about">
+                About
+              </Link>
+            </Button>
           </div>
         )}
       </Toolbar>

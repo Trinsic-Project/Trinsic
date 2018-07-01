@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import { Login, Signup, UserHome, ChatRoom, SingleTutor, AllTutors, About, ViewContract, FAQ } from './components'
 import { me } from './store'
 
-
 class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()

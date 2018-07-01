@@ -1,8 +1,8 @@
 import React from 'react'
 import compose from 'recompose/compose'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import {auth} from '../store'
+import { auth } from '../store'
 import { withStyles } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
@@ -37,56 +37,36 @@ const styles = theme => ({
 const AuthForm = props => {
   const {name, displayName, handleSubmit, error, classes} = props
   return (
-    <div className='cards'>
-      <Card className={classes.card}>
-      <CardContent>
-      <form onSubmit={handleSubmit} name={name}>
-  {(props.name === "signup") ?   
-   (<div>
-          <FormControl className={classes.textField}>
-          <InputLabel className="inputLabel" htmlFor="adornment-first-name">First Name</InputLabel> 
-          <Input name="firstName" type="text" required/>
-          </FormControl>
-
-          <FormControl className={classes.textField}>
-          <InputLabel className="inputLabel" htmlFor="adornment-last-name">Last Name</InputLabel> 
-          <Input name="lastName" type="text" required/>
-          </FormControl>
-
-        <FormControl className={classes.textField}>
-        <InputLabel className="inputLabel" htmlFor="adornment-email">Email</InputLabel> 
-        <Input name="email" type="email" required/>
-        </FormControl>
-
-        <FormControl>
-        <InputLabel className="inputLabel" htmlFor="adornment-password">Password</InputLabel> 
-        <Input name="password" type="password" required/>
-        </FormControl>
-        </div>
-      ) : 
-      <div>
-        <FormControl className={classes.textField}>
-        <InputLabel className="inputLabel" htmlFor="adornment-email">Email</InputLabel> 
-        <Input name="email" type="email" required/>
-        </FormControl>
-        <FormControl>
-        <InputLabel className="inputLabel" htmlFor="adornment-password">Password</InputLabel> 
-        <Input name="password" type="password" required/>
-        </FormControl>
-      </div>}
-      <div>
-      <CardActions>
-        <Button type="submit">{displayName}</Button>
-        </CardActions>
+    <div className="center-nav-content">
+      <div className='cards'>
+        <Card className={classes.card}>
+        <CardContent>
+        <form onSubmit={handleSubmit} name={name}>
+          <div>
+            <FormControl className={classes.textField}>
+            <InputLabel className="inputLabel" htmlFor="adornment-email">Email</InputLabel>
+            <Input name="email" type="text" />
+            </FormControl>
+          </div>
+          <div>
+            <FormControl>
+            <InputLabel className="inputLabel" htmlFor="adornment-password">Password</InputLabel>
+            <Input name="password" type="password" />
+            </FormControl>
+          </div>
+          <div>
+          <CardActions>
+            <Button type="submit">{displayName}</Button>
+            </CardActions>
+          </div>
+          {error && error.response && <div> {error.response.data} </div>}
+        </form>
+        <Button>
+        <a href="/auth/google">{displayName} with Google</a>
+        </Button>
+        </CardContent>
+        </Card>
       </div>
-
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-      <Button>
-      <a href="/auth/google">{displayName} with Google</a>
-      </Button>
-      </CardContent>
-      </Card>
     </div>
   )
 }
