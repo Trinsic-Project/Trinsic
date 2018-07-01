@@ -1,16 +1,27 @@
 const router = require('express').Router()
-const { User, DirectMessageChat, Negotiaitons } = require('../db/models')
+const { User, DirectMessageChat, Negotiaitons, Skill } = require('../db/models')
 module.exports = router
 
 router.get('/', (req, res, next) => {
   User.findAll({
-    include: [
-      {model: User, as: 'match', 
+    include: [{
+      model: User, as: 'match', 
       include:[{
-        model: User, as: 'match'}]}]})
+        model: User, as: 'match'}]
+    }, {
+      model: Skill
+    }]
+  })
     .then(users => res.json(users))
     .catch(next)
 })
+
+router.get('/skills', (req, res, next) => {
+  Skill.findAll()
+  .then(skills => res.json(skills))
+  .catch(next)
+})
+
 router.get('/negotiations', (req, res, next) => {
   DirectMessageChat.findAll({
     include: [{
