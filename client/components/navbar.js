@@ -40,7 +40,7 @@ const Navbar = ({handleClick, isLoggedIn, classes, isSideBarOpen, toggle}) => (
           <MenuIcon />
         </IconButton>)
         :(null)}
-        <Typography variant="title" color="inherit" className={classes.flex}>
+        <Typography variant="title" color="inherit" className={classes.flex} style={{textAlign: 'left'}}>
           TRINSIC
         </Typography>
         {isLoggedIn ? (
