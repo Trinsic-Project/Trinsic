@@ -67,6 +67,10 @@ const User = db.define('user', {
     type: Sequelize.STRING
   },
 
+  linkedinId: {
+    type: Sequelize.STRING
+  },
+
   fullName: {
     type: Sequelize.VIRTUAL,
     get: function() {

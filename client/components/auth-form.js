@@ -38,7 +38,7 @@ const AuthForm = props => {
   const {name, displayName, handleSubmit, error, classes} = props
   return (
     <div className="center-nav-content">
-    
+
     <div className='cards'>
       <Card className={classes.card}>
       <CardContent>
@@ -90,10 +90,13 @@ const AuthForm = props => {
       <Button>
         <a href="/auth/facebook">{displayName} with Facebook</a>
       </Button>
+      <Button>
+        <a href="/auth/linkedin">{displayName} with LinkedIn</a>
+      </Button>
       </CardContent>
       </Card>
     </div>
-         
+
    </div>
   )
 }
