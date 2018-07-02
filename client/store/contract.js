@@ -60,6 +60,10 @@ export const finalizeContractThunk = contractInstanceAddress => {
         })
         return instance
       })
+      .then(instance => {
+        axios.post('api/contracts/finalize', {contractAddress: contractInstanceAddress}) 
+        return instance  
+      })
       .then(async instance => {
         await instance
           .GetAgreement()

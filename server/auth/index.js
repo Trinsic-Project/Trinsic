@@ -1,11 +1,24 @@
 const router = require('express').Router()
-const { User, Skill, Contract } = require('../db/models')
+const {User, Skill, Contract} = require('../db/models')
 module.exports = router
 
 router.post('/login', (req, res, next) => {
   User.findOne({
     where: {email: req.body.email},
-    include: [{model: Contract}]})
+    include: [
+      {
+        model: Contract,
+        include: [
+          {
+            model: User
+          }
+        ]
+      },
+      {
+        model: Skill
+      }
+    ]
+  })
     .then(user => {
       if (!user) {
         console.log('No such user found:', req.body.email)
@@ -43,17 +56,21 @@ router.post('/logout', (req, res) => {
 router.get('/me', (req, res) => {
   if (req.user) {
     User.findOne({
-    where: {email: req.user.email},
-    include: [{
-      model: Contract, 
-      include: [{
-        model: User  
-      }]
-    }, {
-      model: Skill
-    }
-  ]})
-    .then(user => {
+      where: {email: req.user.email},
+      include: [
+        {
+          model: Contract,
+          include: [
+            {
+              model: User
+            }
+          ]
+        },
+        {
+          model: Skill
+        }
+      ]
+    }).then(user => {
       res.json(user)
     })
   } else {
