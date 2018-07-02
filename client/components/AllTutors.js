@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchAllTutorThunk, fetchSingleTutor, fetchLike} from '../store'
+import {fetchAllTutorThunk, fetchSingleTutor, fetchLike, me} from '../store'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
@@ -31,12 +31,24 @@ const styles = {
 }
 
 class AllTutors extends Component {
-  componentDidMount() {
-    this.props.fetchTutors()
+  async componentDidMount() {
+    const allTutors = await this.props.fetchTutors()
+    const user = await this.props.fetchUser()
+    const unmatchedTutors = this.props.tutors.filter(tutor => {
+      return this.props.user.match.reduce((bool, match) => {
+        if(match.id === tutor.id){
+          bool = false
+        }
+        return bool;
+      }, true)
+    });
+    this.props.fetchTutor(unmatchedTutors[0].id)
+
   }
 
   render() {
     const {classes, fetchTutor, tutors, user} = this.props
+
     return (
       <div>
         <h1>Skill Sharers</h1>
@@ -145,7 +157,8 @@ const mapDispatchToProps = dispatch => {
       }
     },
     handleClick: (userId, tutorId) => dispatch(fetchLike(userId, tutorId)),
-    fetchTutor: tutorId => dispatch(fetchSingleTutor(tutorId))
+    fetchTutor: tutorId => dispatch(fetchSingleTutor(tutorId)),
+    fetchUser: () => dispatch(me())
   }
 }
 export default compose(

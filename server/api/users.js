@@ -1,9 +1,15 @@
 const router = require('express').Router()
 const { User, DirectMessageChat, Negotiaitons, Skill, Contract, UserContracts } = require('../db/models')
+const { Op } = require('sequelize')
 module.exports = router
 
 router.get('/', (req, res, next) => {
   User.findAll({
+    where: {
+      id:{
+        [Op.ne]: req.user.id
+      }
+    },
     include: [{
       model: User, as: 'match', 
       include:[{
