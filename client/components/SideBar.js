@@ -6,7 +6,7 @@ import {toggleSidebar} from '../store'
 import Drawer from '@material-ui/core/Drawer'
 import Button from '@material-ui/core/Button'
 import List from '@material-ui/core/List'
-import Divider from '@material-ui/core/Divider'
+// import Divider from '@materiacore/Divider'
 import {Link} from 'react-router-dom'
 import compose from 'recompose/compose'
 import ListItem from '@material-ui/core/ListItem'
@@ -22,7 +22,6 @@ const styles = {
 }
 
 const SideBar = ({classes, toggle, isSideBarOpen, user}) => {
-  console.log('LOOOK HERE', user.match)
   const sideList = user.match ? (
     <div className={classes.list}>
       <List>
@@ -36,7 +35,7 @@ const SideBar = ({classes, toggle, isSideBarOpen, user}) => {
           </Link>
         </Button>
       </List>
-      <Divider />
+      {/* <Divider /> */}
       <List component="nav">
         <Button color="inherit" onClick={() => toggle(false)}>
           <Link className="link" to="/chatroom/1">
