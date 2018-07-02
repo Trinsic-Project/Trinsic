@@ -73,6 +73,11 @@ router.get('/me', (req, res) => {
         },
         {
           model: Skill
+        },
+        {
+          model: User, as: 'match', 
+          include:[{
+            model: User, as: 'match'}]
         }
       ]
     }).then(user => {
