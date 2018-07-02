@@ -58,22 +58,23 @@ class AllTutors extends Component {
 
   async componentDidMount() {
     const allTutors = await this.props.fetchTutors()
-    const user = await this.props.fetchUser()
-    const unmatchedTutors = this.props.tutors.filter(tutor => {
-      return this.props.user.match.reduce((bool, match) => {
-        if(match.id === tutor.id){
-          bool = false
-        }
-        return bool;
-      }, true)
-    });
-    this.props.fetchTutor(unmatchedTutors[0].id)
+    // const user = await this.props.fetchUser()
+    // const unmatchedTutors = this.props.tutors.filter(tutor => {
+    //   return this.props.user.match.reduce((bool, match) => {
+    //     if(match.id === tutor.id){
+    //       bool = false
+    //     }
+    //     return bool;
+    //   }, true)
+    // });
+    // this.props.fetchTutor(unmatchedTutors[0].id)
 
   }
 
   render() {
     const {classes, theme, fetchTutor, tutors, user, } = this.props
     const { activeStep } = this.state;
+
     const unmatchedTutors = user.id ? tutors.filter(tutor => {
       return user.match.reduce((bool, match) => {
         if(match.id === tutor.id){
@@ -82,16 +83,15 @@ class AllTutors extends Component {
         return bool;
       }, true) 
     }) : null
-    console.log(unmatchedTutors)
 
-    return (
+    return user.id ? (
       <div>
         <h1>Skill Sharers</h1>
         <div style={{padding: 20}}>
           <Grid container spacing={40}>
          <SwipeableViews
           axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-          index={this.state.activeStep}
+          index={activeStep}
           onChangeIndex={this.handleStepChange}
           enableMouseEvents
         >
@@ -165,7 +165,7 @@ class AllTutors extends Component {
           </Grid>
         </div>
       </div>
-    )
+    ) : null
   }
 }
 
