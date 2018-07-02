@@ -33,9 +33,14 @@ async function seed() {
     Skill.create({name: 'Athletics', imagePath: '/skills_photos/athletics.jpeg'}),
   ])
 
+  const userSkills = await Promise.all(
+    users.map(user => user.setSkills((((user.id - 1) % skills.length) + 1))
+))
+
   console.log('seeding...')
   console.log(`seeded ${users.length} users`)
   console.log(`seeded ${skills.length} skills`)
+  console.log(`seeded ${userSkills.length} users with ${skills.length} skills`)
   console.log(`seeded successfully`)
 }
 
