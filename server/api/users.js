@@ -43,12 +43,6 @@ router.get('/negotiations', (req, res, next) => {
 
 router.get('/:userId', (req, res, next) => {
   User.findById(req.params.userId, {
-<<<<<<< HEAD
-    include: [
-        {model: User, as: 'match', 
-        include:[{
-          model: User, as: 'match'}]}]})
-=======
     include: [{
       model: User, as: 'match', 
         include:[{
@@ -60,7 +54,6 @@ router.get('/:userId', (req, res, next) => {
       model: Contract
     }
         ]})
->>>>>>> master
     .then(user => res.json(user))
     .catch(next)
 })
