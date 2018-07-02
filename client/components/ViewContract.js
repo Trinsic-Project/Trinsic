@@ -10,7 +10,7 @@ import compose from 'recompose/compose'
 import Card from '@material-ui/core/Card'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField';
-import {fetchWeb3,finalizeContractThunk} from '../store';
+import {finalizeContractThunk, fetchSingleTutor, me} from '../store';
 
 const styles = theme => ({
   row: {
@@ -30,9 +30,21 @@ const styles = theme => ({
 
 
 class ViewContract extends Component{
+
+  componentDidMount(){
+    const id = 5 //currently hardcoding a tutor, need to update/fix
+    this.props.fetchTutor(id);
+    this.props.fetchUser();
+  }
+
   render(){
-    const {classes} = this.props
-    console.log(this.props.contract)
+    const {classes, user, tutor} = this.props
+    if (user.id && tutor.id) {  
+      const currentContractAddress = user.contracts.filter(contract => {
+        let isContractWithTutor = contract.users[0].id === tutor.id || contract.users[1].id === tutor.id
+        return isContractWithTutor && contract.isStatusOpen
+      })[0].contractAddress;
+      console.log("contract address", currentContractAddress)
     return (
         <div className='view-contract'>
         <Card className={classes.card}>
@@ -44,23 +56,23 @@ class ViewContract extends Component{
           <div className={classes.row}>
             <Avatar
               alt="Remy Sharp"
-              src="/FullSizeRender.jpg"
-              className={classNames(this.props.classes.avatar, this.props.classes.bigAvatar)}
+              src={user.imageUrl}
+              className={classNames(classes.avatar, classes.bigAvatar)}
             />
             <Avatar
               alt="Remy Sharp"
-              src="/FullSizeRender.jpg"
-              className={classNames(this.props.classes.avatar, this.props.classes.bigAvatar)}
+              src={tutor.imageUrl}
+              className={classNames(classes.avatar, classes.bigAvatar)}
             />
           </div>
           <Typography  variant="headline" component="h3">
-            Jacob
+            {user.fullName}
           </Typography>
           <Typography gutterBottom component="h2">
             agrees to provide
           </Typography>
           <TextField
-            label="Skill to Teach"
+            label={user.skills[0].name}
             id="margin-none"
             className={classes.textField}
           />
@@ -68,7 +80,7 @@ class ViewContract extends Component{
             in exchange for
           </Typography>
           <TextField
-            label="Skill to Learn"
+            label={tutor.skills[0].name}
             id="margin-none"
             className={classes.textField}
           />
@@ -76,7 +88,7 @@ class ViewContract extends Component{
           from 
           </Typography>
           <Typography  variant="headline" component="h3">
-          Kate
+          {tutor.fullName}
           </Typography>
           <div className={classes.row}>
           <Typography component="h2">
@@ -88,23 +100,28 @@ class ViewContract extends Component{
           />
           </div>
           <button name='finalize-contract' onClick={() => {
-            console.log(this.props.contract.address)
-            this.props.finalize(this.props.contract.address)}}>Finalize Contract</button>
+            this.props.finalize(currentContractAddress)}}>Finalize Contract</button>
         </Card>
         </div>
-    )
+    )} else {
+      return null
+    }
   }
 }
 
 const mapState = state => {
   return {
+    tutor: state.tutor, 
+    user: state.user,
     contract: state.contract,
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    finalize: (address) => dispatch(finalizeContractThunk(address))
+    finalize: (address) => dispatch(finalizeContractThunk(address)),
+    fetchTutor: tutorId => dispatch(fetchSingleTutor(tutorId)),
+    fetchUser: () => dispatch(me()),
   }
 }
 

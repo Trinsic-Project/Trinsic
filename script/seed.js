@@ -8,11 +8,11 @@ async function seed() {
   console.log('db synced!')
 
   const users = await Promise.all([
-    User.create({email: 'anna@email.com', password: 'a', firstName: 'Anna', lastName: 'Arden', streetAddress: '1234 West 99th Street', city: 'Brooklyn', state: 'New York', biography: 'this is a biography'}),
+    User.create({email: 'anna@email.com', password: 'a', firstName: 'Anna', lastName: 'Arden', streetAddress: '1234 West 99th Street', city: 'Brooklyn', state: 'New York', biography: 'this is a biography', imageUrl: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&h=350'}),
     User.create({email: 'brent@email.com', password: 'b', firstName: 'Brent', lastName: 'Bell', streetAddress: '5678 West 97th Street', city: 'Brooklyn', state: 'New York', biography: 'this is a biography'}),
-    User.create({email: 'chris@email.com', password: 'c', firstName: 'Chris', lastName: 'Cordir', streetAddress: '1234 West 87th Street', city: 'Brooklyn', state: 'New York', biography: 'this is a biography'}),
+    User.create({email: 'chris@email.com', password: 'c', firstName: 'Chris', lastName: 'Cordir', streetAddress: '1234 West 87th Street', city: 'Brooklyn', state: 'New York', biography: 'this is a biography', imageUrl: 'https://images.pexels.com/photos/462680/pexels-photo-462680.jpeg?auto=compress&cs=tinysrgb&h=350'}),
     User.create({email: 'derek@email.com', password: 'd', firstName: 'Derek', lastName: 'Dask', streetAddress: '5678 West 32nd Street', city: 'Brooklyn', state: 'New York', biography: 'this is a biography'}),
-    User.create({email: 'edison@email.com', password: 'e', firstName: 'Edison', lastName: 'Earvin', streetAddress: '1234 West 44th Street', city: 'Brooklyn', state: 'New York', biography: 'this is a biography'}),
+    User.create({email: 'edison@email.com', password: 'e', firstName: 'Edison', lastName: 'Earvin', streetAddress: '1234 West 44th Street', city: 'Brooklyn', state: 'New York', biography: 'this is a biography', imageUrl: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'}),
     User.create({email: 'frank@email.com', password: 'f', firstName: 'Frank', lastName: 'Fila', streetAddress: '5678 West 55th Street', city: 'Brooklyn', state: 'New York', biography: 'this is a biography'}),
     User.create({email: 'gabby@email.com', password: 'g', firstName: 'Gabby', lastName: 'Gadrizo', streetAddress: '1234 West 11th Street', city: 'Brooklyn', state: 'New York', biography: 'this is a biography'}),
     User.create({email: 'heather@email.com', password: 'h', firstName: 'Heather', lastName: 'Hope', streetAddress: '5678 West 32nd Street', city: 'Brooklyn', state: 'New York', biography: 'this is a biography'}),

@@ -45,7 +45,10 @@ router.get('/me', (req, res) => {
     User.findOne({
     where: {email: req.user.email},
     include: [{
-      model: Contract
+      model: Contract, 
+      include: [{
+        model: User  
+      }]
     }, {
       model: Skill
     }
