@@ -10,6 +10,7 @@
     "build-client": "webpack",
     "build-client-watch": "webpack -w",
     "deploy": "script/deploy",
+    "run-ganache": "ganache-cli -h 206.81.11.213 -p 8545",
     "lint": "eslint ./ --ignore-path .gitignore",
     "lint-fix": "npm run lint -- --fix",
     "precommit": "# lint-staged # un-comment to enable",
@@ -44,6 +45,7 @@
     "connect-session-sequelize": "^4.1.0",
     "express": "^4.14.1",
     "express-session": "^1.15.1",
+    "ganache-cli": "^6.1.4",
     "history": "^4.6.3",
     "latest": "^0.2.0",
     "morgan": "^1.8.1",
@@ -66,7 +68,7 @@
     "socket.io": "^2.0.3",
     "truffle": "^4.1.12",
     "truffle-contract": "^3.0.6",
-    "web3": "^0.20.6"
+    "web3": "^0.19.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.40",
