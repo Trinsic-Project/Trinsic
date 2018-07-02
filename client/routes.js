@@ -2,9 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Login, Signup, UserHome, ChatRoom, SingleTutor, AllTutors, About, ViewContract } from './components'
+import { Login, Signup, UserHome, ChatRoom, SingleTutor, AllTutors, About, ViewContract, FAQ, SkillsSelection } from './components'
 import { me } from './store'
-
 
 class Routes extends Component {
   componentDidMount() {
@@ -24,10 +23,13 @@ class Routes extends Component {
         <Route exact path="/tutors" component={AllTutors} />
         <Route exact path="/contract" component={ViewContract} />
         <Route exact path="/about" component={About} />
+        <Route exact path="/faqs" component={FAQ} />
+        
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/home" component={UserHome} />
+            <Route exact path="/home" component={UserHome} />
+            <Route exact path="/home/skillsSelection" component={SkillsSelection} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

@@ -1,8 +1,8 @@
 import React from 'react'
 import compose from 'recompose/compose'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import {auth} from '../store'
+import { auth } from '../store'
 import { withStyles } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
@@ -37,40 +37,42 @@ const styles = theme => ({
 const AuthForm = props => {
   const {name, displayName, handleSubmit, error, classes} = props
   return (
+    <div className="center-nav-content">
+
     <div className='cards'>
       <Card className={classes.card}>
       <CardContent>
       <form onSubmit={handleSubmit} name={name}>
-  {(props.name === "signup") ?   
+  {(props.name === "signup") ?
    (<div>
           <FormControl className={classes.textField}>
-          <InputLabel className="inputLabel" htmlFor="adornment-first-name">First Name</InputLabel> 
+          <InputLabel className="inputLabel" htmlFor="adornment-first-name">First Name</InputLabel>
           <Input name="firstName" type="text" required/>
           </FormControl>
 
           <FormControl className={classes.textField}>
-          <InputLabel className="inputLabel" htmlFor="adornment-last-name">Last Name</InputLabel> 
+          <InputLabel className="inputLabel" htmlFor="adornment-last-name">Last Name</InputLabel>
           <Input name="lastName" type="text" required/>
           </FormControl>
 
         <FormControl className={classes.textField}>
-        <InputLabel className="inputLabel" htmlFor="adornment-email">Email</InputLabel> 
+        <InputLabel className="inputLabel" htmlFor="adornment-email">Email</InputLabel>
         <Input name="email" type="email" required/>
         </FormControl>
 
         <FormControl>
-        <InputLabel className="inputLabel" htmlFor="adornment-password">Password</InputLabel> 
+        <InputLabel className="inputLabel" htmlFor="adornment-password">Password</InputLabel>
         <Input name="password" type="password" required/>
         </FormControl>
         </div>
-      ) : 
+      ) :
       <div>
         <FormControl className={classes.textField}>
-        <InputLabel className="inputLabel" htmlFor="adornment-email">Email</InputLabel> 
+        <InputLabel className="inputLabel" htmlFor="adornment-email">Email</InputLabel>
         <Input name="email" type="email" required/>
         </FormControl>
         <FormControl>
-        <InputLabel className="inputLabel" htmlFor="adornment-password">Password</InputLabel> 
+        <InputLabel className="inputLabel" htmlFor="adornment-password">Password</InputLabel>
         <Input name="password" type="password" required/>
         </FormControl>
       </div>}
@@ -83,11 +85,19 @@ const AuthForm = props => {
         {error && error.response && <div> {error.response.data} </div>}
       </form>
       <Button>
-      <a href="/auth/google">{displayName} with Google</a>
+        <a href="/auth/google">{displayName} with Google</a>
+      </Button>
+      <Button>
+        <a href="/auth/facebook">{displayName} with Facebook</a>
+      </Button>
+      <Button>
+        <a href="/auth/linkedin">{displayName} with LinkedIn</a>
       </Button>
       </CardContent>
       </Card>
     </div>
+
+   </div>
   )
 }
 
