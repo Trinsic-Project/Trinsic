@@ -11,9 +11,9 @@ contract SwapAgreement {
     string public respondentSkill;
 
 // Set the address and skill for the person who initiates the swap, this function is invoked as soon as the contract is compiled
-    constructor() public {
+    constructor(string userSkill) public {
         initiator = msg.sender;
-        initiatorSkill = "Skateboarding";
+        initiatorSkill = userSkill;
     }
 
 // Get all current information regarding entire contract     

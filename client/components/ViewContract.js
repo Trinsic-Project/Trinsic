@@ -30,7 +30,6 @@ const styles = theme => ({
 
 
 class ViewContract extends Component{
-
   render(){
     const {classes} = this.props
     console.log(this.props.contract)
@@ -88,7 +87,9 @@ class ViewContract extends Component{
             label="MM-DD-YYYY"
           />
           </div>
-          <button name='finalize-contract' onClick={() => this.props.finalize(this.props.contract.address)}>Finalize Contract</button>
+          <button name='finalize-contract' onClick={() => {
+            console.log(this.props.contract.address)
+            this.props.finalize(this.props.contract.address)}}>Finalize Contract</button>
         </Card>
         </div>
     )
