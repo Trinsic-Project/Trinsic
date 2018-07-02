@@ -29,7 +29,7 @@ class SingleTutor extends Component {
   }
 
   render() {
-    const {classes, tutor, user, chatRooms} = this.props
+    const {classes, tutor, user} = this.props
     return (
 
       <div className="cards">
@@ -53,7 +53,7 @@ class SingleTutor extends Component {
           {this.props.fetchLike(user, tutor) ==='match'
           ?
           <div className='enter-chat'>
-            <Link to={`/chatroom/${chatRoom.id}`}>
+            <Link to={`/chatroom/1`}>
               <img id='enter-chat'src='/chat.png'/>
             </Link>
           </div>
