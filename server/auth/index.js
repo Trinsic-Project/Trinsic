@@ -1,6 +1,5 @@
 const router = require('express').Router()
-const User = require('../db/models/user')
-const Contract = require('../db/models/contract')
+const { User, Skill, Contract } = require('../db/models')
 module.exports = router
 
 router.post('/login', (req, res, next) => {
@@ -45,7 +44,12 @@ router.get('/me', (req, res) => {
   if (req.user) {
     User.findOne({
     where: {email: req.user.email},
-    include: [{model: Contract}]})
+    include: [{
+      model: Contract
+    }, {
+      model: Skill
+    }
+  ]})
     .then(user => {
       res.json(user)
     })
