@@ -1,7 +1,7 @@
 const SwapAgreement = require('../../build/contracts/SwapAgreement.json')
 const contract = require('truffle-contract')
 import Web3 from 'web3'
-const web3 = new Web3.providers.HttpProvider("http://localhost:8545")
+const web3 = new Web3(window.web3.currentProvider)
 const contractInstance = contract(SwapAgreement)
 
 //Action Types
