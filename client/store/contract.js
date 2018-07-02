@@ -3,6 +3,7 @@ const contract = require('truffle-contract')
 import Web3 from 'web3'
 const web3 = new Web3(window.web3.currentProvider)
 const contractInstance = contract(SwapAgreement)
+import axios from 'axios';
 
 //Action Types
 const GET_CONTRACT = 'GET_CONTRACT'
@@ -16,18 +17,22 @@ const finalizeContract = contract => ({
 })
 
 //Thunk Creators
-export const fetchContract = web3 => {
+export const fetchContract = (web3, user, tutor)  => {
   web3.currentProvider && contractInstance.setProvider(web3.currentProvider)
   return dispatch => {
     contractInstance
-      .new({from: '0xe35EFBce04CFfB2645CAa873117657297bFc1114'}) //This creates an instance of our contract. the from address should grab from the initiator's metamask
-      .then(instance => {
+      .new(user.skills[0].name, {from: web3.eth.accounts[0]}) //The from address should grab from the initiator's metamask
+      .then(async instance => {
         console.log(
           'This is intitialized contract instance address: ',
           instance.address
         )
-        dispatch(getContract(instance))
+        await dispatch(getContract(instance))
         return instance
+      })
+      .then(instance => {
+        axios.post(`/api/users/contracts`, {contractAddress: instance.address, user1Id: user.id, user2Id: tutor.id}) //, user1Id: , user2Id: 
+        return instance  
       })
       .then(async instance => {
         await instance.GetAgreement().then(agreement => {
@@ -40,6 +45,8 @@ export const fetchContract = web3 => {
   }
 }
 
+//get all contracts from backend that belong to the user, filter by contracts with other user, grab address. could create thunk that fetches all contracts when user logs in. when on a single users page, filter the contracts so it's only the contract with that particular tutor 
+
 //INCONSISTENTLY ABLE TO LOG FINALIZED CONTRACT DETAILS, SHOULD INVESTIGATE FURTHER LATER ON
 export const finalizeContractThunk = contractInstanceAddress => {
   //take in contract instance address
@@ -49,9 +56,13 @@ export const finalizeContractThunk = contractInstanceAddress => {
       .at(contractInstanceAddress)
       .then(async instance => {
         await instance.FinalizeAgreement({
-          from: '0xFB3fD33A9C24c27bD38FB31Df431A104DD455ACa'
+          from: web3.eth.accounts[0] //grabs metamask account
         })
         return instance
+      })
+      .then(instance => {
+        axios.post('api/contracts/finalize', {contractAddress: contractInstanceAddress}) 
+        return instance  
       })
       .then(async instance => {
         await instance
