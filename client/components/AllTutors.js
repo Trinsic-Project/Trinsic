@@ -12,6 +12,11 @@ import compose from 'recompose/compose'
 import {Link} from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import CardMedia from '@material-ui/core/CardMedia'
+import MobileStepper from '@material-ui/core/MobileStepper';
+import Paper from '@material-ui/core/Paper';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import SwipeableViews from 'react-swipeable-views';
 
 const styles = {
   card: {
@@ -31,6 +36,26 @@ const styles = {
 }
 
 class AllTutors extends Component {
+  state = {
+    activeStep: 0,
+  };
+
+  handleNext = () => {
+    this.setState(prevState => ({
+      activeStep: prevState.activeStep + 1,
+    }));
+  };
+
+  handleBack = () => {
+    this.setState(prevState => ({
+      activeStep: prevState.activeStep - 1,
+    }));
+  };
+
+  handleStepChange = activeStep => {
+    this.setState({ activeStep });
+  };
+
   async componentDidMount() {
     const allTutors = await this.props.fetchTutors()
     const user = await this.props.fetchUser()
@@ -47,16 +72,31 @@ class AllTutors extends Component {
   }
 
   render() {
-    const {classes, fetchTutor, tutors, user} = this.props
+    const {classes, theme, fetchTutor, tutors, user, } = this.props
+    const { activeStep } = this.state;
+    const unmatchedTutors = user.id ? tutors.filter(tutor => {
+      return user.match.reduce((bool, match) => {
+        if(match.id === tutor.id){
+          bool = false
+        }
+        return bool;
+      }, true) 
+    }) : null
+    console.log(unmatchedTutors)
 
     return (
       <div>
         <h1>Skill Sharers</h1>
         <div style={{padding: 20}}>
           <Grid container spacing={40}>
-            {tutors.filter(tutor => tutor.id !== user.id).map(tutor => {
-              return (
-                <Card
+         <SwipeableViews
+          axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+          index={this.state.activeStep}
+          onChangeIndex={this.handleStepChange}
+          enableMouseEvents
+        >
+          {unmatchedTutors.map(tutor => (
+            <Card
                   key={tutor.id}
                   className={classes.card}
                   style={{
@@ -65,6 +105,7 @@ class AllTutors extends Component {
                     marginTop: '.5%'
                   }}
                 >
+             
                   <CardMedia
                     className={classes.media}
                     image={tutor.imageUrl}
@@ -119,8 +160,8 @@ class AllTutors extends Component {
                     )}
                   </CardActions>
                 </Card>
-              )
-            })}
+          ))}
+        </SwipeableViews>  
           </Grid>
         </div>
       </div>
@@ -129,7 +170,8 @@ class AllTutors extends Component {
 }
 
 AllTutors.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = state => {
@@ -163,7 +205,8 @@ const mapDispatchToProps = dispatch => {
 }
 export default compose(
   withStyles(styles, {
-    name: 'AllTutors'
+    name: 'AllTutors',
+    withTheme: true
   }),
   connect(mapStateToProps, mapDispatchToProps)
 )(AllTutors)
