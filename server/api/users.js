@@ -44,11 +44,10 @@ router.put('/:userId', (req, res, next) => {
 })
 
 router.post('/contracts', (req, res, next) => {
-  console.log("YOOOHOOOOO", req.body.contractAddress)
-  Contract.create(req.body.contractAddress)
+  console.log("this is the req.body", req.body)
+  Contract.create({contractAddress: req.body.contractAddress})
     .then(contract => {
-      console.log("this is the contract",contract)
-        contract.setUsers([1,2]) //[req.body.user1Id, req.body.user2Id] //figure out how to pass in both users from front end
+        contract.setUsers([req.body.user1Id, req.body.user2Id]) //figure out how to pass in both users from front end
         res.json(contract)
     })
     .catch(next)

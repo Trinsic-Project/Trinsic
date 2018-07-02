@@ -31,7 +31,7 @@ export const fetchContract = (web3, user, tutor)  => {
         return instance
       })
       .then(instance => {
-        axios.post(`/users/contracts`, {contractAddress: instance.address, user1Id: user.id, user2Id: tutor.id}) //, user1Id: , user2Id: 
+        axios.post(`/api/users/contracts`, {contractAddress: instance.address, user1Id: user.id, user2Id: tutor.id}) //, user1Id: , user2Id: 
         return instance  
       })
       .then(async instance => {
