@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchAllTutorThunk, fetchSingleTutor, fetchLike} from '../store'
+import {fetchAllTutorThunk, fetchSingleTutor, fetchLike, me} from '../store'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
@@ -12,6 +12,11 @@ import compose from 'recompose/compose'
 import {Link} from 'react-router-dom'
 import Grid from '@material-ui/core/Grid'
 import CardMedia from '@material-ui/core/CardMedia'
+import MobileStepper from '@material-ui/core/MobileStepper';
+import Paper from '@material-ui/core/Paper';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import SwipeableViews from 'react-swipeable-views';
 
 const styles = {
   card: {
@@ -31,20 +36,67 @@ const styles = {
 }
 
 class AllTutors extends Component {
-  componentDidMount() {
-    this.props.fetchTutors()
+  state = {
+    activeStep: 0,
+  };
+
+  handleNext = () => {
+    this.setState(prevState => ({
+      activeStep: prevState.activeStep + 1,
+    }));
+  };
+
+  handleBack = () => {
+    this.setState(prevState => ({
+      activeStep: prevState.activeStep - 1,
+    }));
+  };
+
+  handleStepChange = activeStep => {
+    this.setState({ activeStep });
+  };
+
+  async componentDidMount() {
+    const allTutors = await this.props.fetchTutors()
+    // const user = await this.props.fetchUser()
+    // const unmatchedTutors = this.props.tutors.filter(tutor => {
+    //   return this.props.user.match.reduce((bool, match) => {
+    //     if(match.id === tutor.id){
+    //       bool = false
+    //     }
+    //     return bool;
+    //   }, true)
+    // });
+    // this.props.fetchTutor(unmatchedTutors[0].id)
+
   }
 
   render() {
-    const {classes, fetchTutor, tutors, user} = this.props
-    return (
+    const {classes, theme, fetchTutor, tutors, user, } = this.props
+    const { activeStep } = this.state;
+
+    const unmatchedTutors = user.id ? tutors.filter(tutor => {
+      return user.match.reduce((bool, match) => {
+        if(match.id === tutor.id){
+          bool = false
+        }
+        return bool;
+      }, true) 
+    }) : null
+
+    return user.id ? (
       <div>
         <h1>Skill Sharers</h1>
         <div style={{padding: 20}}>
           <Grid container spacing={40}>
-            {tutors.filter(tutor => tutor.id !== user.id).map(tutor => {
-              return (
-                <Card
+         <SwipeableViews
+          axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+          index={activeStep}
+          onChangeIndex={this.handleStepChange}
+          enableMouseEvents
+        >
+          {unmatchedTutors.map(tutor => (
+            <Card
                   key={tutor.id}
                   className={classes.card}
                   style={{
@@ -53,6 +105,7 @@ class AllTutors extends Component {
                     marginTop: '.5%'
                   }}
                 >
+             
                   <CardMedia
                     className={classes.media}
                     image={tutor.imageUrl}
@@ -107,17 +160,18 @@ class AllTutors extends Component {
                     )}
                   </CardActions>
                 </Card>
-              )
-            })}
+          ))}
+        </SwipeableViews>  
           </Grid>
         </div>
       </div>
-    )
+    ) : null
   }
 }
 
 AllTutors.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = state => {
@@ -145,12 +199,14 @@ const mapDispatchToProps = dispatch => {
       }
     },
     handleClick: (userId, tutorId) => dispatch(fetchLike(userId, tutorId)),
-    fetchTutor: tutorId => dispatch(fetchSingleTutor(tutorId))
+    fetchTutor: tutorId => dispatch(fetchSingleTutor(tutorId)),
+    fetchUser: () => dispatch(me())
   }
 }
 export default compose(
   withStyles(styles, {
-    name: 'AllTutors'
+    name: 'AllTutors',
+    withTheme: true
   }),
   connect(mapStateToProps, mapDispatchToProps)
 )(AllTutors)
