@@ -16,7 +16,12 @@ router.post('/login', (req, res, next) => {
       },
       {
         model: Skill
-      }
+      },
+      {
+          model: User, as: 'match', 
+          include:[{
+            model: User, as: 'match'}]
+        }
     ]
   })
     .then(user => {
