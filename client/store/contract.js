@@ -21,7 +21,7 @@ export const fetchContract = (web3, user, tutor)  => {
   web3.currentProvider && contractInstance.setProvider(web3.currentProvider)
   return dispatch => {
     contractInstance
-      .new({from: web3.eth.accounts[0]}) //The from address should grab from the initiator's metamask
+      .new(user.skills[0].name, {from: web3.eth.accounts[0]}) //The from address should grab from the initiator's metamask
       .then(async instance => {
         console.log(
           'This is intitialized contract instance address: ',
@@ -59,6 +59,10 @@ export const finalizeContractThunk = contractInstanceAddress => {
           from: web3.eth.accounts[0] //grabs metamask account
         })
         return instance
+      })
+      .then(instance => {
+        axios.post('api/contracts/finalize', {contractAddress: contractInstanceAddress}) 
+        return instance  
       })
       .then(async instance => {
         await instance

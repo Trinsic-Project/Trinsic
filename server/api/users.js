@@ -75,20 +75,18 @@ router.post('/contracts', (req, res, next) => {
     .catch(next)
 })
 
+//Route to change a contract instance open status from True to False
 router.post('/contracts/finalize', (req, res, next) => {
-  UserContracts.findOne({
+  Contract.findOne({
     where: {
-        userId: req.user.id
+        contractAddress: req.body.contractAddress
     }
   })
-    .then(userContract => {
-        Contract.findById(userContract.contractId) 
-    })
     .then(contract => {
-      contract.update(req.body)        
+      return contract.update({isStatusOpen: false})        
     })
-    .then(contract => {
-      res.json(contract)
+    .then(finalizedContract => {
+      res.json(finalizedContract)
     })
     .catch(next)
 })
@@ -100,17 +98,3 @@ router.get('/:userId/contracts', (req, res, next) => {
   })
     .catch(next)
 })
-
-// router.get('/:userId/contract', (req, res, next) => {
-//   UserContracts.findOne({
-//     where: {
-//       userId: req.params.userId}
-//   })
-//     .then(contracts => {
-//       UserContracts.findAll({
-//         where: {
-//           userId: req.params.userId}
-//       })
-//       res.json(contracts)})
-//     .catch(next)
-// })
