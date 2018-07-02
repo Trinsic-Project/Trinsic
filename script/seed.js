@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const { User } = require('../server/db/models')
+const { User, Skill } = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
@@ -20,8 +20,22 @@ async function seed() {
     User.create({email: 'jane@email.com', password: 'j', firstName: 'Jane', lastName: 'Jazz', streetAddress: '5678 West 58th Street', city: 'Brooklyn', state: 'New York', biography: 'this is a biography'})
   ])
 
+  const skills = await Promise.all([
+    Skill.create({name: 'Computer Programming', imagePath: '/skills_photos/computerProgramming.jpeg'}),
+    Skill.create({name: 'Cooking', imagePath: '/skills_photos/cooking.jpeg'}),
+    Skill.create({name: 'Second Language', imagePath: '/skills_photos/language.jpeg'}),
+    Skill.create({name: 'Music', imagePath: '/skills_photos/music.jpg'}),
+    Skill.create({name: 'Skate Boarding', imagePath: '/skills_photos/skateBoarding.jpeg'}),
+    Skill.create({name: 'Art', imagePath: '/skills_photos/art.jpeg'}),
+    Skill.create({name: 'Math', imagePath: '/skills_photos/math.jpeg'}),
+    Skill.create({name: 'Science', imagePath: '/skills_photos/science.jpeg'}),
+    Skill.create({name: 'Driving', imagePath: '/skills_photos/driving.jpg'}),
+    Skill.create({name: 'Athletics', imagePath: '/skills_photos/athletics.jpeg'}),
+  ])
+
   console.log('seeding...')
   console.log(`seeded ${users.length} users`)
+  console.log(`seeded ${skills.length} skills`)
   console.log(`seeded successfully`)
 }
 

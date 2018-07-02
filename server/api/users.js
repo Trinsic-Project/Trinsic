@@ -1,37 +1,59 @@
 const router = require('express').Router()
-const { User, DirectMessageChat, Contract, UserContracts } = require('../db/models')
+const { User, DirectMessageChat, Negotiaitons, Skill, Contract, UserContracts } = require('../db/models')
 module.exports = router
 
 router.get('/', (req, res, next) => {
   User.findAll({
-    include: [
-      {model: User, as: 'match', 
+    include: [{
+      model: User, as: 'match', 
       include:[{
-        model: User, as: 'match'}]}]})
+        model: User, as: 'match'}]
+    }, {
+      model: Skill
+    }]
+  })
     .then(users => res.json(users))
     .catch(next)
 })
 
+router.get('/skills', (req, res, next) => {
+  Skill.findAll()
+  .then(skills => res.json(skills))
+  .catch(next)
+})
+
+router.post('/skills/:skillId', (req, res, next) => {
+  Skill.findById(req.params.skillId)
+  .then(skill => {
+    skill.setUsers(req.user.id);
+    res.json(skill);
+  })
+  .catch(next)
+})
+
 router.get('/negotiations', (req, res, next) => {
-  //Add security so that only the two parties involved can access this endpoint
-  User.findOne({
-      where: {
-          id: req.user.id
-      },
-      include: [{
-        model: DirectMessageChat
-      }]
-    })
-  .then(channels => res.json(channels))
-  .next(next)
+  DirectMessageChat.findAll({
+    include: [{
+      model: User
+    }]
+  })
+  .then(channel => res.json(channel))
+  .catch(err => console.log(err))
 })
 
 router.get('/:userId', (req, res, next) => {
   User.findById(req.params.userId, {
-    include: [
-        {model: User, as: 'match', 
+    include: [{
+      model: User, as: 'match', 
         include:[{
-          model: User, as: 'match'}]}, {model: Contract}]})
+          model: User, as: 'match'}]},
+    {
+      model: Skill
+    }, 
+    {
+      model: Contract
+    }
+        ]})
     .then(user => res.json(user))
     .catch(next)
 })
