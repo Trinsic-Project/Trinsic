@@ -31,10 +31,12 @@ const styles = {
   media: {
     paddingTop: '70%' // 16:9
   },
+
   root: {
     maxWidth: 400,
     flexGrow: 1,
   },
+
 }
 
 class AllTutors extends Component {
@@ -72,6 +74,7 @@ class AllTutors extends Component {
     });
     this.setState({ unmatchedTutors })
     // this.props.fetchTutor(unmatchedTutors[0].id)
+
   }
 
   render() {
@@ -86,7 +89,6 @@ class AllTutors extends Component {
     //     return bool;
     //   }, true) 
     // }) : null
-
     return user.id ? (
       <div>
         <h1>Skills</h1>
@@ -144,7 +146,6 @@ class AllTutors extends Component {
                   color="secondary"
                   className={classes.button}
                 >
-             
                   <CardMedia
                     className={classes.media}
                     image={tutor.imageUrl}
