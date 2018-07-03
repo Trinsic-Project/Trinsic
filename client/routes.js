@@ -16,10 +16,10 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
-        <Route path="/login" component={Login} />
-        <Route path="/users/:id/edit" component={UserHome} />
-        <Route path="/signup" component={Signup} />
-        <Route path="/chatroom/:id" component={ChatRoom} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/users/:id/edit" component={UserHome} />
+        <Route exact path="/signup" component={Signup} />
+        <Route exact path="/chatroom/:id" component={ChatRoom} />
         <Route exact path="/tutors/:id" component={SingleTutor} />
         <Route exact path="/tutors" component={AllTutors} />
         <Route exact path="/contract" component={ViewContract} />
@@ -29,6 +29,7 @@ class Routes extends Component {
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
+            <Route exact path="/" component={UserHome} />
             <Route exact path="/home" component={UserHome} />
             <Route exact path="/home/skillsSelection" component={SkillsSelection} />
           </Switch>
