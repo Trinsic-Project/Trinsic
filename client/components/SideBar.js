@@ -52,6 +52,26 @@ const SideBar = ({classes, toggle, isSideBarOpen, user}) => {
             </Link>
           )
         })}
+        <ListItem>Current Contracts</ListItem>
+        {user.match.map(tutor => {
+          return (
+            <Link key={tutor.id} className="link" to={`/tutors/${tutor.id}`}>
+              <ListItem button>
+                <ListItemText primary={tutor.fullName} />
+              </ListItem>
+            </Link>
+          )
+        })}
+        <ListItem>Past Contracts</ListItem>
+        {user.match.map(tutor => {
+          return (
+            <Link key={tutor.id} className="link" to={`/tutors/${tutor.id}`}>
+              <ListItem button>
+                <ListItemText primary={tutor.fullName} />
+              </ListItem>
+            </Link>
+          )
+        })}
       </List>
     </div>
   ) : null

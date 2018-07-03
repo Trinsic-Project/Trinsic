@@ -17,7 +17,7 @@ const finalizeContract = contract => ({
 })
 
 //Thunk Creators
-export const fetchContract = (web3, user, tutor)  => {
+export const fetchContract = (user, tutor)  => {
   web3.currentProvider && contractInstance.setProvider(web3.currentProvider)
   return dispatch => {
     contractInstance
@@ -31,8 +31,8 @@ export const fetchContract = (web3, user, tutor)  => {
         return instance
       })
       .then(instance => {
-        axios.post(`/api/users/contracts`, {contractAddress: instance.address, user1Id: user.id, user2Id: tutor.id}) //, user1Id: , user2Id: 
-        return instance  
+        axios.post(`/api/users/contracts`, {contractAddress: instance.address, initiator: user, tutorId: tutor.id}) //, user1Id: , user2Id:
+        return instance
       })
       .then(async instance => {
         await instance.GetAgreement().then(agreement => {
@@ -45,7 +45,7 @@ export const fetchContract = (web3, user, tutor)  => {
   }
 }
 
-//get all contracts from backend that belong to the user, filter by contracts with other user, grab address. could create thunk that fetches all contracts when user logs in. when on a single users page, filter the contracts so it's only the contract with that particular tutor 
+//get all contracts from backend that belong to the user, filter by contracts with other user, grab address. could create thunk that fetches all contracts when user logs in. when on a single users page, filter the contracts so it's only the contract with that particular tutor
 
 //INCONSISTENTLY ABLE TO LOG FINALIZED CONTRACT DETAILS, SHOULD INVESTIGATE FURTHER LATER ON
 export const finalizeContractThunk = contractInstanceAddress => {
@@ -61,8 +61,8 @@ export const finalizeContractThunk = contractInstanceAddress => {
         return instance
       })
       .then(instance => {
-        axios.post('api/contracts/finalize', {contractAddress: contractInstanceAddress}) 
-        return instance  
+        axios.post('api/contracts/finalize', {contractAddress: contractInstanceAddress})
+        return instance
       })
       .then(async instance => {
         await instance

@@ -1,11 +1,13 @@
 const router = require('express').Router()
-const { User, DirectMessageChat, Negotiaitons, Skill, Contract, UserContracts } = require('../db/models')
+const { User, DirectMessageChat, Skill, Contract, UserContracts } = require('../db/models')
+const { Op } = require('sequelize')
+const { sendEmail } = require('../../utils')
 module.exports = router
 
 router.get('/', (req, res, next) => {
   User.findAll({
     include: [{
-      model: User, as: 'match', 
+      model: User, as: 'match',
       include:[{
         model: User, as: 'match'}]
     }, {
@@ -44,12 +46,12 @@ router.get('/negotiations', (req, res, next) => {
 router.get('/:userId', (req, res, next) => {
   User.findById(req.params.userId, {
     include: [{
-      model: User, as: 'match', 
+      model: User, as: 'match',
         include:[{
           model: User, as: 'match'}]},
     {
       model: Skill
-    }, 
+    },
     {
       model: Contract
     }
@@ -67,9 +69,10 @@ router.put('/:userId', (req, res, next) => {
 
 router.post('/contracts', (req, res, next) => {
   console.log("this is the req.body", req.body)
+  sendEmail(req.user.dataValues)
   Contract.create({contractAddress: req.body.contractAddress})
     .then(contract => {
-        contract.setUsers([req.body.user1Id, req.body.user2Id]) //figure out how to pass in both users from front end
+        contract.setUsers([req.body.initiator.id, req.body.tutorId]) //figure out how to pass in both users from front end
         res.json(contract)
     })
     .catch(next)
@@ -83,7 +86,7 @@ router.post('/contracts/finalize', (req, res, next) => {
     }
   })
     .then(contract => {
-      return contract.update({isStatusOpen: false})        
+      return contract.update({isStatusOpen: false})
     })
     .then(finalizedContract => {
       res.json(finalizedContract)
