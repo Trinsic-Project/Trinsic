@@ -21,7 +21,6 @@ import SwipeableViews from 'react-swipeable-views';
 const styles = {
   card: {
     maxWidth: 375,
-    // minHeight: 560,
     margin: 'auto'
   },
   title: {
@@ -32,7 +31,7 @@ const styles = {
   },
   media: {
     paddingTop: '70%' // 16:9
-  }
+  },
 }
 
 class AllTutors extends Component {
@@ -58,23 +57,11 @@ class AllTutors extends Component {
 
   async componentDidMount() {
     const allTutors = await this.props.fetchTutors()
-    // const user = await this.props.fetchUser()
-    // const unmatchedTutors = this.props.tutors.filter(tutor => {
-    //   return this.props.user.match.reduce((bool, match) => {
-    //     if(match.id === tutor.id){
-    //       bool = false
-    //     }
-    //     return bool;
-    //   }, true)
-    // });
-    // this.props.fetchTutor(unmatchedTutors[0].id)
-
   }
 
   render() {
     const {classes, theme, fetchTutor, tutors, user, } = this.props
     const { activeStep } = this.state;
-
     const unmatchedTutors = user.id ? tutors.filter(tutor => {
       return user.match.reduce((bool, match) => {
         if(match.id === tutor.id){
@@ -86,7 +73,7 @@ class AllTutors extends Component {
 
     return user.id ? (
       <div>
-        <h1>Skill Sharers</h1>
+        <h1>Skills</h1>
         <div style={{padding: 20}}>
           <Grid container spacing={40}>
          <SwipeableViews
@@ -94,72 +81,57 @@ class AllTutors extends Component {
           index={activeStep}
           onChangeIndex={this.handleStepChange}
           enableMouseEvents
-        >
+          >
           {unmatchedTutors.map(tutor => (
             <Card
-                  key={tutor.id}
-                  className={classes.card}
-                  style={{
-                    opacity: '50%',
-                    marginBottom: '.5%',
-                    marginTop: '.5%'
-                  }}
+              key={tutor.id}
+              className={classes.card}
+              style={{
+                opacity: '50%',
+                marginBottom: '.5%',
+                marginTop: '.5%'
+              }}
+            >
+            <CardMedia
+              className={classes.media}
+              image={tutor.imageUrl}
+              title="Tutor"
+            />
+            <CardContent style={{textAlign: 'center'}}>
+              <Typography variant="headline" component="h1">
+                Javascript
+              </Typography>
+              <Typography className={classes.title}>
+                {`Taught by ${tutor.fullName}`}<br />
+              </Typography>
+              <Typography component="h2">
+                {`${tutor.city}, ${tutor.state}`}
+              </Typography>
+            </CardContent>
+            <br />
+            <CardActions>
+              <Link to={`/tutors/${tutor.id}`} style={{margin: 'auto'}}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  onClick={() => fetchTutor(tutor.id)}
                 >
-             
-                  <CardMedia
-                    className={classes.media}
-                    image={tutor.imageUrl}
-                    title="Tutor"
-                  />
-                  <CardContent style={{textAlign: 'center'}}>
-                    <Typography variant="headline" component="h1">
-                      {`${tutor.fullName}`}
-                    </Typography>
-                    <Typography component="h2">
-                      {`${tutor.city}, ${tutor.state}`}
-                    </Typography>
-                    <Typography className={classes.title}>
-                      Skills: Javascript<br />
-                    </Typography>
-                  </CardContent>
-                  <br />
-                  <CardActions>
-                    <Link to={`/tutors/${tutor.id}`} style={{margin: 'auto'}}>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        className={classes.button}
-                        onClick={() => fetchTutor(tutor.id)}
-                      >
-                        Learn More
-                      </Button>
-                    </Link>
-                    <p>{`Match Status: ${this.props.fetchLike(
-                      user,
-                      tutor
-                    )}`}</p>
-                    {this.props.fetchLike(user, tutor) === 'match' ? (
-                      <div className="enter-chat">
-                        <Link to="/chatroom/1">
-                          <img id="enter-chat" src="/chat.png" />
-                        </Link>
-                      </div>
-                    ) : this.props.fetchLike(user, tutor) === 'like' ? (
-                      <p>Waiting for response...</p>
-                    ) : (
-                      <Button
-                        onClick={() =>
-                          this.props.handleClick(user.id, tutor.id)
-                        }
-                        variant="contained"
-                        color="secondary"
-                        className={classes.button}
-                      >
-                        Exchange!
-                      </Button>
-                    )}
-                  </CardActions>
-                </Card>
+                Learn More
+                </Button>
+              </Link>
+                <Button
+                  onClick={() =>
+                    this.props.handleClick(user.id, tutor.id)
+                  }
+                  variant="contained"
+                  color="secondary"
+                  className={classes.button}
+                >
+                Exchange!
+                </Button>
+            </CardActions>
+          </Card>
           ))}
         </SwipeableViews>  
           </Grid>
@@ -185,19 +157,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchTutors: () => dispatch(fetchAllTutorThunk()),
-    fetchLike: (user, tutor) => {
-      if (!user.match || !tutor.match) return false
-      else {
-        if (user.match.filter(like => like.id === tutor.id).length > 0) {
-          //user likes tutor
-          if (
-            tutor.match.filter(userlike => userlike.id === user.id).length > 0
-          )
-            return 'match'
-          else return 'like'
-        } else return false
-      }
-    },
     handleClick: (userId, tutorId) => dispatch(fetchLike(userId, tutorId)),
     fetchTutor: tutorId => dispatch(fetchSingleTutor(tutorId)),
     fetchUser: () => dispatch(me())

@@ -71,19 +71,15 @@ class ViewContract extends Component{
           <Typography gutterBottom component="h2">
             agrees to provide
           </Typography>
-          <TextField
-            label={user.skills[0].name}
-            id="margin-none"
-            className={classes.textField}
-          />
+          <Typography gutterBottom component="h2">
+            {user.skills[0].name}
+          </Typography>
           <Typography gutterBottom component="h2">
             in exchange for
           </Typography>
-          <TextField
-            label={tutor.skills[0].name}
-            id="margin-none"
-            className={classes.textField}
-          />
+          <Typography gutterBottom component="h2">
+            {tutor.skills[0].name}
+          </Typography>
           <Typography gutterBottom component="h2">
           from 
           </Typography>
