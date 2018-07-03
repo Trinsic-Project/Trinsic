@@ -8,7 +8,7 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Typography from '@material-ui/core/Typography'
 import {connect} from 'react-redux'
-import {fetchSingleTutor, fetchLike} from '../store'
+import {fetchSingleTutor, fetchLike, me} from '../store'
 import { Link } from "react-router-dom";
 import Button from '@material-ui/core/Button';
 import InitiateContract from './Initiate-Contract';
@@ -24,10 +24,17 @@ const styles = {
 }
 
 class SingleTutor extends Component {
+  constructor(){
+    super();
+    this.state = {
+      status: false
+    }
+  }
   componentDidMount() {
     const tutorId = this.props.match.params.id
     this.props.fetchTutor(tutorId) //update to get the proper tutor
     localStorage.tutorId = tutorId
+    this.setState({status: this.props.fetchLike(this.props.user, this.props.tutor)})
   }
 
   render() {
@@ -57,13 +64,16 @@ class SingleTutor extends Component {
           </Link> : ''
           }
           <p>{`Match Status: ${this.props.fetchLike(user, tutor)}`}</p>
-          {this.props.fetchLike(user, tutor) ==='match'
+          {this.state.status ==='match'
           ?
           <InitiateContract/>
           :
-          this.props.fetchLike(user, tutor) ==='like' 
+          this.state.status ==='like' 
           ? <p>Waiting for response...</p> 
-          :<Button onClick={() => this.props.handleClick(user.id, tutor.id)} variant="contained" color="secondary" className={classes.button}>
+          :<Button onClick={() => {
+            this.props.handleClick(user.id, tutor.id)
+            this.setState({status: 'like'})
+          }} variant="contained" color="secondary" className={classes.button}>
               Exchange!
             </Button>
           }
@@ -96,7 +106,9 @@ const mapStateToProps = state => {
           else return false
         }
       },
-      handleClick: (userId, tutorId) => dispatch(fetchLike(userId, tutorId))
+      handleClick: (userId, tutorId) => {
+          dispatch(fetchLike(userId, tutorId));
+        }
       }
   }
 
