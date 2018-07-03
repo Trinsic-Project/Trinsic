@@ -119,7 +119,7 @@ class AllTutors extends Component {
             />
             <CardContent style={{textAlign: 'center'}}>
               <Typography variant="headline" component="h1">
-                {tutor.skills[0].name}
+                {tutor.skills[0] ? tutor.skills[0].name : null}
               </Typography>
               <Typography className={classes.title}>
                 {`Taught by ${tutor.fullName}`}<br />
