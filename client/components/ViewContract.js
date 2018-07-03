@@ -32,19 +32,17 @@ const styles = theme => ({
 class ViewContract extends Component{
 
   componentDidMount(){
-    const id = 5 //currently hardcoding a tutor, need to update/fix
-    this.props.fetchTutor(id);
+    const id = this.props.user.id //currently hardcoding a tutor, need to update/fix
+    this.props.fetchTutor(localStorage.tutorId);
     this.props.fetchUser();
   }
 
   render(){
-    const {classes, user, tutor} = this.props
+    const {classes, user, tutor, fetchContract} = this.props
     if (user.id && tutor.id) {  
-      const currentContractAddress = user.contracts.filter(contract => {
-        let isContractWithTutor = contract.users[0].id === tutor.id || contract.users[1].id === tutor.id
-        return isContractWithTutor && contract.isStatusOpen
-      })[0].contractAddress;
-      console.log("contract address", currentContractAddress)
+      const currentContract = fetchContract(user, tutor);
+      console.log("contract", currentContract)
+      const currentContractAddress = currentContract.contractAddress;
     return (
         <div className='view-contract'>
         <Card className={classes.card}>
@@ -71,19 +69,15 @@ class ViewContract extends Component{
           <Typography gutterBottom component="h2">
             agrees to provide
           </Typography>
-          <TextField
-            label={user.skills[0].name}
-            id="margin-none"
-            className={classes.textField}
-          />
+          <Typography gutterBottom component="h2">
+            {user.skills[0].name}
+          </Typography>
           <Typography gutterBottom component="h2">
             in exchange for
           </Typography>
-          <TextField
-            label={tutor.skills[0].name}
-            id="margin-none"
-            className={classes.textField}
-          />
+          <Typography gutterBottom component="h2">
+            {tutor.skills[0].name}
+          </Typography>
           <Typography gutterBottom component="h2">
           from 
           </Typography>
@@ -91,16 +85,15 @@ class ViewContract extends Component{
           {tutor.fullName}
           </Typography>
           <div className={classes.row}>
-          <Typography component="h2">
-          BY
-          </Typography> 
-          <TextField
-            className={classes.textField}
-            label="MM-DD-YYYY"
-          />
           </div>
+          {currentContract.isStatusOpen 
+          ?
           <button name='finalize-contract' onClick={() => {
-            this.props.finalize(currentContractAddress)}}>Finalize Contract</button>
+            this.props.finalize(currentContractAddress)}} >Finalize Contract
+          </button>
+          : 
+          `Your Contract is finalized! Refer to the following Contract Address ${currentContractAddress}`
+        }
         </Card>
         </div>
     )} else {
@@ -122,6 +115,12 @@ const mapDispatch = dispatch => {
     finalize: (address) => dispatch(finalizeContractThunk(address)),
     fetchTutor: tutorId => dispatch(fetchSingleTutor(tutorId)),
     fetchUser: () => dispatch(me()),
+    fetchContract: (user, tutor) => {
+      return user.contracts.filter(contract => {
+        console.log(contract)
+        return contract.users[0].id === tutor.id || contract.users[1].id === tutor.id
+      })[0];
+    }
   }
 }
 

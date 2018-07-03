@@ -1,9 +1,10 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import compose from 'recompose/compose'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import {putUser, fetchNegotiationsThunk} from '../store'
-import {withStyles} from '@material-ui/core/styles'
+import { putUser, fetchNegotiationsThunk } from '../store'
+import { withStyles } from '@material-ui/core/styles'
+import { Link } from 'react-router-dom'
 import Input from '@material-ui/core/Input'
 import FormControl from '@material-ui/core/FormControl'
 import InputLabel from '@material-ui/core/InputLabel'
@@ -137,7 +138,10 @@ class UserHome extends Component {
               </div>
               <div>
                 <CardActions>
-                  <Button type="submit">Update</Button>
+                  { this.props.match.path.includes("edit")
+                    ? <Button type="submit">Update Your Information</Button>
+                    : <Link to={`/users/${this.state.id}/edit`}><Button>Click To Edit</Button></Link>
+                  }
                 </CardActions>
               </div>
               {error && error.response && <div> {error.response.data} </div>}

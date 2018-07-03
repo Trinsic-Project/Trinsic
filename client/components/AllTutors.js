@@ -20,7 +20,6 @@ import SwipeableViews from 'react-swipeable-views';
 const styles = {
   card: {
     maxWidth: 375,
-    // minHeight: 560,
     margin: 'auto'
   },
   title: {
@@ -32,10 +31,12 @@ const styles = {
   media: {
     paddingTop: '70%' // 16:9
   },
+
   root: {
     maxWidth: 400,
     flexGrow: 1,
   },
+
 }
 
 class AllTutors extends Component {
@@ -89,9 +90,10 @@ class AllTutors extends Component {
   render() {
     const {classes, theme, fetchTutor, user, } = this.props
     const { activeStep, unmatchedTutors } = this.state;
+    
     return user.id ? (
       <div>
-        <h1>Skill Sharers</h1>
+        <h1>Skills</h1>
         <div style={{padding: 20}}>
           <Grid container spacing={40}>
          <SwipeableViews
@@ -99,18 +101,53 @@ class AllTutors extends Component {
           index={activeStep}
           onChangeIndex={this.handleStepChange}
           enableMouseEvents
-        >
-          {unmatchedTutors.map((tutor,idx) => (
+          >
+          {unmatchedTutors.map(tutor => (
             <Card
-                  key={tutor.id}
-                  className={classes.card}
-                  style={{
-                    opacity: '50%',
-                    marginBottom: '.5%',
-                    marginTop: '.5%'
-                  }}
+              key={tutor.id}
+              className={classes.card}
+              style={{
+                opacity: '50%',
+                marginBottom: '.5%',
+                marginTop: '.5%'
+              }}
+            >
+            <CardMedia
+              className={classes.media}
+              image={tutor.imageUrl}
+              title="Tutor"
+            />
+            <CardContent style={{textAlign: 'center'}}>
+              <Typography variant="headline" component="h1">
+                Javascript
+              </Typography>
+              <Typography className={classes.title}>
+                {`Taught by ${tutor.fullName}`}<br />
+              </Typography>
+              <Typography component="h2">
+                {`${tutor.city}, ${tutor.state}`}
+              </Typography>
+            </CardContent>
+            <br />
+            <CardActions>
+              <Link to={`/tutors/${tutor.id}`} style={{margin: 'auto'}}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  onClick={() => fetchTutor(tutor.id)}
                 >
-             
+                Learn More
+                </Button>
+              </Link>
+                <Button
+                  onClick={() =>
+                    this.props.handleClick(user.id, tutor.id)
+                  }
+                  variant="contained"
+                  color="secondary"
+                  className={classes.button}
+                >
                   <CardMedia
                     className={classes.media}
                     image={tutor.imageUrl}
@@ -209,19 +246,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchTutors: () => dispatch(fetchAllTutorThunk()),
-    fetchLike: (user, tutor) => {
-      if (!user.match || !tutor.match) return false
-      else {
-        if (user.match.filter(like => like.id === tutor.id).length > 0) {
-          //user likes tutor
-          if (
-            tutor.match.filter(userlike => userlike.id === user.id).length > 0
-          )
-            return 'match'
-          else return 'like'
-        } else return false
-      }
-    },
     handleClick: (userId, tutorId) => dispatch(fetchLike(userId, tutorId)),
     fetchTutor: tutorId => dispatch(fetchSingleTutor(tutorId)),
     fetchUser: () => dispatch(me())
