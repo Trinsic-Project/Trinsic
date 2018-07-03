@@ -46,8 +46,16 @@ const Navbar = ({handleClick, isLoggedIn, classes, isSideBarOpen, toggle}) => (
           className={classes.flex}
           style={{textAlign: 'left'}}
         >
-          TRINSIC
+                <Link className="link" to="/home">
+                TRINSIC
+          </Link>
+          
         </Typography>
+        <Button color="inherit">
+          <Link className="link" to="/tutors">
+            Browse Skills
+          </Link>
+        </Button>
         <Button color="inherit">
           <Link className="link" to="/team">
             Team
