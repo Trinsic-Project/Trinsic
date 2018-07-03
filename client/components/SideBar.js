@@ -2,76 +2,119 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import {connect} from 'react-redux'
-import {toggleSidebar} from '../store'
+import {toggleSidebar, fetchSingleTutor} from '../store'
 import Drawer from '@material-ui/core/Drawer'
 import Button from '@material-ui/core/Button'
 import List from '@material-ui/core/List'
-// import Divider from '@materiacore/Divider'
+import Divider from '@material-ui/core/Divider'
 import {Link} from 'react-router-dom'
 import compose from 'recompose/compose'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 
-const styles = {
+const styles = theme => ({
   list: {
     width: 250
   },
   fullList: {
     width: 'auto'
+  },
+  root: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper
+  },
+  nested: {
+    paddingLeft: theme.spacing.unit * 4
+  },
+  logo: {
+    width: '50%'
   }
-}
+})
 
-const SideBar = ({classes, toggle, isSideBarOpen, user}) => {
+const SideBar = ({classes, toggle, isSideBarOpen, user, fetchTutor}) => {
+  const initiatedContracts = user.contracts
+    ? user.contracts.filter(contract => {
+        return contract.isStatusOpen
+      })
+    : []
+  const finalizedContracts = user.contracts
+    ? user.contracts.filter(contract => {
+        return !contract.isStatusOpen
+      })
+    : []
+
   const sideList = user.match ? (
     <div className={classes.list}>
-      <List>
-        <Button
-          variant="outlined"
-          style={{backgroundColor: 'blue'}}
-          onClick={() => toggle(false)}
-        >
-          <Link style={{color: 'white'}} to={`/tutors`}>
-            Browse Skill Sharers
-          </Link>
-        </Button>
-      </List>
-      {/* <Divider /> */}
-      <List component="nav">
+      <List component="nav" disablePadding>
         <Button color="inherit" onClick={() => toggle(false)}>
-          <Link className="link" to="/chatroom/1">
-            <img id="enter-chat" src="/chat.png" />
+          <Link to="/chatroom/home">
+            <img style={{width: '50%'}} src="/android-chrome-512x512.png" />
           </Link>
         </Button>
-        <ListItem>My Connections</ListItem>
-        {user.match.map(tutor => {
-          return (
-            <Link key={tutor.id} className="link" to={`/tutors/${tutor.id}`}>
-              <ListItem button>
-                <ListItemText primary={tutor.fullName} />
-              </ListItem>
-            </Link>
-          )
-        })}
-        <ListItem>Current Contracts</ListItem>
-        {user.match.map(tutor => {
-          return (
-            <Link key={tutor.id} className="link" to={`/tutors/${tutor.id}`}>
-              <ListItem button>
-                <ListItemText primary={tutor.fullName} />
-              </ListItem>
-            </Link>
-          )
-        })}
-        <ListItem>Past Contracts</ListItem>
-        {user.match.map(tutor => {
-          return (
-            <Link key={tutor.id} className="link" to={`/tutors/${tutor.id}`}>
-              <ListItem button>
-                <ListItemText primary={tutor.fullName} />
-              </ListItem>
-            </Link>
-          )
-        })}
+        <Divider />
+        <div>
+          <ListItem style={{fontWeight: 'bold'}}>My Connections</ListItem>
+          {user.match[0] ? (
+            user.match.map(tutor => {
+              return (
+                <Link
+                  onClick={() => fetchTutor(tutor.id)}
+                  key={tutor.id}
+                  className="link"
+                  style={{margin: 0}}
+                  to={`/tutors/${tutor.id}`}
+                >
+                  <ListItem button>
+                    <ListItemText primary={tutor.fullName} />
+                  </ListItem>
+                </Link>
+              )
+            })
+          ) : (
+            <div> No Current Connections </div>
+          )}
+        </div>
+        <ListItem style={{fontWeight: 'bold'}}>Initiated Swaps</ListItem>
+        {user.contracts[0] ? (
+          initiatedContracts.map(contract => {
+            return (
+              <div key={contract.id}>
+                <Link
+                  className="link"
+                  to={`/contracts/${contract.id}`}
+                  style={{margin: 0}}
+                >
+                  <ListItem button>
+                    <ListItemText primary={`Swap #${contract.id}`} />
+                  </ListItem>
+                </Link>
+              </div>
+            )
+          })
+        ) : (
+          <div> No Current Swaps </div>
+        )}
+        <ListItem style={{fontWeight: 'bold'}}>Finalized Swaps</ListItem>
+        {user.contracts[0] ? (
+          finalizedContracts.map(contract => {
+            return (
+              <div key={contract.id}>
+                <Link
+                  className="link"
+                  to={`/contracts/${contract.id}`}
+                  style={{margin: 0}}
+                >
+                  <ListItem button>
+                    <ListItemText primary={`Swap #${contract.id}`} />
+                  </ListItem>
+                </Link>
+              </div>
+            )
+          })
+        ) : (
+          <div> No Finalized Swaps </div>
+        )}
       </List>
     </div>
   ) : null
@@ -98,13 +141,15 @@ const SideBar = ({classes, toggle, isSideBarOpen, user}) => {
 const mapStateToProps = state => {
   return {
     user: state.user,
-    isSideBarOpen: state.sideBar
+    isSideBarOpen: state.sideBar,
+    tutor: state.tutor
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    toggle: bool => dispatch(toggleSidebar(bool))
+    toggle: bool => dispatch(toggleSidebar(bool)),
+    fetchTutor: tutorId => dispatch(fetchSingleTutor(tutorId))
   }
 }
 
