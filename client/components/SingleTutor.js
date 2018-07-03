@@ -27,6 +27,7 @@ class SingleTutor extends Component {
   componentDidMount() {
     const tutorId = this.props.match.params.id
     this.props.fetchTutor(tutorId) //update to get the proper tutor
+    localStorage.tutorId = tutorId
   }
 
   render() {
@@ -94,9 +95,9 @@ const mapStateToProps = state => {
           }
           else return false
         }
-    },
+      },
       handleClick: (userId, tutorId) => dispatch(fetchLike(userId, tutorId))
-    }
+      }
   }
 
   SingleTutor.propTypes = {
