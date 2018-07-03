@@ -17,7 +17,7 @@ const finalizeContract = contract => ({
 })
 
 //Thunk Creators
-export const fetchContract = (web3, user, tutor)  => {
+export const fetchContract = (user, tutor)  => {
   web3.currentProvider && contractInstance.setProvider(web3.currentProvider)
   return dispatch => {
     contractInstance

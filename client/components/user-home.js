@@ -76,7 +76,7 @@ class UserHome extends Component {
     } = this.state
 
     return (
-      <div>
+      <div className="cards">
         <Card className={classes.card}>
           <CardMedia className={classes.media} image={imageUrl} title="User" />
           <CardContent>
