@@ -106,9 +106,7 @@ const mapStateToProps = state => {
           else return false
         }
       },
-      handleClick: (userId, tutorId) => {
-          dispatch(fetchLike(userId, tutorId));
-        }
+      handleClick: (userId, tutorId) => dispatch(fetchLike(userId, tutorId))
       }
   }
 
