@@ -7,6 +7,7 @@ router.put('/:userId', async (req, res, next) => {
 	let tutor = await User.findById(req.body.tutorId, {include: [{model: User, as: 'match'}]})
 	user
     .addMatch(tutor)
-    .then(() => res.sendStatus(202))
+    .then(() => {
+        res.json(tutor)})
     .catch(next)
 })

@@ -62,8 +62,8 @@ class AllTutors extends Component {
   };
 
   async componentDidMount() {
-    const allTutors = await this.props.fetchTutors()
-    const user = await this.props.fetchUser()
+    await this.props.fetchTutors()
+    await this.props.fetchUser()
     const unmatchedTutors = this.props.tutors.filter(tutor => {
       return this.props.user.match.reduce((bool, match) => {
         if(match.id === tutor.id){
@@ -73,22 +73,24 @@ class AllTutors extends Component {
       }, true)
     });
     this.setState({ unmatchedTutors })
-    // this.props.fetchTutor(unmatchedTutors[0].id)
+  }
 
+  componentDidUpdate(prevProps) {
+    let newMatch;
+    let unmatchedTutors;
+    //If new match is made, remove the tutor from the view
+    if(prevProps.matches.length !== this.props.matches.length) {
+      newMatch = this.props.matches[this.props.matches.length - 1];
+      unmatchedTutors = this.state.unmatchedTutors.filter(tutor => tutor.id !== newMatch.id)
+      this.setState({ unmatchedTutors })
+    }
+    console.log(unmatchedTutors)
   }
 
   render() {
-    const {classes, theme, fetchTutor, tutors, user, } = this.props
+    const {classes, theme, fetchTutor, user, } = this.props
     const { activeStep, unmatchedTutors } = this.state;
-
-    // const unmatchedTutors = user.id ? tutors.filter(tutor => {
-    //   return user.match.reduce((bool, match) => {
-    //     if(match.id === tutor.id){
-    //       bool = false
-    //     }
-    //     return bool;
-    //   }, true) 
-    // }) : null
+    
     return user.id ? (
       <div>
         <h1>Skills</h1>
@@ -236,7 +238,8 @@ const mapStateToProps = state => {
   return {
     user: state.user,
     tutors: state.allTutors,
-    tutor: state.tutor
+    tutor: state.tutor,
+    matches: state.match
   }
 }
 
