@@ -4,7 +4,7 @@ import axios from 'axios';
 const MATCH_TUTOR = 'MATCH_TUTOR';
 
 // ACTION CREATORS
-export const matchTutor = tutor => ({ type: MATCH_TUTOR, payload: status});
+export const matchTutor = status => ({ type: MATCH_TUTOR, payload: status});
 
 // THUNK CREATORS
 
@@ -13,6 +13,7 @@ export const fetchLike = (userId, tutorId) => dispatch => {
   .put(`/api/match/${userId}`, {tutorId})
     .then(res => res.data)
     .then(status => {
+      console.log(status)
       dispatch(matchTutor(status));
     });
 };
@@ -21,7 +22,7 @@ export const fetchLike = (userId, tutorId) => dispatch => {
 export default function (state = [], action) {
   switch (action.type) {
     case MATCH_TUTOR:
-      return action.payload;
+    return [...state, action.payload];
     default:
       return state;
   }

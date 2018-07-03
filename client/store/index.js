@@ -11,7 +11,7 @@ import messages from './messages'
 import tutor from './tutor.js'
 import allTutors from './allTutors'
 import sideBar from './sideBar'
-import fetchMatch from './match'
+import match from './match'
 import skills from './skills'
 import userSkill from './userSkill'
 
@@ -25,7 +25,7 @@ const reducer = combineReducers({
   tutor,
   allTutors,
   sideBar,
-  fetchMatch,
+  match,
   skills,
   userSkill
 })

@@ -72,8 +72,18 @@ class AllTutors extends Component {
       }, true)
     });
     this.setState({ unmatchedTutors })
-    // this.props.fetchTutor(unmatchedTutors[0].id)
+  }
 
+  componentDidUpdate(prevProps) {
+    let newMatch;
+    let unmatchedTutors;
+    //If new match is made, remove the tutor from the view
+    if(prevProps.matches.length !== this.props.matches.length) {
+      newMatch = this.props.matches[this.props.matches.length - 1];
+      unmatchedTutors = this.state.unmatchedTutors.filter(tutor => tutor.id !== newMatch.id)
+      this.setState({ unmatchedTutors })
+    }
+    console.log(unmatchedTutors)
   }
 
   render() {
@@ -100,7 +110,7 @@ class AllTutors extends Component {
           onChangeIndex={this.handleStepChange}
           enableMouseEvents
         >
-          {unmatchedTutors.map(tutor => (
+          {unmatchedTutors.map((tutor,idx) => (
             <Card
                   key={tutor.id}
                   className={classes.card}
@@ -201,7 +211,8 @@ const mapStateToProps = state => {
   return {
     user: state.user,
     tutors: state.allTutors,
-    tutor: state.tutor
+    tutor: state.tutor,
+    matches: state.match
   }
 }
 
