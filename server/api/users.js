@@ -80,12 +80,14 @@ router.post('/contracts', (req, res, next) => {
 
 //Route to change a contract instance open status from True to False
 router.post('/contracts/finalize', (req, res, next) => {
+  console.log(req.body)
   Contract.findOne({
     where: {
         contractAddress: req.body.contractAddress
     }
   })
     .then(contract => {
+      console.log(contract)
       return contract.update({isStatusOpen: false})
     })
     .then(finalizedContract => {

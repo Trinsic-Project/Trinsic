@@ -11,6 +11,7 @@ import {connect} from 'react-redux'
 import {fetchSingleTutor, fetchLike} from '../store'
 import { Link } from "react-router-dom";
 import Button from '@material-ui/core/Button';
+import InitiateContract from './Initiate-Contract';
 
 const styles = {
   card: {
@@ -26,12 +27,12 @@ class SingleTutor extends Component {
   componentDidMount() {
     const tutorId = this.props.match.params.id
     this.props.fetchTutor(tutorId) //update to get the proper tutor
+    localStorage.tutorId = tutorId
   }
 
   render() {
     const {classes, tutor, user} = this.props
     return (
-
       <div className="cards">
         <Card className={`${classes.card} cards`}>
           <CardMedia
@@ -49,14 +50,16 @@ class SingleTutor extends Component {
             <Typography component="p">{tutor.biography}</Typography>
           </CardContent>
           <CardActions>
+          {user.contracts && user.contracts.length
+          ? 
+          <Link to={`/contract`}>
+            <span className="Mstart(10px) Va(m)">View and Finalize Contract</span>
+          </Link> : ''
+          }
           <p>{`Match Status: ${this.props.fetchLike(user, tutor)}`}</p>
           {this.props.fetchLike(user, tutor) ==='match'
           ?
-          <div className='enter-chat'>
-            <Link to={`/chatroom/1`}>
-              <img id='enter-chat'src='/chat.png'/>
-            </Link>
-          </div>
+          <InitiateContract/>
           :
           this.props.fetchLike(user, tutor) ==='like' 
           ? <p>Waiting for response...</p> 
@@ -92,9 +95,9 @@ const mapStateToProps = state => {
           }
           else return false
         }
-    },
+      },
       handleClick: (userId, tutorId) => dispatch(fetchLike(userId, tutorId))
-    }
+      }
   }
 
   SingleTutor.propTypes = {
