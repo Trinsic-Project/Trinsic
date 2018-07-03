@@ -61,8 +61,8 @@ class AllTutors extends Component {
   };
 
   async componentDidMount() {
-    const allTutors = await this.props.fetchTutors()
-    const user = await this.props.fetchUser()
+    await this.props.fetchTutors()
+    await this.props.fetchUser()
     const unmatchedTutors = this.props.tutors.filter(tutor => {
       return this.props.user.match.reduce((bool, match) => {
         if(match.id === tutor.id){
@@ -87,18 +87,8 @@ class AllTutors extends Component {
   }
 
   render() {
-    const {classes, theme, fetchTutor, tutors, user, } = this.props
+    const {classes, theme, fetchTutor, user, } = this.props
     const { activeStep, unmatchedTutors } = this.state;
-
-    // const unmatchedTutors = user.id ? tutors.filter(tutor => {
-    //   return user.match.reduce((bool, match) => {
-    //     if(match.id === tutor.id){
-    //       bool = false
-    //     }
-    //     return bool;
-    //   }, true) 
-    // }) : null
-
     return user.id ? (
       <div>
         <h1>Skill Sharers</h1>
