@@ -16,6 +16,7 @@ router.get('/:negotiationId', (req, res, next) => {
 router.post('/', (req, res, next) => {
   Message.create(req.body)
     .then(message => {
+
       //Dont forget to un-hardcode chatroom ID
       message.setDirectMessageChat(1)
       res.json(message)
