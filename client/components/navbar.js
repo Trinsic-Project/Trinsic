@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
-import SideBar from './SideBar';
+import SideBar from './SideBar'
 
 const styles = {
   root: {
@@ -30,19 +30,39 @@ const Navbar = ({handleClick, isLoggedIn, classes, isSideBarOpen, toggle}) => (
   <div className={classes.root}>
     <AppBar position="static">
       <Toolbar>
-      {isLoggedIn ? (
-        <IconButton
-          className={classes.menuButton}
+        {isLoggedIn ? (
+          <IconButton
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="Menu"
+            onClick={() => toggle(!isSideBarOpen)}
+          >
+            <MenuIcon />
+          </IconButton>
+        ) : null}
+        <Typography
+          variant="title"
           color="inherit"
-          aria-label="Menu"
-          onClick={() => toggle(!isSideBarOpen)}
+          className={classes.flex}
+          style={{textAlign: 'left'}}
         >
-          <MenuIcon />
-        </IconButton>)
-        :(null)}
-        <Typography variant="title" color="inherit" className={classes.flex} style={{textAlign: 'left'}}>
           TRINSIC
         </Typography>
+        <Button color="inherit">
+          <Link className="link" to="/team">
+            Team
+          </Link>
+        </Button>
+        <Button color="inherit">
+          <Link className="link" to="/faqs">
+            FAQs
+          </Link>
+        </Button>
+        <Button color="inherit">
+          <Link className="link" to="/about">
+            About
+          </Link>
+        </Button>
         {isLoggedIn ? (
           <div>
             <Button color="inherit">
@@ -51,7 +71,7 @@ const Navbar = ({handleClick, isLoggedIn, classes, isSideBarOpen, toggle}) => (
               </Link>
             </Button>
             <Button color="inherit" onClick={handleClick}>
-              <a  className="link" href="#" onClick={handleClick}>
+              <a className="link" href="#" onClick={handleClick}>
                 Logout
               </a>
             </Button>
@@ -66,21 +86,6 @@ const Navbar = ({handleClick, isLoggedIn, classes, isSideBarOpen, toggle}) => (
             <Button color="inherit">
               <Link className="link" to="/signup">
                 Sign Up
-              </Link>
-            </Button>
-            <Button color="inherit">
-              <Link className="link" to="/team">
-                Team
-              </Link>
-            </Button>
-            <Button color="inherit">
-              <Link className="link" to="/faqs">
-                FAQs
-              </Link>
-            </Button>
-            <Button color="inherit">
-              <Link className="link" to="/about">
-                About
               </Link>
             </Button>
           </div>
@@ -104,7 +109,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     handleClick: () => dispatch(logout()),
-    toggle: (bool) => dispatch(toggleSidebar(bool))
+    toggle: bool => dispatch(toggleSidebar(bool))
   }
 }
 

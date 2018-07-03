@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { User, DirectMessageChat, Negotiaitons, Skill, Contract, UserContracts } = require('../db/models')
+const { User, DirectMessageChat, Skill, Contract, UserContracts } = require('../db/models')
 const { Op } = require('sequelize')
 module.exports = router
 
