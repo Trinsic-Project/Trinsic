@@ -24,7 +24,6 @@ const styles = theme => ({
 function SimpleExpansionPanel(props) {
   const {classes} = props
   return (
-    <div   className="background-image"   >
     <div
       className="center-nav-content"
       style={{
@@ -296,7 +295,6 @@ function SimpleExpansionPanel(props) {
             </Typography>
           </ExpansionPanelDetails>
         </ExpansionPanel>
-      </div>
     </div>
     </div>
   )

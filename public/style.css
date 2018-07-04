@@ -18,9 +18,10 @@ a {
   margin-bottom: 10%;
 }
 
-/* display: "flex",
-alignItems: "center",
-justifyContent: "center", */
+.single-tutor-card {
+  margin-top: 1%;
+  margin-bottom: 10%;
+}
 
 .inputLabel {
   margin-left: 10%;
