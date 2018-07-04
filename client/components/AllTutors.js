@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchAllTutorThunk, fetchSingleTutor, fetchLike, me} from '../store'
+import {fetchAllTutorThunk, fetchSingleTutor, me} from '../store'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
@@ -88,7 +88,7 @@ class AllTutors extends Component {
   render() {
     const {classes, theme, fetchTutor, user, } = this.props
     const { activeStep, unmatchedTutors } = this.state;
-    
+
     return user.id ? (
       <div>
         <h1>Skills</h1>
@@ -117,7 +117,7 @@ class AllTutors extends Component {
             />
             <CardContent style={{textAlign: 'center'}}>
               <Typography variant="headline" component="h1">
-                Javascript
+                {tutor.skills[0] ? tutor.skills[0].name : null}
               </Typography>
               <Typography className={classes.title}>
                 {`Taught by ${tutor.fullName}`}<br />
@@ -126,8 +126,43 @@ class AllTutors extends Component {
                 {`${tutor.city}, ${tutor.state}`}
               </Typography>
             </CardContent>
-            <br />
-            
+                <br />
+                  <CardActions>
+                    <Link to={`/tutors/${tutor.id}`} style={{margin: 'auto'}}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        className={classes.button}
+                        onClick={() => fetchTutor(tutor.id)}
+                      >
+                        Learn More
+                      </Button>
+                    </Link>
+                    <p>{`Match Status: ${this.props.fetchLike(
+                      user,
+                      tutor
+                    )}`}</p>
+                    {this.props.fetchLike(user, tutor) === 'match' ? (
+                      <div className="enter-chat">
+                        <Link to="/chatroom/1">
+                          <img id="enter-chat" src="/chat.png" />
+                        </Link>
+                      </div>
+                    ) : this.props.fetchLike(user, tutor) === 'like' ? (
+                      <p>Waiting for response...</p>
+                    ) : (
+                      <Button
+                        onClick={() =>
+                          this.props.handleClick(user.id, tutor.id)
+                        }
+                        variant="contained"
+                        color="secondary"
+                        className={classes.button}
+                      >
+                        Exchange!
+                      </Button>
+                    )}
+                  </CardActions>
                   <MobileStepper
                     steps={0}
                     position="static"
@@ -145,10 +180,10 @@ class AllTutors extends Component {
                         Back
                       </Button>
                     }
-                  /> 
+                  />
                 </Card>
           ))}
-        </SwipeableViews> 
+        </SwipeableViews>
           </Grid>
         </div>
       </div>
@@ -175,7 +210,17 @@ const mapDispatchToProps = dispatch => {
     fetchTutors: () => dispatch(fetchAllTutorThunk()),
     handleClick: (userId, tutorId) => dispatch(fetchLike(userId, tutorId)),
     fetchTutor: tutorId => dispatch(fetchSingleTutor(tutorId)),
-    fetchUser: () => dispatch(me())
+    fetchUser: () => dispatch(me()),
+    fetchLike: (user, tutor) => {
+      if (!user.match|| !tutor.match) return false
+      else {
+        if (user.match.filter(like => like.id === tutor.id).length>0) {//user likes tutor
+          if (tutor.match.filter(userlike => userlike.id === user.id).length>0) return 'match'
+          else return 'like'
+        }
+        else return false
+      }
+    },
   }
 }
 export default compose(
