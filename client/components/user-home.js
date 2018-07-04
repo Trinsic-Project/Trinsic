@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import compose from 'recompose/compose'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { putUser, fetchNegotiationsThunk } from '../store'
+import { putUser, fetchNegotiationsThunk, me } from '../store'
 import { withStyles } from '@material-ui/core/styles'
 import { Link } from 'react-router-dom'
 import Input from '@material-ui/core/Input'
@@ -76,6 +76,9 @@ class UserHome extends Component {
       imageUrl
     } = this.state
 
+    const onEditPage = () => this.props.match.path.includes("edit");
+    const notOnEditPage = !onEditPage();
+
     return (
       <div className="cards">
         <Card className={classes.card}>
@@ -95,6 +98,7 @@ class UserHome extends Component {
                     name="firstName"
                     type="text"
                     onChange={this.handleChange}
+                    disabled={notOnEditPage}
                   />
                 </FormControl>
                 <FormControl className={classes.textField}>
@@ -109,6 +113,7 @@ class UserHome extends Component {
                     name="lastName"
                     type="text"
                     onChange={this.handleChange}
+                    disabled={notOnEditPage}
                   />
                 </FormControl>
                 <FormControl>
@@ -120,6 +125,7 @@ class UserHome extends Component {
                     name="email"
                     type="text"
                     onChange={this.handleChange}
+                    disabled={notOnEditPage}
                   />
                 </FormControl>
                 {/* <FormControl> */}
@@ -133,12 +139,13 @@ class UserHome extends Component {
                     name="biography"
                     type="text"
                     onChange={this.handleChange}
+                    disabled={notOnEditPage}
                   /> */}
                 {/* </FormControl> */}
               </div>
               <div>
                 <CardActions>
-                  { this.props.match.path.includes("edit")
+                  { onEditPage()
                     ? <Button type="submit">Update Your Information</Button>
                     : <Link to={`/users/${this.state.id}/edit`}><Button>Click To Edit</Button></Link>
                   }
@@ -162,12 +169,13 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    handleSubmit: (evt, user) => {
+    handleSubmit: async (evt, user) => {
       evt.preventDefault()
-      console.log(user)
-      dispatch(putUser(user, user.id))
+      await dispatch(putUser(user, user.id))
+      await dispatch(me())
+      ownProps.history.push("/home")
     },
     fetchAllChatRooms: () => dispatch(fetchNegotiationsThunk())
   }
