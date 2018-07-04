@@ -87,7 +87,6 @@ router.post('/contracts/finalize', (req, res, next) => {
     }
   })
     .then(contract => {
-      console.log(contract)
       return contract.update({isStatusOpen: false})
     })
     .then(finalizedContract => {

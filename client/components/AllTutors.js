@@ -31,12 +31,10 @@ const styles = {
   media: {
     paddingTop: '70%' // 16:9
   },
-
   root: {
     maxWidth: 400,
     flexGrow: 1,
   },
-
 }
 
 class AllTutors extends Component {

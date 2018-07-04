@@ -32,13 +32,25 @@ class SingleTutor extends Component {
   }
   componentDidMount() {
     const tutorId = this.props.match.params.id
-    this.props.fetchTutor(tutorId) //update to get the proper tutor
-    localStorage.tutorId = tutorId
-    this.setState({status: this.props.fetchLike(this.props.user, this.props.tutor)})
-  }
+    this.props.fetchTutor(tutorId)
+  } 
+
+  // componentDidMount(prevProps, prevState) {
+  //   console.log('**********', prevProps, 'componentDidupdate!!')
+  //   console.log('Xxxxxxxxxxx', prevState, 'componentDidupdate!!')
+  //   let {user, tutor} = prevProps
+  //   if ((this.state.status !== prevState.status)&& (user.id && tutor.id)) {
+  //     this.setState({
+  //       status: this.props.fetchLike(this.props.user, this.props.tutor)
+  //     })
+  //   }
+  // }
 
   render() {
-    const {classes, tutor, user} = this.props
+    const {classes, tutor, user, fetchContract} = this.props
+    let currentContract = user.contracts ? fetchContract(user, tutor) : undefined
+    let currentContractId = currentContract ? currentContract.id : undefined
+    this.state.status = this.props.fetchLike(this.props.user, this.props.tutor)
     return (
       <div className="cards">
         <Card className={`${classes.card} cards`}>
@@ -57,22 +69,34 @@ class SingleTutor extends Component {
             <Typography component="p">{tutor.biography}</Typography>
           </CardContent>
           <CardActions>
-          {user.contracts && user.contracts.length
-          ? 
-          <Link to={`/contract`}>
-            <span className="Mstart(10px) Va(m)">View and Finalize Contract</span>
-          </Link> : ''
-          }
-          <p>{`Match Status: ${this.props.fetchLike(user, tutor)}`}</p>
           {this.state.status ==='match'
           ?
-          <InitiateContract/>
+          currentContract
+          ?
+          <div>
+          <Link to={`/contract/${currentContractId}`}>
+            <span className="Mstart(10px) Va(m)">View and Finalize Contract</span>
+          </Link> <br/>
+          <span>Chat with {tutor.firstName}</span>
+          <Link to='../../chatroom/1'>
+            <img src='/chat.png'/>
+          </Link>
+          </div>
+          : 
+          <div>
+          <InitiateContract/><br/>
+            <span>Chat with {tutor.firstName}</span>
+            <Link to='../../chatroom/1'>
+              <img src='/chat.png'/>
+            </Link>
+          </div>
           :
           this.state.status ==='like' 
           ? <p>Waiting for response...</p> 
           :<Button onClick={() => {
             this.props.handleClick(user.id, tutor.id)
-            this.setState({status: 'like'})
+            if (tutor.match.filter(match => match.id ===user.id).length>0)  this.setState({status: 'match'})
+            else this.setState({status: 'like'})
           }} variant="contained" color="secondary" className={classes.button}>
               Exchange!
             </Button>
@@ -96,6 +120,7 @@ const mapStateToProps = state => {
   const mapDispatchToProps = dispatch => {
     return {
       fetchTutor: tutorId => dispatch(fetchSingleTutor(tutorId)),
+      fetchUser: () => dispatch(me()),
       fetchLike: (user, tutor) => {
         if (!user.match|| !tutor.match) return false
         else {
@@ -106,7 +131,13 @@ const mapStateToProps = state => {
           else return false
         }
       },
-      handleClick: (userId, tutorId) => dispatch(fetchLike(userId, tutorId))
+      handleClick: (userId, tutorId) => dispatch(fetchLike(userId, tutorId)),
+      fetchContract: (user, tutor) => {
+      const contract =  user.contracts.filter(contract => {
+        return contract.users[0].id === tutor.id || contract.users[1].id === tutor.id
+      })[0];
+      return contract
+    }
       }
   }
 

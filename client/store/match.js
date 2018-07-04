@@ -13,7 +13,6 @@ export const fetchLike = (userId, tutorId) => dispatch => {
   .put(`/api/match/${userId}`, {tutorId})
     .then(res => res.data)
     .then(status => {
-      console.log(status)
       dispatch(matchTutor(status));
     });
 };

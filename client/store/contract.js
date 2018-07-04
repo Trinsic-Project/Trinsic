@@ -62,7 +62,7 @@ export const finalizeContractThunk = contractInstanceAddress => {
       })
       .then(instance => {
         console.log(instance)
-        axios.post('api/users/contracts/finalize', {contractAddress: contractInstanceAddress})
+        axios.post('/api/users/contracts/finalize', {contractAddress: contractInstanceAddress})
         return instance
       })
       .then(async instance => {
