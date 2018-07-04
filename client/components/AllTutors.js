@@ -127,78 +127,7 @@ class AllTutors extends Component {
               </Typography>
             </CardContent>
             <br />
-            <CardActions>
-              <Link to={`/tutors/${tutor.id}`} style={{margin: 'auto'}}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.button}
-                  onClick={() => fetchTutor(tutor.id)}
-                >
-                Learn More
-                </Button>
-              </Link>
-                <Button
-                  onClick={() =>
-                    this.props.handleClick(user.id, tutor.id)
-                  }
-                  variant="contained"
-                  color="secondary"
-                  className={classes.button}
-                >
-                  <CardMedia
-                    className={classes.media}
-                    image={tutor.imageUrl}
-                    title="Tutor"
-                  />
-                  <CardContent style={{textAlign: 'center'}}>
-                    <Typography variant="headline" component="h1">
-                      {`${tutor.fullName}`}
-                    </Typography>
-                    <Typography component="h2">
-                      {`${tutor.city}, ${tutor.state}`}
-                    </Typography>
-                    <Typography className={classes.title}>
-                      Skills: Javascript<br />
-                    </Typography>
-                  </CardContent>
-                  <br />
-                  <CardActions>
-                    <Link to={`/tutors/${tutor.id}`} style={{margin: 'auto'}}>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        className={classes.button}
-                        onClick={() => fetchTutor(tutor.id)}
-                      >
-                        Learn More
-                      </Button>
-                    </Link>
-                    <p>{`Match Status: ${this.props.fetchLike(
-                      user,
-                      tutor
-                    )}`}</p>
-                    {this.props.fetchLike(user, tutor) === 'match' ? (
-                      <div className="enter-chat">
-                        <Link to="/chatroom/1">
-                          <img id="enter-chat" src="/chat.png" />
-                        </Link>
-                      </div>
-                    ) : this.props.fetchLike(user, tutor) === 'like' ? (
-                      <p>Waiting for response...</p>
-                    ) : (
-                      <Button
-                        onClick={() =>
-                          this.props.handleClick(user.id, tutor.id)
-                        }
-                        variant="contained"
-                        color="secondary"
-                        className={classes.button}
-                      >
-                        Exchange!
-                      </Button>
-                    )}
-                  </CardActions>
+            
                   <MobileStepper
                     steps={0}
                     position="static"

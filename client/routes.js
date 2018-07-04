@@ -22,7 +22,7 @@ class Routes extends Component {
         <Route exact path="/chatroom/:id" component={ChatRoom} />
         <Route exact path="/tutors/:id" component={SingleTutor} />
         <Route exact path="/tutors" component={AllTutors} />
-        <Route exact path="/contract" component={ViewContract} />
+        <Route exact path="/contract/:id" component={ViewContract} />
         <Route exact path="/about" component={About} />
         <Route exact path="/faqs" component={FAQ} />
 
