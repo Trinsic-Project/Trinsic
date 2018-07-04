@@ -28,7 +28,7 @@ const styles = {
 
 const Navbar = ({handleClick, isLoggedIn, classes, isSideBarOpen, toggle}) => (
   <div className={classes.root}>
-    <AppBar position="static">
+    <AppBar position="static" style={{backgroundColor: "#ed5946"}}>
       <Toolbar>
         {isLoggedIn ? (
           <IconButton
@@ -46,38 +46,17 @@ const Navbar = ({handleClick, isLoggedIn, classes, isSideBarOpen, toggle}) => (
           className={classes.flex}
           style={{textAlign: 'left'}}
         >
-                <Link className="link" to="/home">
-                TRINSIC
+          <Link className="link" to="/home">
+            TRINSIC
           </Link>
-          
         </Typography>
         <Button color="inherit">
           <Link className="link" to="/tutors">
             Browse Skills
           </Link>
         </Button>
-        <Button color="inherit">
-          <Link className="link" to="/team">
-            Team
-          </Link>
-        </Button>
-        <Button color="inherit">
-          <Link className="link" to="/faqs">
-            FAQs
-          </Link>
-        </Button>
-        <Button color="inherit">
-          <Link className="link" to="/about">
-            About
-          </Link>
-        </Button>
         {isLoggedIn ? (
           <div>
-            <Button color="inherit">
-              <Link className="link" to="/home">
-                Home
-              </Link>
-            </Button>
             <Button color="inherit" onClick={handleClick}>
               <a className="link" href="#" onClick={handleClick}>
                 Logout

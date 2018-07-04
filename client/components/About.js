@@ -16,7 +16,7 @@ const About = props => {
   const { classes } = props;
 
   return (
-    <div className="center-nav-content">
+    <div className="center-nav-content" style={{backgroundImage: `url("https://images.pexels.com/photos/212937/pexels-photo-212937.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")`}}>
       <div id="about-description">
 
         <Paper className={classes.root} elevation={1}>
@@ -33,7 +33,8 @@ const About = props => {
             The four pillars of Trinsic are: accessible education, transparency, credibility, and stewardship.
           </Typography>
           <Typography component="p">
-            Our mission is to build a community centered around teaching and learning as we help contribute to opportunities for personal and professional growth.
+            Our mission is to build a community centered around teaching and learning as we help contribute to 
+            opportunities for personal and professional growth.
           </Typography>
         </Paper>
 
