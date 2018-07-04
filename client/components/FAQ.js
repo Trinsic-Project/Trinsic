@@ -30,9 +30,10 @@ function SimpleExpansionPanel(props) {
         backgroundImage: `url("https://images.pexels.com/photos/212937/pexels-photo-212937.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")`,
         overflowY: "auto"
       }}
+
     >
       <div className={classes.root}>
-        <div id="about-description">
+        {/* <div id="about-description"> */}
           <Paper className={classes.root} elevation={1}>
             <Typography variant="headline" component="h3">
               FAQS
@@ -41,7 +42,7 @@ function SimpleExpansionPanel(props) {
             Certain terms and phrases tend to come up when researching smart contracts and the blockchain system. At times, these concepts can become challenging to keep track of and piece together. Below is a collection of questions, answers, and additional resources that may help demystify this new and innovative technology.
           </Typography>
           </Paper>
-        </div>
+        {/* </div> */}
         <ExpansionPanel>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Typography className={classes.heading}>
@@ -294,7 +295,7 @@ function SimpleExpansionPanel(props) {
             </Typography>
           </ExpansionPanelDetails>
         </ExpansionPanel>
-      </div>
+    </div>
     </div>
   )
 }

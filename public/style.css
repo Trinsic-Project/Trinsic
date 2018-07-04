@@ -11,8 +11,16 @@ a {
   color: white;
 }
 .cards {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-top: 1%;
-  margin-bottom: 1%;
+  margin-bottom: 10%;
+}
+
+.single-tutor-card {
+  margin-top: 1%;
+  margin-bottom: 10%;
 }
 
 .inputLabel {
@@ -75,6 +83,8 @@ button[name=finalize-contract] {
 	justify-content: space-between;
 }
 
+
+
 .center-nav-content {
   height: 100%;
   width: 100%;
@@ -82,13 +92,4 @@ button[name=finalize-contract] {
   position: fixed;
   align-items: center;
   justify-content: center;
-}
-
-.faq-question {
-  text-align: left;
-  margin: 1%;
-}
-
-.faq-answer li {
-  padding: 0.5%;
 }

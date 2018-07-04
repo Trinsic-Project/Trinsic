@@ -52,8 +52,8 @@ class SingleTutor extends Component {
     let currentContractId = currentContract ? currentContract.id : undefined
     this.state.status = this.props.fetchLike(this.props.user, this.props.tutor)
     return (
-      <div className="cards">
-        <Card className={`${classes.card} cards`}>
+      <div className="single-tutor-card">
+        <Card className={`${classes.card} `}>
           <CardMedia
             className={classes.media}
             image={tutor.imageUrl}
