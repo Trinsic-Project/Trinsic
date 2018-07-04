@@ -47,33 +47,33 @@ const AuthForm = props => {
    (<div>
           <FormControl className={classes.textField} required>
           <InputLabel className="inputLabel" htmlFor="adornment-first-name">First Name</InputLabel>
-          <Input name="firstName" type="text" required/>
+          <Input name="firstName" type="text" />
           </FormControl>
 
           <FormControl className={classes.textField} required>
           <InputLabel className="inputLabel" htmlFor="adornment-last-name">Last Name</InputLabel>
-          <Input name="lastName" type="text" required/>
+          <Input name="lastName" type="text" />
           </FormControl>
 
         <FormControl className={classes.textField} required>
         <InputLabel className="inputLabel" htmlFor="adornment-email">Email</InputLabel>
-        <Input name="email" type="email" required/>
+        <Input name="email" type="email" />
         </FormControl>
 
         <FormControl required>
         <InputLabel className="inputLabel" htmlFor="adornment-password">Password</InputLabel>
-        <Input name="password" type="password" required/>
+        <Input name="password" type="password" />
         </FormControl>
         </div>
       ) :
       <div>
         <FormControl className={classes.textField} required>
         <InputLabel className="inputLabel" htmlFor="adornment-email">Email</InputLabel>
-        <Input name="email" type="email" required/>
+        <Input name="email" type="email" />
         </FormControl>
         <FormControl required>
         <InputLabel className="inputLabel" htmlFor="adornment-password">Password</InputLabel>
-        <Input name="password" type="password" required/>
+        <Input name="password" type="password" />
         </FormControl>
       </div>}
       <div>
