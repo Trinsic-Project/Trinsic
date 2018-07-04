@@ -58,18 +58,12 @@ class UserInformation extends Component {
   }
 }
 
-const mapState = state => {
-  return {
-    user: state.user
-  }
-}
-
 const mapDispatch = dispatch => {
   return {
     getUser: () => dispatch(me())
   }
 }
 
-const UserInformationContainer = connect(mapState, mapDispatch)(UserInformation)
+const UserInformationContainer = connect(null, mapDispatch)(UserInformation)
 
 export default UserInformationContainer
