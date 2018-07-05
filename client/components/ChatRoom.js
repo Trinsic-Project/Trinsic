@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {MessageEntry} from './'
-import {fetchMessages} from '../store'
+import {fetchMessages, fetchSingleTutor} from '../store'
 import PropTypes from 'prop-types'
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
@@ -10,7 +10,6 @@ import compose from 'recompose/compose'
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import Card from '@material-ui/core/Card'
 import {Link} from 'react-router-dom'
-import {InitiateContract} from './'
 
 const styles = theme => ({
   row: {
@@ -33,11 +32,13 @@ const styles = theme => ({
 
 class ChatRoom extends Component {
   componentDidMount() {
+    const tutorId = this.props.match.params.id
+    this.props.fetchTutor(tutorId)
     this.props.fetchMessages(1)
   }
 
   render() {
-    const {classes} = this.props
+    const {classes, tutor} = this.props
     return (
       <div>
       <Card className={classes.card}>
@@ -49,10 +50,10 @@ class ChatRoom extends Component {
           </Link>
           </div>
           <div className="chatNavBar__avatarFrame" style={{margin: 'auto', display:'inline-block', width: "33%", verticalAlign: 'middle'}}>        
-            <Link to='../tutors/1'>
+            <Link to={`../tutors/${tutor.id}`}>
               <Avatar
                 alt="Remy Sharp"
-                src="/FullSizeRender.jpg"
+                src={tutor.imageUrl}
                 className={classNames(this.props.classes.avatar, this.props.classes.bigAvatar)}
               />
             </Link>
@@ -64,9 +65,8 @@ class ChatRoom extends Component {
           </div>
         </div>
       </nav>
-      <InitiateContract/>
       <div>
-        <span style={{fontSize:'12px', color:"#9b9b9b"}}>You matched with Jacob on 6/28/2018</span>
+        <span style={{fontSize:'12px', color:"#9b9b9b"}}>You matched with {tutor.fullName}</span>
       </div>
       <div>
         {this.props.messages.map(message => (
@@ -84,14 +84,17 @@ class ChatRoom extends Component {
 
 const mapStateToProps = state => {
   return {
+    user: state.user,
     messages: state.messages,
-    chatroomId: state.currentDirectMessageChat.id
+    chatroomId: state.currentDirectMessageChat.id,
+    tutor: state.tutor
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchMessages: negotiationId => dispatch(fetchMessages(negotiationId))
+    fetchMessages: negotiationId => dispatch(fetchMessages(negotiationId)),
+    fetchTutor: tutorId => dispatch(fetchSingleTutor(tutorId)),
   }
 }
 

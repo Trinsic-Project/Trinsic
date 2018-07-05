@@ -61,6 +61,8 @@ class SingleTutor extends Component {
       ? fetchContract(user, tutor)
       : undefined
     let currentContractId = currentContract ? currentContract.id : undefined
+    console.log(tutor)
+    console.log(`../../chatroom/${tutor.id}`)
     return (
       <div className="single-tutor-card">
         <Card className={`${classes.card} `}>
@@ -79,52 +81,42 @@ class SingleTutor extends Component {
             <Typography component="p">{tutor.biography}</Typography>
           </CardContent>
           <CardActions style={{justifyContent: 'center'}}>
-            {this.state.status === 'match' ? (
-              currentContract ? (
-                <div>
-                  <Link to={`/contract/${currentContractId}`}>
-                    <span className="Mstart(10px) Va(m)">
-                      View and Finalize Contract
-                    </span>
-                  </Link>{' '}
-                  <br />
-                  <span>Chat with {tutor.firstName}</span>
-                  <Link to="../../chatroom/1">
-                    <img src="/chat.png" />
-                  </Link>
-                </div>
-              ) : (
-                <div>
-                  <InitiateContract />
-                  <br />
-                  <span>Chat with {tutor.firstName}</span>
-                  <Link to="../../chatroom/1">
-                    <img src="/chat.png" />
-                  </Link>
-                </div>
-              )
-            ) : this.state.status === 'like' ? (
-              <p>Waiting for response...</p>
-            ) : (
-
-              <Button
-                onClick={() => {
-                  this.props.handleClick(user.id, tutor.id)
-                  if (
-                    tutor.match.filter(match => match.id === user.id).length > 0
-                  )
-                    this.setState({status: 'match'})
-                  else this.setState({status: 'like'})
-                }}
-                variant="contained"
-                // color="secondary"
-                className={classes.button}
-                style={{backgroundColor: "#181d51", color: "white"}}
-              >
-                Exchange Skills!
-              </Button>
-              
-            )}
+          {this.state.status ==='match'
+          ?
+          currentContract
+          ?
+          <div>
+          <Link to={`/contract/${currentContractId}`}>
+            <span className="Mstart(10px) Va(m)">View and Finalize Contract</span>
+          </Link> <br/>
+          <span>Chat with {tutor.firstName}</span>
+          <Link to={`../../chatroom/${tutor.id}`}>
+            <img src='/chat.png'/>
+          </Link>
+          </div>
+          : 
+          <div>
+          <InitiateContract/><br/>
+            <span>Chat with {tutor.firstName}</span>
+            <Link to={`../../chatroom/${tutor.id}`}>
+              <img src='/chat.png'/>
+            </Link>
+          </div>
+          :
+          this.state.status ==='like' 
+          ? <p>Waiting for response...</p> 
+          :<Button onClick={() => {
+            this.props.handleClick(user.id, tutor.id)
+            if (tutor.match.filter(match => match.id ===user.id).length>0)  this.setState({status: 'match'})
+            else this.setState({status: 'like'})
+          }} variant="contained" 
+          // color="secondary" 
+          className={classes.button}
+          style={{backgroundColor: "#181d51", color: "white"}}
+          >
+              Exchange!
+            </Button>
+          }
           </CardActions>
         </Card>
         <Snackbar

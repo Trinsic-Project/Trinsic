@@ -49,8 +49,8 @@ const SideBar = ({classes, toggle, isSideBarOpen, user, fetchTutor}) => {
   const sideList = user.match ? (
     <div className={classes.list}>
       <List component="nav" disablePadding>
-        <Button  onClick={() => toggle(false)}>
-          <Link to="/chatroom/home">
+        <Button onClick={() => toggle(false)}>
+          <Link to={`/chatroom/${user.id}`}>
             <img style={{width: '50%'}} src="/android-chrome-512x512.png" />
           </Link>
         </Button>
