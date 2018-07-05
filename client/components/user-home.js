@@ -54,7 +54,7 @@ class UserHome extends Component {
       imageUrl: user.imageUrl,
       triggered: false,
       redirect: false,
-      skills: user.skills
+      skills: user.skills,
       open: false,
     }
     this.handleChange = this.handleChange.bind(this)
@@ -213,6 +213,7 @@ class UserHome extends Component {
           }}
           message={<span id="message-id">Your edits have been saved!</span>}
         />
+      </div>
       </div>
     )
   }

@@ -150,10 +150,10 @@ class AllTutors extends Component {
                         Learn More
                       </Button>
                     </Link>
-                    <p>{`Match Status: ${this.props.fetchLike(
+                    {/* <p>{`Match Status: ${this.props.fetchLike(
                       user,
                       tutor
-                    )}`}</p>
+                    )}`}</p> */}
                     {this.props.fetchLike(user, tutor) === 'match' ? (
                       <div className="enter-chat">
                         <Link to="/chatroom/1">
