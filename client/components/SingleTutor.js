@@ -34,22 +34,12 @@ class SingleTutor extends Component {
     }
   }
   async componentDidMount() {
-   const tutorId = this.props.match.params.id
-   await this.props.fetchTutor(tutorId)
-   const status = await this.props.fetchLike(this.props.user, this.props.tutor)
+    const tutorId = this.props.match.params.id
+    await this.props.fetchTutor(tutorId)
+    await this.props.fetchUser()
+    const status = await this.props.fetchLike(this.props.user, this.props.tutor)
     this.setState({status})
   } 
-
-  // componentDidMount(prevProps, prevState) {
-  //   console.log('**********', prevProps, 'componentDidupdate!!')
-  //   console.log('Xxxxxxxxxxx', prevState, 'componentDidupdate!!')
-  //   let {user, tutor} = prevProps
-  //   if ((this.state.status !== prevState.status)&& (user.id && tutor.id)) {
-  //     this.setState({
-  //       status: this.props.fetchLike(this.props.user, this.props.tutor)
-  //     })
-  //   }
-  // }
 
   componentDidUpdate(prevProps) {
     if(this.props.matches.length !== prevProps.matches.length) {
@@ -69,8 +59,6 @@ class SingleTutor extends Component {
     const {classes, tutor, user, fetchContract} = this.props
     let currentContract = user.contracts ? fetchContract(user, tutor) : undefined
     let currentContractId = currentContract ? currentContract.id : undefined
-  //this.state.status = this.props.fetchLike(this.props.user, this.props.tutor)
-    //console.log(this.props.fetchLike(this.props.user, this.props.tutor))
     return (
       <div className="single-tutor-card">
       
