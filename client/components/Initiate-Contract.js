@@ -5,7 +5,7 @@ import { fetchContract, finalizeContractThunk} from '../store';
 const InitiateContract = (props) => {
     return (
         <div className='contract-buttons'>
-          <button type='submit' name='initiate-contract' onClick={() => props.fetch(props.user, props.tutor)}>Initiate Contract</button>
+          <button type='submit' name='initiate-contract' disabled={props.contract.id} onClick={() => props.fetch(props.user, props.tutor)}>Initiate Contract</button>
         </div>
     )
 }

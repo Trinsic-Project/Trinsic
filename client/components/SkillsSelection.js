@@ -12,8 +12,6 @@ import ListSubheader from '@material-ui/core/ListSubheader'
 import IconButton from '@material-ui/core/IconButton'
 import InfoIcon from '@material-ui/icons/Info'
 
-//import cooking from '../../public/skills_photos/cooking.jpg'
-
 const styles = theme => ({
   root: {
     display: 'flex',
@@ -32,13 +30,13 @@ const styles = theme => ({
 })
 
 class Skills extends Component {
+
   componentDidMount() {
     this.props.fetchSkills()
   }
 
   render() {
     const {classes, allSkills, setSkill} = this.props
-    console.log(allSkills)
     return (
       <div className={classes.root}>
         <GridList cellHeight={350} className={classes.gridList}>
