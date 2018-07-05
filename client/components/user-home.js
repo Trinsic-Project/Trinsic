@@ -13,6 +13,7 @@ import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
 import Button from '@material-ui/core/Button'
 import CardMedia from '@material-ui/core/CardMedia'
+import TextField from '@material-ui/core/TextField';
 
 const styles = theme => ({
   card: {
@@ -50,7 +51,8 @@ class UserHome extends Component {
       biography: user.biography,
       imageUrl: user.imageUrl,
       triggered: false,
-      redirect: false
+      redirect: false,
+      skills: user.skills
     }
     this.handleChange = this.handleChange.bind(this)
   }
@@ -73,13 +75,15 @@ class UserHome extends Component {
       city,
       state,
       biography,
-      imageUrl
+      imageUrl,
+      skills
     } = this.state
 
     const onEditPage = () => this.props.match.path.includes("edit");
     const notOnEditPage = !onEditPage();
-
+    console.log(skills)
     return (
+      <div>
       <div className="cards">
         <Card className={classes.card}>
           <CardMedia className={classes.media} image={imageUrl} title="User" />
@@ -128,20 +132,54 @@ class UserHome extends Component {
                     disabled={notOnEditPage}
                   />
                 </FormControl>
-                {/* <FormControl> */}
-                  {/* <InputLabel className="inputLabel" htmlFor="adornment-biography">
-                    Bio
-                  </InputLabel> */}
-                  {/* <TextField
-                    id="multiline-flexible"
-                    label="Bio"
-                    value={biography}
-                    name="biography"
+                <FormControl>
+                  <InputLabel className="inputLabel" htmlFor="adornment-email">
+                    City
+                  </InputLabel>
+                  <Input
+                    value={city}
+                    name="city"
                     type="text"
                     onChange={this.handleChange}
                     disabled={notOnEditPage}
-                  /> */}
-                {/* </FormControl> */}
+                  />
+                </FormControl>
+                <FormControl>
+                  <InputLabel className="inputLabel" htmlFor="adornment-email">
+                    State
+                  </InputLabel>
+                  <Input
+                    value={state}
+                    name="state"
+                    type="text"
+                    onChange={this.handleChange}
+                    disabled={notOnEditPage}
+                  />
+                </FormControl>
+                <FormControl>
+                  <InputLabel className="inputLabel" htmlFor="adornment-biography">
+                    Bio
+                  </InputLabel>
+                  <Input
+                    value={biography}
+                    name="bio"
+                    type="text"
+                    onChange={this.handleChange}
+                    disabled={notOnEditPage}
+                  />
+                </FormControl>
+                {/* <FormControl>
+                  <InputLabel className="inputLabel" htmlFor="adornment-biography">
+                    Skill
+                  </InputLabel>
+                  <Input
+                    value={skills[0].name}
+                    name="skills"
+                    type="text"
+                    onChange={this.handleChange}
+                    disabled={notOnEditPage}
+                  />
+                </FormControl> */}
               </div>
               <div>
                 <CardActions>
@@ -155,7 +193,8 @@ class UserHome extends Component {
             </form>
           </CardContent>
         </Card>
-      </div>
+      </div> 
+    </div>
     )
   }
 }

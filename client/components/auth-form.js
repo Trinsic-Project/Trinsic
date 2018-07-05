@@ -41,7 +41,6 @@ const AuthForm = props => {
     <div className="center-nav-content" style={{backgroundImage: `url("https://images.pexels.com/photos/212937/pexels-photo-212937.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")`}}>
 
     <div className='cards'>
-    
       <Card className={classes.card}>
       <CardContent>
       <form onSubmit={handleSubmit} name={name}>
@@ -98,7 +97,6 @@ const AuthForm = props => {
       </CardContent>
       </Card>
     </div>
-
    </div>
   )
 }
@@ -171,3 +169,5 @@ AuthForm.propTypes = {
   error: PropTypes.object,
   classes: PropTypes.object.isRequired
 }
+
+

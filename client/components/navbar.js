@@ -50,13 +50,13 @@ const Navbar = ({handleClick, isLoggedIn, classes, isSideBarOpen, toggle}) => (
             TRINSIC
           </Link>
         </Typography>
+        {isLoggedIn ? (
+          <div>
         <Button color="inherit">
           <Link className="link" to="/tutors">
             Browse Skills
           </Link>
         </Button>
-        {isLoggedIn ? (
-          <div>
             <Button color="inherit" onClick={handleClick}>
               <a className="link" href="#" onClick={handleClick}>
                 Logout
