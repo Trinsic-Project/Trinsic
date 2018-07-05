@@ -8,11 +8,17 @@ import axios from 'axios';
 //Action Types
 const GET_CONTRACT = 'GET_CONTRACT'
 const FINALIZE_CONTRACT = 'FINALIZE_CONTRACT'
+const RENDER_CONTRACT = 'RENDER_CONTRACT'
 
 //Action Creators
 const getContract = contract => ({type: GET_CONTRACT, payload: contract})
 const finalizeContract = contract => ({
   type: FINALIZE_CONTRACT,
+  payload: contract
+})
+
+const renderContract = contract => ({
+  type: RENDER_CONTRACT,
   payload: contract
 })
 
@@ -36,6 +42,7 @@ export const fetchContract = (user, tutor)  => {
       })
       .then(async instance => {
         await instance.GetAgreement().then(agreement => {
+          dispatch(renderContract(agreement))
           console.log(
             'THIS SHOULD SHOW THE *INITIALIZED* AGREEMENT DETAILS: ',
             agreement
@@ -68,11 +75,12 @@ export const finalizeContractThunk = contractInstanceAddress => {
       .then(async instance => {
         await instance
           .GetAgreement()
-          .then(agreement =>
+          .then(agreement =>{
+            dispatch(renderContract(agreement))
             console.log(
               'THIS SHOULD SHOW THE *FINALIZED* AGREEMENT DETAILS: ',
               agreement
-            )
+            )}
           )
         return instance
       })
@@ -89,6 +97,9 @@ export default function(state = {}, action) {
       return action.payload
     case FINALIZE_CONTRACT:
       return action.payload
+    case RENDER_CONTRACT:
+      console.log(action.payload)
+      return {...state, contractInfo: action.payload}
     default:
       return state
   }
