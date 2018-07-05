@@ -67,8 +67,13 @@ router.get('/me', (req, res) => {
           model: Contract,
           include: [
             {
-              model: User
-            }
+              model: User, 
+              include : [
+              {
+                model: Skill
+              }
+              ]
+            },
           ]
         },
         {

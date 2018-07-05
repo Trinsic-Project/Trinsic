@@ -12,6 +12,7 @@ import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
 import Button from '@material-ui/core/Button'
 
+
 const styles = theme => ({
   card: {
     maxWidth: 375,
@@ -37,43 +38,44 @@ const styles = theme => ({
 const AuthForm = props => {
   const {name, displayName, handleSubmit, error, classes} = props
   return (
-    <div className="center-nav-content">
+    <div className="center-nav-content" style={{backgroundImage: `url("https://images.pexels.com/photos/212937/pexels-photo-212937.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")`}}>
 
     <div className='cards'>
+    
       <Card className={classes.card}>
       <CardContent>
       <form onSubmit={handleSubmit} name={name}>
   {(props.name === "signup") ?
    (<div>
-          <FormControl className={classes.textField}>
+          <FormControl className={classes.textField} required>
           <InputLabel className="inputLabel" htmlFor="adornment-first-name">First Name</InputLabel>
-          <Input name="firstName" type="text" required/>
+          <Input name="firstName" type="text" />
           </FormControl>
 
-          <FormControl className={classes.textField}>
+          <FormControl className={classes.textField} required>
           <InputLabel className="inputLabel" htmlFor="adornment-last-name">Last Name</InputLabel>
-          <Input name="lastName" type="text" required/>
+          <Input name="lastName" type="text" />
           </FormControl>
 
-        <FormControl className={classes.textField}>
+        <FormControl className={classes.textField} required>
         <InputLabel className="inputLabel" htmlFor="adornment-email">Email</InputLabel>
-        <Input name="email" type="email" required/>
+        <Input name="email" type="email" />
         </FormControl>
 
-        <FormControl>
+        <FormControl required>
         <InputLabel className="inputLabel" htmlFor="adornment-password">Password</InputLabel>
-        <Input name="password" type="password" required/>
+        <Input name="password" type="password" />
         </FormControl>
         </div>
       ) :
       <div>
-        <FormControl className={classes.textField}>
+        <FormControl className={classes.textField} required>
         <InputLabel className="inputLabel" htmlFor="adornment-email">Email</InputLabel>
-        <Input name="email" type="email" required/>
+        <Input name="email" type="email" />
         </FormControl>
-        <FormControl>
+        <FormControl required>
         <InputLabel className="inputLabel" htmlFor="adornment-password">Password</InputLabel>
-        <Input name="password" type="password" required/>
+        <Input name="password" type="password" />
         </FormControl>
       </div>}
       <div>

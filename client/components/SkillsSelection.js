@@ -47,7 +47,7 @@ class Skills extends Component {
           </GridListTile>
           {allSkills.map(skill => (
             <GridListTile key={skill.id} onClick={() => setSkill(skill.id)}>
-              <Link to={`/home`} onClick={this.handleClick}>
+              <Link to={`/home/user-information`}>
                 <img src={skill.imagePath} alt={skill.name} />
               </Link>
               <GridListTileBar

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchAllTutorThunk, fetchSingleTutor, me} from '../store'
+import {fetchAllTutorThunk, fetchSingleTutor, me ,fetchLike} from '../store'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
@@ -16,6 +16,8 @@ import MobileStepper from '@material-ui/core/MobileStepper';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
+import Snackbar from '@material-ui/core/Snackbar';
+import Fade from '@material-ui/core/Fade';
 
 const styles = {
   card: {
@@ -31,18 +33,17 @@ const styles = {
   media: {
     paddingTop: '70%' // 16:9
   },
-
   root: {
     maxWidth: 400,
     flexGrow: 1,
   },
-
 }
 
 class AllTutors extends Component {
   state = {
     activeStep: 0,
-    unmatchedTutors: []
+    unmatchedTutors: [],
+    open: false
   };
 
   handleNext = () => {
@@ -59,6 +60,14 @@ class AllTutors extends Component {
 
   handleStepChange = activeStep => {
     this.setState({ activeStep });
+  };
+
+  handleToast = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
   };
 
   async componentDidMount() {
@@ -82,7 +91,8 @@ class AllTutors extends Component {
     if(prevProps.matches.length !== this.props.matches.length) {
       newMatch = this.props.matches[this.props.matches.length - 1];
       unmatchedTutors = this.state.unmatchedTutors.filter(tutor => tutor.id !== newMatch.id)
-      this.setState({ unmatchedTutors })
+      this.setState({ unmatchedTutors });
+      this.handleToast();
     }
     console.log(unmatchedTutors)
   }
@@ -185,8 +195,17 @@ class AllTutors extends Component {
                   />
                 </Card>
           ))}
-        </SwipeableViews>
+ </SwipeableViews>
           </Grid>
+          <Snackbar
+          open={this.state.open}
+          onClose={this.handleClose}
+          TransitionComponent={Fade}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">Your request has been sent!</span>}
+        />
         </div>
       </div>
     ) : null
