@@ -93,6 +93,7 @@ class AllTutors extends Component {
       unmatchedTutors = this.state.unmatchedTutors.filter(tutor => tutor.id !== newMatch.id)
       this.setState({ unmatchedTutors });
       this.handleToast();
+      this.props.fetchUser();
     }
   }
 
