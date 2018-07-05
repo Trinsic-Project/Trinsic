@@ -61,6 +61,7 @@ class UserHome extends Component {
   }
   componentDidMount(){
     this.props.fetchAllChatRooms()
+    this.props.fetchUser()
   }
 
   handleChange(evt) {
@@ -168,12 +169,12 @@ class UserHome extends Component {
                   />
                 </FormControl>
                 <FormControl>
-                  <InputLabel className="inputLabel" htmlFor="adornment-biography">
-                    Bio
+                  <InputLabel className="inputLabel" htmlFor="adornment-email">
+                    Biography
                   </InputLabel>
                   <Input
                     value={biography}
-                    name="bio"
+                    name="biography"
                     type="text"
                     onChange={this.handleChange}
                     disabled={notOnEditPage}
@@ -230,6 +231,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    fetchUser: () => dispatch(me()),
     handleSubmit: async (evt, user) => {
       evt.preventDefault()
       await dispatch(putUser(user, user.id))
