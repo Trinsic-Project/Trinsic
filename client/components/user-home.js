@@ -13,6 +13,7 @@ import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
 import Button from '@material-ui/core/Button'
 import CardMedia from '@material-ui/core/CardMedia'
+import TextField from '@material-ui/core/TextField';
 import Snackbar from '@material-ui/core/Snackbar';
 import Fade from '@material-ui/core/Fade';
 
@@ -53,12 +54,14 @@ class UserHome extends Component {
       imageUrl: user.imageUrl,
       triggered: false,
       redirect: false,
+      skills: user.skills,
       open: false,
     }
     this.handleChange = this.handleChange.bind(this)
   }
   componentDidMount(){
     this.props.fetchAllChatRooms()
+    this.props.fetchUser()
   }
 
   handleChange(evt) {
@@ -84,13 +87,15 @@ class UserHome extends Component {
       city,
       state,
       biography,
-      imageUrl
+      imageUrl,
+      skills
     } = this.state
 
     const onEditPage = () => this.props.match.path.includes("edit");
     const notOnEditPage = !onEditPage();
-
+    console.log(skills)
     return (
+      <div>
       <div className="cards">
         <Card className={classes.card}>
           <CardMedia className={classes.media} image={imageUrl} title="User" />
@@ -139,20 +144,54 @@ class UserHome extends Component {
                     disabled={notOnEditPage}
                   />
                 </FormControl>
-                {/* <FormControl> */}
-                  {/* <InputLabel className="inputLabel" htmlFor="adornment-biography">
-                    Bio
-                  </InputLabel> */}
-                  {/* <TextField
-                    id="multiline-flexible"
-                    label="Bio"
+                <FormControl>
+                  <InputLabel className="inputLabel" htmlFor="adornment-email">
+                    City
+                  </InputLabel>
+                  <Input
+                    value={city}
+                    name="city"
+                    type="text"
+                    onChange={this.handleChange}
+                    disabled={notOnEditPage}
+                  />
+                </FormControl>
+                <FormControl>
+                  <InputLabel className="inputLabel" htmlFor="adornment-email">
+                    State
+                  </InputLabel>
+                  <Input
+                    value={state}
+                    name="state"
+                    type="text"
+                    onChange={this.handleChange}
+                    disabled={notOnEditPage}
+                  />
+                </FormControl>
+                <FormControl>
+                  <InputLabel className="inputLabel" htmlFor="adornment-email">
+                    Biography
+                  </InputLabel>
+                  <Input
                     value={biography}
                     name="biography"
                     type="text"
                     onChange={this.handleChange}
                     disabled={notOnEditPage}
-                  /> */}
-                {/* </FormControl> */}
+                  />
+                </FormControl>
+                {/* <FormControl>
+                  <InputLabel className="inputLabel" htmlFor="adornment-biography">
+                    Skill
+                  </InputLabel>
+                  <Input
+                    value={skills[0].name}
+                    name="skills"
+                    type="text"
+                    onChange={this.handleChange}
+                    disabled={notOnEditPage}
+                  />
+                </FormControl> */}
               </div>
               <div>
                 <CardActions>
@@ -176,6 +215,7 @@ class UserHome extends Component {
           message={<span id="message-id">Your edits have been saved!</span>}
         />
       </div>
+      </div>
     )
   }
 }
@@ -191,6 +231,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    fetchUser: () => dispatch(me()),
     handleSubmit: async (evt, user) => {
       evt.preventDefault()
       await dispatch(putUser(user, user.id))

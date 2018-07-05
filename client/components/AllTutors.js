@@ -103,7 +103,7 @@ class AllTutors extends Component {
 
     return user.id ? (
       <div>
-        <h1>Skills</h1>
+        <h1 style={{color: 'white'}}>Skills</h1>
         <div style={{padding: 20}}>
           <Grid container spacing={40}>
          <SwipeableViews
@@ -143,17 +143,18 @@ class AllTutors extends Component {
                     <Link to={`/tutors/${tutor.id}`} style={{margin: 'auto'}}>
                       <Button
                         variant="contained"
-                        color="primary"
+                        // color="primary"
+                        style={{backgroundColor: "#2f9780", color: "white"}}
                         className={classes.button}
                         onClick={() => fetchTutor(tutor.id)}
                       >
                         Learn More
                       </Button>
                     </Link>
-                    <p>{`Match Status: ${this.props.fetchLike(
+                    {/* <p>{`Match Status: ${this.props.fetchLike(
                       user,
                       tutor
-                    )}`}</p>
+                    )}`}</p> */}
                     {this.props.fetchLike(user, tutor) === 'match' ? (
                       <div className="enter-chat">
                         <Link to="/chatroom/1">
@@ -168,10 +169,11 @@ class AllTutors extends Component {
                           this.props.handleClick(user.id, tutor.id)
                         }
                         variant="contained"
-                        color="secondary"
+                        // color="secondary"
                         className={classes.button}
+                        style={{backgroundColor: "#181d51", color: "white"}}
                       >
-                        Exchange!
+                        Exchange Skills!
                       </Button>
                     )}
                   </CardActions>

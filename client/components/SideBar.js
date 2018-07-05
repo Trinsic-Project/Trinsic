@@ -15,6 +15,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 const styles = theme => ({
   list: {
     width: 250
+    
   },
   fullList: {
     width: 'auto'
@@ -23,6 +24,7 @@ const styles = theme => ({
     width: '100%',
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper
+    // style={{backgroundColor: "#fdcddd"}}
   },
   nested: {
     paddingLeft: theme.spacing.unit * 4
@@ -47,7 +49,7 @@ const SideBar = ({classes, toggle, isSideBarOpen, user, fetchTutor}) => {
   const sideList = user.match ? (
     <div className={classes.list}>
       <List component="nav" disablePadding>
-        <Button style={{backgroundColor: "#fdcddd"}} onClick={() => toggle(false)}>
+        <Button onClick={() => toggle(false)}>
           <Link to={`/chatroom/${user.id}`}>
             <img style={{width: '50%'}} src="/android-chrome-512x512.png" />
           </Link>
