@@ -28,6 +28,23 @@ const styles = theme => ({
 });
 
 class ViewContract extends Component {
+  constructor(){
+    super();
+    this.state = {
+      status: true,
+    }
+  }
+
+  async componentDidMount(){
+    await this.props.fetchUser()
+    const {user} = this.props
+    const contractId = +this.props.match.params.id
+    let currentContract = user.contracts 
+    ? user.contracts.filter(contract => contract.id === contractId)[0]
+    : undefined
+    const status = this.props.user.contracts.filter(contract => contract.id === contractId)[0].isStatusOpen 
+    this.setState({status})
+  }
 
   render() {
   const {classes, user} = this.props
@@ -81,10 +98,12 @@ class ViewContract extends Component {
               </Typography>
               <div className={classes.row}>
               </div>
-              {currentContract.isStatusOpen 
+              {this.state.status 
               ?
               <button name='finalize-contract' onClick={() => {
-                this.props.finalize(currentContractAddress)}} >Finalize Contract
+                this.props.finalize(currentContractAddress)
+                this.setState({status:false})
+              }} >Finalize Contract
               </button>
               : 
               `Your Contract is finalized! Refer to the following Contract Address ${currentContractAddress}`
@@ -109,7 +128,7 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    finalize: (address) => dispatch(finalizeContractThunk(address)),
+    finalize: async (address) => dispatch(finalizeContractThunk(address)),
     fetchTutor: (tutorId) => dispatch(fetchSingleTutor(tutorId)),
     fetchUser: () => dispatch(me()),
   }

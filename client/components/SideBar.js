@@ -82,7 +82,7 @@ const SideBar = ({classes, toggle, isSideBarOpen, user, fetchTutor}) => {
               <div key={contract.id}>
                 <Link
                   className="link"
-                  to={`/contracts/${contract.id}`}
+                  to={`/contract/${contract.id}`}
                   style={{margin: 0}}
                 >
                   <ListItem button>
@@ -102,7 +102,7 @@ const SideBar = ({classes, toggle, isSideBarOpen, user, fetchTutor}) => {
               <div key={contract.id}>
                 <Link
                   className="link"
-                  to={`/contracts/${contract.id}`}
+                  to={`/contract/${contract.id}`}
                   style={{margin: 0}}
                 >
                   <ListItem button>
