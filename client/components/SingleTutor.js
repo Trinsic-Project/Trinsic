@@ -12,6 +12,8 @@ import {fetchSingleTutor, fetchLike, me} from '../store'
 import { Link } from "react-router-dom";
 import Button from '@material-ui/core/Button';
 import InitiateContract from './Initiate-Contract';
+import Snackbar from '@material-ui/core/Snackbar';
+import Fade from '@material-ui/core/Fade';
 
 const styles = {
   card: {
@@ -27,32 +29,39 @@ class SingleTutor extends Component {
   constructor(){
     super();
     this.state = {
-      status: false
+      status: false,
+      open: false
     }
   }
-  componentDidMount() {
+  async componentDidMount() {
     const tutorId = this.props.match.params.id
-    this.props.fetchTutor(tutorId)
+    await this.props.fetchTutor(tutorId)
+    await this.props.fetchUser()
+    const status = await this.props.fetchLike(this.props.user, this.props.tutor)
+    this.setState({status})
   } 
 
-  // componentDidMount(prevProps, prevState) {
-  //   console.log('**********', prevProps, 'componentDidupdate!!')
-  //   console.log('Xxxxxxxxxxx', prevState, 'componentDidupdate!!')
-  //   let {user, tutor} = prevProps
-  //   if ((this.state.status !== prevState.status)&& (user.id && tutor.id)) {
-  //     this.setState({
-  //       status: this.props.fetchLike(this.props.user, this.props.tutor)
-  //     })
-  //   }
-  // }
+  componentDidUpdate(prevProps) {
+    if(this.props.matches.length !== prevProps.matches.length) {
+      this.handleToast();
+    }
+  }
+
+  handleToast = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
 
   render() {
     const {classes, tutor, user, fetchContract} = this.props
     let currentContract = user.contracts ? fetchContract(user, tutor) : undefined
     let currentContractId = currentContract ? currentContract.id : undefined
-    this.state.status = this.props.fetchLike(this.props.user, this.props.tutor)
     return (
       <div className="single-tutor-card">
+      
         <Card className={`${classes.card} `}>
           <CardMedia
             className={classes.media}
@@ -103,7 +112,17 @@ class SingleTutor extends Component {
           }
           </CardActions>
         </Card>
+        <Snackbar
+          open={this.state.open}
+          onClose={this.handleClose}
+          TransitionComponent={Fade}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">{this.state.status === 'match' ? `You've Matched!` :`Your request has been sent!`}</span>}
+        />
       </div>
+      
     )
   }
 }
@@ -113,7 +132,8 @@ const mapStateToProps = state => {
       user: state.user,
       tutor: state.tutor,
       chatRooms: state.allDirectMessageChats,
-      chatRoom: state.currentDirectMessageChat
+      chatRoom: state.currentDirectMessageChat,
+      matches: state.match
     }
   }
 
