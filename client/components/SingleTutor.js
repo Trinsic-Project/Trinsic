@@ -9,16 +9,16 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Typography from '@material-ui/core/Typography'
 import {connect} from 'react-redux'
 import {fetchSingleTutor, fetchLike, me} from '../store'
-import { Link } from "react-router-dom";
-import Button from '@material-ui/core/Button';
-import InitiateContract from './Initiate-Contract';
-import Snackbar from '@material-ui/core/Snackbar';
-import Fade from '@material-ui/core/Fade';
+import {Link} from 'react-router-dom'
+import Button from '@material-ui/core/Button'
+import InitiateContract from './Initiate-Contract'
+import Snackbar from '@material-ui/core/Snackbar'
+import Fade from '@material-ui/core/Fade'
 
 const styles = {
   card: {
     maxWidth: 375,
-    margin: 'auto',
+    margin: 'auto'
   },
   media: {
     paddingTop: '70%' // 16:9
@@ -26,8 +26,8 @@ const styles = {
 }
 
 class SingleTutor extends Component {
-  constructor(){
-    super();
+  constructor() {
+    super()
     this.state = {
       status: false,
       open: false,
@@ -39,25 +39,27 @@ class SingleTutor extends Component {
     await this.props.fetchUser()
     const status = await this.props.fetchLike(this.props.user, this.props.tutor)
     this.setState({status})
-  } 
+  }
 
   componentDidUpdate(prevProps) {
-    if(this.props.matches.length !== prevProps.matches.length) {
-      this.handleToast();
+    if (this.props.matches.length !== prevProps.matches.length) {
+      this.handleToast()
     }
   }
 
   handleToast = () => {
-    this.setState({ open: true });
-  };
+    this.setState({open: true})
+  }
 
   handleClose = () => {
-    this.setState({ open: false });
-  };
+    this.setState({open: false})
+  }
 
   render() {
     const {classes, tutor, user, fetchContract} = this.props
-    let currentContract = user.contracts ? fetchContract(user, tutor) : undefined
+    let currentContract = user.contracts
+      ? fetchContract(user, tutor)
+      : undefined
     let currentContractId = currentContract ? currentContract.id : undefined
     return (
       <div className="single-tutor-card">
@@ -72,14 +74,14 @@ class SingleTutor extends Component {
               {tutor.fullName}
             </Typography>
             <Typography className={classes.pos} color="textSecondary">
-            {tutor.city + ', ' + tutor.state}
-          </Typography>
+              {tutor.city + ', ' + tutor.state}
+            </Typography>
             <Typography component="p">{tutor.biography}</Typography>
           </CardContent>
-          <CardActions>
+          <CardActions style={{justifyContent: 'center'}}>
           {this.state.status ==='match'
           ?
-          this.props.contract.contractInfo
+          this.props.contract.contractInfo || currentContract
           ?
           <div>
           <Link to={`/contract/${currentContractId}`}>
@@ -105,7 +107,11 @@ class SingleTutor extends Component {
             this.props.handleClick(user.id, tutor.id)
             if (tutor.match.filter(match => match.id ===user.id).length>0)  this.setState({status: 'match'})
             else this.setState({status: 'like'})
-          }} variant="contained" color="secondary" className={classes.button}>
+          }} variant="contained" 
+          // color="secondary" 
+          className={classes.button}
+          style={{backgroundColor: "#181d51", color: "white"}}
+          >
               Exchange!
             </Button>
           }
@@ -116,12 +122,17 @@ class SingleTutor extends Component {
           onClose={this.handleClose}
           TransitionComponent={Fade}
           ContentProps={{
-            'aria-describedby': 'message-id',
+            'aria-describedby': 'message-id'
           }}
-          message={<span id="message-id">{this.state.status === 'match' ? `You've Matched!` :`Your request has been sent!`}</span>}
+          message={
+            <span id="message-id">
+              {this.state.status === 'match'
+                ? `You've Matched!`
+                : `Your request has been sent!`}
+            </span>
+          }
         />
       </div>
-      
     )
   }
 }
@@ -136,38 +147,44 @@ const mapStateToProps = state => {
       contract: state.contract
     }
   }
+}
 
-  const mapDispatchToProps = dispatch => {
-    return {
-      fetchTutor: tutorId => dispatch(fetchSingleTutor(tutorId)),
-      fetchUser: () => dispatch(me()),
-      fetchLike: (user, tutor) => {
-        if (!user.match|| !tutor.match) return false
-        else {
-          if (user.match.filter(like => like.id === tutor.id).length>0) {//user likes tutor
-            if (tutor.match.filter(userlike => userlike.id === user.id).length>0) return 'match'
-            else return 'like'
-          }
-          else return false
-        }
-      },
-      handleClick: (userId, tutorId) => dispatch(fetchLike(userId, tutorId)),
-      fetchContract: (user, tutor) => {
-      const contract =  user.contracts.filter(contract => {
-        return contract.users[0].id === tutor.id || contract.users[1].id === tutor.id
-      })[0];
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchTutor: tutorId => dispatch(fetchSingleTutor(tutorId)),
+    fetchUser: () => dispatch(me()),
+    fetchLike: (user, tutor) => {
+      if (!user.match || !tutor.match) return false
+      else {
+        if (user.match.filter(like => like.id === tutor.id).length > 0) {
+          //user likes tutor
+          if (
+            tutor.match.filter(userlike => userlike.id === user.id).length > 0
+          )
+            return 'match'
+          else return 'like'
+        } else return false
+      }
+    },
+    handleClick: (userId, tutorId) => dispatch(fetchLike(userId, tutorId)),
+    fetchContract: (user, tutor) => {
+      const contract = user.contracts.filter(contract => {
+        return (
+          contract.users[0].id === tutor.id || contract.users[1].id === tutor.id
+        )
+      })[0]
       return contract
     }
-      }
   }
+}
 
-  SingleTutor.propTypes = {
-    classes: PropTypes.object.isRequired
-  }
+SingleTutor.propTypes = {
+  classes: PropTypes.object.isRequired
+}
 
-  export default compose(
-    withStyles(styles, {
-      name: 'SingleTutor',
-    }),
-    connect(mapStateToProps, mapDispatchToProps),
-  )(SingleTutor);
+export default compose(
+  withStyles(styles, {
+    name: 'SingleTutor'
+  }),
+  connect(mapStateToProps, mapDispatchToProps)
+)(SingleTutor)

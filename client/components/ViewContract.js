@@ -18,12 +18,15 @@ const styles = theme => ({
     justifyContent: 'center',
   },
   bigAvatar: {
-    width: 60,
-    height: 60,
+    width: 70,
+    height: 70,
   },
   card: {
-    maxWidth: 375,
+    marginTop: "5%",
+    maxWidth: "80%",
     margin: 'auto',
+    paddingBottom: "5%",
+    paddingTop: "5%"
   },
 });
 
@@ -58,11 +61,6 @@ class ViewContract extends Component {
         <div className='view-contract'>
             { user.skills&& tutor.skills ?
             <Card className={classes.card}>
-            <div style={{margin: 'auto', display:'inline-block', width: "33%", verticalAlign: 'middle'}}>
-              <Link to={`../../tutors/${tutor.id}`}>
-                <img src='/left-arrow.svg' style={{width: "30%", height:'30%'}}/>
-              </Link>
-              </div>
               <div className={classes.row}>
                 <Avatar
                   alt="Remy Sharp"
@@ -82,13 +80,13 @@ class ViewContract extends Component {
                 agrees to provide
               </Typography>
               <Typography gutterBottom component="h2">
-                {user.skills[0].name}
+                {user.skills[0].name} lessons
               </Typography>
               <Typography gutterBottom component="h2">
                 in exchange for
               </Typography>
               <Typography gutterBottom component="h2">
-                {tutor.skills[0].name}
+                {tutor.skills[0].name} lessons
               </Typography>
               <Typography gutterBottom component="h2">
               from 
@@ -106,9 +104,16 @@ class ViewContract extends Component {
               }} >Finalize Contract
               </button>
               : 
-              `Your Contract is finalized! Refer to the following Contract Address ${currentContractAddress}`
+              <div>
+              {`Your Contract is finalized! Refer to the following Contract Address #${currentContractAddress}`}
+              </div>
               }
             
+              <div style={{margin: 'auto', display:'inline-block', width: "33%", verticalAlign: 'middle'}}>
+              <Link to={`../../tutors/${tutor.id}`}>
+                <img src='/left-arrow.svg' style={{width: "15%", height:'15%', paddingTop: "15%"}}/>
+              </Link>
+              </div>
             </Card>
           : 'No Access to this Page'
           }

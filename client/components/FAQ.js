@@ -34,13 +34,13 @@ function SimpleExpansionPanel(props) {
     >
       <div className={classes.root}>
         {/* <div id="about-description"> */}
-          <Paper className={classes.root} elevation={1}>
+          <Paper className={classes.root} elevation={1} style={{marginTop: "-20%"}}>
             <Typography variant="headline" component="h3">
               FAQS
             </Typography>
-            <Typography component="p">
+            {/* <Typography component="p">
             Certain terms and phrases tend to come up when researching smart contracts and the blockchain system. At times, these concepts can become challenging to keep track of and piece together. Below is a collection of questions, answers, and additional resources that may help demystify this new and innovative technology.
-          </Typography>
+          </Typography> */}
           </Paper>
         {/* </div> */}
         <ExpansionPanel>
