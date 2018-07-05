@@ -13,6 +13,8 @@ import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
 import Button from '@material-ui/core/Button'
 import CardMedia from '@material-ui/core/CardMedia'
+import Snackbar from '@material-ui/core/Snackbar';
+import Fade from '@material-ui/core/Fade';
 
 const styles = theme => ({
   card: {
@@ -50,7 +52,8 @@ class UserHome extends Component {
       biography: user.biography,
       imageUrl: user.imageUrl,
       triggered: false,
-      redirect: false
+      redirect: false,
+      open: false,
     }
     this.handleChange = this.handleChange.bind(this)
   }
@@ -62,6 +65,14 @@ class UserHome extends Component {
     this.setState({[evt.target.name]: evt.target.value, triggered: true})
     console.log(this.state.firstName)
   }
+
+  handleClick = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
 
   render() {
     const {handleSubmit, error, classes} = this.props
@@ -145,8 +156,8 @@ class UserHome extends Component {
               </div>
               <div>
                 <CardActions>
-                  { onEditPage()
-                    ? <Button type="submit">Update Your Information</Button>
+                  { this.props.match.path.includes("edit")
+                    ? <Button type="submit" onClick={this.handleClick}>Update Your Information</Button>
                     : <Link to={`/users/${this.state.id}/edit`}><Button>Click To Edit</Button></Link>
                   }
                 </CardActions>
@@ -155,6 +166,15 @@ class UserHome extends Component {
             </form>
           </CardContent>
         </Card>
+        <Snackbar
+          open={this.state.open}
+          onClose={this.handleClose}
+          TransitionComponent={Fade}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">Your edits have been saved!</span>}
+        />
       </div>
     )
   }
