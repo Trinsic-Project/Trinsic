@@ -30,9 +30,12 @@ class SingleTutor extends Component {
       status: false
     }
   }
-  componentDidMount() {
+  async componentDidMount() {
     const tutorId = this.props.match.params.id
-    this.props.fetchTutor(tutorId)
+    await this.props.fetchTutor(tutorId)
+    await this.props.fetchUser()
+    const status = await this.props.fetchLike(this.props.user, this.props.tutor)
+    this.setState({status})
   } 
 
   // componentDidMount(prevProps, prevState) {
@@ -50,7 +53,7 @@ class SingleTutor extends Component {
     const {classes, tutor, user, fetchContract} = this.props
     let currentContract = user.contracts ? fetchContract(user, tutor) : undefined
     let currentContractId = currentContract ? currentContract.id : undefined
-    this.state.status = this.props.fetchLike(this.props.user, this.props.tutor)
+    // this.state.status = this.props.fetchLike(this.props.user, this.props.tutor)
     return (
       <div className="single-tutor-card">
         <Card className={`${classes.card} `}>
