@@ -94,7 +94,6 @@ class AllTutors extends Component {
       this.setState({ unmatchedTutors });
       this.handleToast();
     }
-    console.log(unmatchedTutors)
   }
 
   render() {
