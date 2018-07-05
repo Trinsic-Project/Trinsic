@@ -38,12 +38,17 @@ class SingleTutor extends Component {
     await this.props.fetchTutor(tutorId)
     await this.props.fetchUser()
     const status = await this.props.fetchLike(this.props.user, this.props.tutor)
+    console.log(status)
     this.setState({status})
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.matches.length !== prevProps.matches.length) {
       this.handleToast()
+    }
+    if (prevProps.tutor.fullName !== this.props.tutor.fullName){
+      const status = this.props.fetchLike(this.props.user, this.props.tutor)
+      this.setState({status})
     }
   }
 
@@ -138,14 +143,13 @@ class SingleTutor extends Component {
 }
 
 const mapStateToProps = state => {
-    return {
-      user: state.user,
-      tutor: state.tutor,
-      chatRooms: state.allDirectMessageChats,
-      chatRoom: state.currentDirectMessageChat,
-      matches: state.match,
-      contract: state.contract
-    }
+  return {
+    user: state.user,
+    tutor: state.tutor,
+    chatRooms: state.allDirectMessageChats,
+    chatRoom: state.currentDirectMessageChat,
+    matches: state.match,
+    contract: state.contract
   }
 }
 
