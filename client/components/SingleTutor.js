@@ -30,7 +30,7 @@ class SingleTutor extends Component {
     super();
     this.state = {
       status: false,
-      open: false
+      open: false,
     }
   }
   async componentDidMount() {
@@ -59,11 +59,8 @@ class SingleTutor extends Component {
     const {classes, tutor, user, fetchContract} = this.props
     let currentContract = user.contracts ? fetchContract(user, tutor) : undefined
     let currentContractId = currentContract ? currentContract.id : undefined
-    console.log(tutor)
-    console.log(`../../chatroom/${tutor.id}`)
     return (
       <div className="single-tutor-card">
-      
         <Card className={`${classes.card} `}>
           <CardMedia
             className={classes.media}
@@ -82,7 +79,7 @@ class SingleTutor extends Component {
           <CardActions>
           {this.state.status ==='match'
           ?
-          currentContract
+          this.props.contract.contractInfo
           ?
           <div>
           <Link to={`/contract/${currentContractId}`}>
@@ -135,7 +132,8 @@ const mapStateToProps = state => {
       tutor: state.tutor,
       chatRooms: state.allDirectMessageChats,
       chatRoom: state.currentDirectMessageChat,
-      matches: state.match
+      matches: state.match,
+      contract: state.contract
     }
   }
 
