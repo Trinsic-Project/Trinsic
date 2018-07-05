@@ -6,6 +6,11 @@ module.exports = router
 
 router.get('/', (req, res, next) => {
   User.findAll({
+    where: {
+      id: {
+        [Op.ne]: req.user.id
+      }
+    },
     include: [{
       model: User, as: 'match',
       include:[{
