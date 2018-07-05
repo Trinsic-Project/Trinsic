@@ -59,8 +59,6 @@ class SingleTutor extends Component {
     const {classes, tutor, user, fetchContract} = this.props
     let currentContract = user.contracts ? fetchContract(user, tutor) : undefined
     let currentContractId = currentContract ? currentContract.id : undefined
-    // this.state.status = this.props.fetchLike(this.props.user, this.props.tutor)
-    console.log(this.props.fetchLike(user, tutor))
     return (
       <div className="single-tutor-card">
       
