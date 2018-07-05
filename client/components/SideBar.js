@@ -48,7 +48,7 @@ const SideBar = ({classes, toggle, isSideBarOpen, user, fetchTutor}) => {
     <div className={classes.list}>
       <List component="nav" disablePadding>
         <Button style={{backgroundColor: "#fdcddd"}} onClick={() => toggle(false)}>
-          <Link to="/chatroom/home">
+          <Link to={`/chatroom/${user.id}`}>
             <img style={{width: '50%'}} src="/android-chrome-512x512.png" />
           </Link>
         </Button>
