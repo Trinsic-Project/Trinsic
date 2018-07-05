@@ -59,6 +59,8 @@ class SingleTutor extends Component {
     const {classes, tutor, user, fetchContract} = this.props
     let currentContract = user.contracts ? fetchContract(user, tutor) : undefined
     let currentContractId = currentContract ? currentContract.id : undefined
+    console.log(tutor)
+    console.log(`../../chatroom/${tutor.id}`)
     return (
       <div className="single-tutor-card">
       
@@ -87,7 +89,7 @@ class SingleTutor extends Component {
             <span className="Mstart(10px) Va(m)">View and Finalize Contract</span>
           </Link> <br/>
           <span>Chat with {tutor.firstName}</span>
-          <Link to='../../chatroom/1'>
+          <Link to={`../../chatroom/${tutor.id}`}>
             <img src='/chat.png'/>
           </Link>
           </div>
@@ -95,7 +97,7 @@ class SingleTutor extends Component {
           <div>
           <InitiateContract/><br/>
             <span>Chat with {tutor.firstName}</span>
-            <Link to='../../chatroom/1'>
+            <Link to={`../../chatroom/${tutor.id}`}>
               <img src='/chat.png'/>
             </Link>
           </div>
