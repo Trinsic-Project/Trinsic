@@ -31,6 +31,7 @@ const styles = {
     marginBottom: 12
   },
   media: {
+    // backgroundSize: `contain`,
     paddingTop: '70%' // 16:9
   },
   root: {

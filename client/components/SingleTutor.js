@@ -14,16 +14,21 @@ import Button from '@material-ui/core/Button'
 import InitiateContract from './Initiate-Contract'
 import Snackbar from '@material-ui/core/Snackbar'
 import Fade from '@material-ui/core/Fade'
+import {Message, FileDocument} from 'mdi-material-ui'
 
-const styles = {
+const styles = theme => ({
   card: {
     maxWidth: 375,
     margin: 'auto'
   },
   media: {
+    // backgroundSize: `contain`,
     paddingTop: '70%' // 16:9
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit,
   }
-}
+})
 
 class SingleTutor extends Component {
   constructor() {
@@ -86,21 +91,34 @@ class SingleTutor extends Component {
           currentContract
           ?
           <div>
-          <Link to={`/contract/${currentContractId}`}>
+          {/* <Link to={`/contract/${currentContractId}`}>
             <span className="Mstart(10px) Va(m)">View and Finalize Contract</span>
-          </Link> <br/>
-          <span>Chat with {tutor.firstName}</span>
+          </Link>  */}
+          <Link to={`/contract/${currentContractId}`}>
+          <Button>
+          <span className="Mstart(10px) Va(m)">View and Finalize Contract</span>
+            <FileDocument className={classes.rightIcon} />
+          </Button>
+          </Link>          
+          <br/>
+
+
           <Link to={`../../chatroom/${tutor.id}`}>
-            <img src='/chat.png'/>
+          <Button>
+          <span>Chat with {tutor.firstName}</span>
+            <Message className={classes.rightIcon} />
+          </Button>
           </Link>
           </div>
           : 
           <div>
           <InitiateContract/><br/>
-            <span>Chat with {tutor.firstName}</span>
-            <Link to={`../../chatroom/${tutor.id}`}>
-              <img src='/chat.png'/>
-            </Link>
+          <Link to={`../../chatroom/${tutor.id}`}>
+          <Button>
+          <span>Chat with {tutor.firstName}</span>
+            <Message className={classes.rightIcon} />
+          </Button>
+          </Link>
           </div>
           :
           this.state.status ==='like' 
