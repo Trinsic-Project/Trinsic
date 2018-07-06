@@ -48,6 +48,7 @@
     "ganache-cli": "^6.1.4",
     "history": "^4.6.3",
     "latest": "^0.2.0",
+    "mdi-material-ui": "^5.1.1",
     "morgan": "^1.8.1",
     "nodemailer": "^4.6.7",
     "passport": "^0.3.2",

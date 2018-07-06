@@ -34,6 +34,7 @@ const styles = theme => ({
     margin: theme.spacing.unit
   },
   media: {
+    // backgroundSize: `contain`,
     paddingTop: '70%' // 16:9
   }
 })
