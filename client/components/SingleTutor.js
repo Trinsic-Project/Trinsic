@@ -35,7 +35,7 @@ class SingleTutor extends Component {
     super()
     this.state = {
       status: false,
-      open: false
+      open: false,
     }
   }
   async componentDidMount() {
@@ -43,12 +43,17 @@ class SingleTutor extends Component {
     await this.props.fetchTutor(tutorId)
     await this.props.fetchUser()
     const status = await this.props.fetchLike(this.props.user, this.props.tutor)
+    console.log(status)
     this.setState({status})
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.matches.length !== prevProps.matches.length) {
       this.handleToast()
+    }
+    if (prevProps.tutor.fullName !== this.props.tutor.fullName){
+      const status = this.props.fetchLike(this.props.user, this.props.tutor)
+      this.setState({status})
     }
   }
 
@@ -66,8 +71,6 @@ class SingleTutor extends Component {
       ? fetchContract(user, tutor)
       : undefined
     let currentContractId = currentContract ? currentContract.id : undefined
-    console.log(tutor)
-    console.log(`../../chatroom/${tutor.id}`)
     return (
       <div className="single-tutor-card">
         <Card className={`${classes.card} `}>
@@ -88,7 +91,7 @@ class SingleTutor extends Component {
           <CardActions style={{justifyContent: 'center'}}>
           {this.state.status ==='match'
           ?
-          currentContract
+          this.props.contract.contractInfo || currentContract
           ?
           <div>
           {/* <Link to={`/contract/${currentContractId}`}>
@@ -163,7 +166,8 @@ const mapStateToProps = state => {
     tutor: state.tutor,
     chatRooms: state.allDirectMessageChats,
     chatRoom: state.currentDirectMessageChat,
-    matches: state.match
+    matches: state.match,
+    contract: state.contract
   }
 }
 
