@@ -8,10 +8,9 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Typography from '@material-ui/core/Typography'
 import {connect} from 'react-redux'
-import {fetchSingleTutor, fetchLike, me} from '../store'
+import {fetchSingleTutor, fetchLike, me, fetchContract, finalizeContractThunk} from '../store'
 import {Link} from 'react-router-dom'
 import Button from '@material-ui/core/Button'
-import InitiateContract from './Initiate-Contract'
 import Snackbar from '@material-ui/core/Snackbar'
 import Fade from '@material-ui/core/Fade'
 import {Message, FileDocument} from 'mdi-material-ui'
@@ -36,6 +35,7 @@ class SingleTutor extends Component {
     this.state = {
       status: false,
       open: false,
+      clickStatus: false,
     }
   }
   async componentDidMount() {
@@ -43,17 +43,22 @@ class SingleTutor extends Component {
     await this.props.fetchTutor(tutorId)
     await this.props.fetchUser()
     const status = await this.props.fetchLike(this.props.user, this.props.tutor)
-    console.log(status)
     this.setState({status})
   }
 
-  componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevProps) {
     if (this.props.matches.length !== prevProps.matches.length) {
       this.handleToast()
     }
     if (prevProps.tutor.fullName !== this.props.tutor.fullName){
       const status = this.props.fetchLike(this.props.user, this.props.tutor)
       this.setState({status})
+    }
+    if (prevProps.contract !== this.props.contract){
+      this.setState({clickStatus: false})
+      console.log(prevProps.tutor.id)
+      await this.props.fetchTutor(prevProps.tutor.id)
+      await this.props.fetchUser()
     }
   }
 
@@ -66,7 +71,7 @@ class SingleTutor extends Component {
   }
 
   render() {
-    const {classes, tutor, user, fetchContract} = this.props
+    const {classes, tutor, user, fetchContract, contract, fetch} = this.props
     let currentContract = user.contracts
       ? fetchContract(user, tutor)
       : undefined
@@ -91,12 +96,13 @@ class SingleTutor extends Component {
           <CardActions style={{justifyContent: 'center'}}>
           {this.state.status ==='match'
           ?
-          this.props.contract.contractInfo || currentContract
+          this.state.clickStatus
+          ?
+          <span>Processing...</span> 
+          : 
+          this.props.contract.contractInfo || (currentContract && !currentContract.isStatusOpen)
           ?
           <div>
-          {/* <Link to={`/contract/${currentContractId}`}>
-            <span className="Mstart(10px) Va(m)">View and Finalize Contract</span>
-          </Link>  */}
           <Link to={`/contract/${currentContractId}`}>
           <Button>
           <span className="Mstart(10px) Va(m)">View and Finalize Contract</span>
@@ -104,8 +110,6 @@ class SingleTutor extends Component {
           </Button>
           </Link>          
           <br/>
-
-
           <Link to={`../../chatroom/${tutor.id}`}>
           <Button>
           <span>Chat with {tutor.firstName}</span>
@@ -115,7 +119,18 @@ class SingleTutor extends Component {
           </div>
           : 
           <div>
-          <InitiateContract/><br/>
+           <div>
+         <Button
+          type='submit' name='initiate-contract' disabled={contract.id} onClick={() => {
+            fetch(user, tutor)
+            this.setState({clickStatus: true})
+          }}
+          >
+            <span className="Mstart(10px) Va(m)">Initiate Contract</span>
+            <FileDocument className={classes.rightIcon} />
+          </Button>
+        </div>
+        <br/>
           <Link to={`../../chatroom/${tutor.id}`}>
           <Button>
           <span>Chat with {tutor.firstName}</span>
@@ -196,7 +211,9 @@ const mapDispatchToProps = dispatch => {
         )
       })[0]
       return contract
-    }
+    },
+    fetch: (user, tutor) => dispatch(fetchContract(user, tutor)),
+    finalize: (address) => dispatch(finalizeContractThunk(address))
   }
 }
 

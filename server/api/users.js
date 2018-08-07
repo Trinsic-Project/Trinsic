@@ -73,7 +73,6 @@ router.put('/:userId', (req, res, next) => {
 })
 
 router.post('/contracts', (req, res, next) => {
-  console.log("this is the req.body", req.body)
   sendEmail(req.user.dataValues)
   Contract.create({contractAddress: req.body.contractAddress})
     .then(contract => {

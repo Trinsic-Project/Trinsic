@@ -35,6 +35,7 @@ class ViewContract extends Component {
     super();
     this.state = {
       status: true,
+      clickStatus: false,
     }
   }
 
@@ -47,6 +48,7 @@ class ViewContract extends Component {
     : undefined
     const status = this.props.user.contracts.filter(contract => contract.id === contractId)[0].isStatusOpen 
     this.setState({status})
+    this.setState({clickStatus: false})
   }
 
   render() {
@@ -100,15 +102,18 @@ class ViewContract extends Component {
               ?
               <button name='finalize-contract' onClick={() => {
                 this.props.finalize(currentContractAddress)
-                this.setState({status:false})
+                this.setState({clickStatus:true})
               }} >Finalize Contract
               </button>
+              : 
+              this.state.clickStatus
+              ?          
+              <span>Processing...</span> 
               : 
               <div>
               {`Your Contract is finalized! Refer to the following Contract Address #${currentContractAddress}`}
               </div>
               }
-            
               <div style={{margin: 'auto', display:'inline-block', width: "33%", verticalAlign: 'middle'}}>
               <Link to={`../../tutors/${tutor.id}`}>
                 <img src='/left-arrow.svg' style={{width: "15%", height:'15%', paddingTop: "15%"}}/>
